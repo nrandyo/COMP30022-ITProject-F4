@@ -1,0 +1,22 @@
+{
+  "name": "comp30022-itproject-f4",
+  "version": "1.0.0",
+  "description": "Project for IT Project",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/n-yuusuke/COMP30022-ITProject-F4.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/n-yuusuke/COMP30022-ITProject-F4/issues"
+  },
+  "homepage": "https://github.com/n-yuusuke/COMP30022-ITProject-F4#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
