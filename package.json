@@ -18,5 +18,6 @@
   "homepage": "https://github.com/n-yuusuke/COMP30022-ITProject-F4#readme",
   "dependencies": {
     "express": "^4.17.1"
-  }
+  },
+  "devDependencies": {}
 }
