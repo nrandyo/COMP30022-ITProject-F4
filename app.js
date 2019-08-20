@@ -5,7 +5,7 @@ var app = express();
 require('./models/database.js');
 
 app.get('/', function (req, res) {
-  res.send('Hello World!');
+  res.send('We are the Fantastic 4!');
 });
 
 app.listen(3000, function () {
