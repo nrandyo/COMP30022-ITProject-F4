@@ -1,2 +1,4 @@
-/node_modules
-.DS_Store
+# Ignore config folder key.js
+/config
+# .DS_Store
+# /node_modules
