@@ -1,0 +1,21 @@
+{
+  "name": "artifact-register",
+  "version": "1.0.0",
+  "description": "Capstone project for COMP3002",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "server": "nodemon server.js",
+    "client": "cd client && npm start",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "concurrently": "^4.1.2",
+    "express": "^4.17.1",
+    "nodemon": "^1.19.1",
+    "passport": "^0.4.0",
+    "passport-google-oauth20": "^2.0.0"
+  }
+}
