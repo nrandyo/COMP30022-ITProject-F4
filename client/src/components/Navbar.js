@@ -20,7 +20,10 @@ import logo from '../logo.svg';
 import './styles.css'
 
 class Navbar extends Component {
+    state = { activeItem: 'home' }
+    handleItemClick = (e, { name }) => this.setState({ activeItem: name })
     render(){
+        const { activeItem } = this.state
         return (
                         // <Menu>
             //     <Menu.Menu>
@@ -59,12 +62,33 @@ class Navbar extends Component {
                   size='large'
                 >
                   <Container>
-                    <Menu.Item as='a' active>
-                      Home
-                    </Menu.Item>
-                    <Menu.Item as='a'>Artifacts</Menu.Item>
-                    <Menu.Item as='a'>Timeline</Menu.Item>
-                    <Menu.Item as='a'>Family Tree</Menu.Item>
+                      
+                    <Menu.Item
+                        as = {Link} to= '/'
+                        name='home'
+                        active={activeItem === 'home'}
+                        onClick={this.handleItemClick}
+                    />
+                   
+                    <Menu.Item
+                        as = {Link} to= '/artifacts'
+                        name='artifacts'
+                        active={activeItem === 'artifacts'}
+                        onClick={this.handleItemClick}
+                        link
+                    />
+                    <Menu.Item
+                        as = {Link} to= '/timeline'
+                        name='timeline'
+                        active={activeItem === 'timeline'}
+                        onClick={this.handleItemClick}
+                    />
+                    <Menu.Item
+                        as = {Link} to= '/familytree'
+                        name='family tree'
+                        active={activeItem === 'family tree'}
+                        onClick={this.handleItemClick}
+                    />
                     <Menu.Item position='right'>
                       <Button animated='fade'>
                         <Button.Content visible><i class="google icon"></i></Button.Content>

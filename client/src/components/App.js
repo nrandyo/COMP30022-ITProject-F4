@@ -4,6 +4,8 @@ import {BrowserRouter, Route} from 'react-router-dom';
 import Navbar from './Navbar';
 import Landing from './Landing';
 import NewArtifact from './NewArtifact';
+import Artifact from './Artifact'
+import Timelines from './Timeline'
 import { Container } from 'semantic-ui-react';
 const Dashboard = () => <h2>Dashboard</h2>
 // const NewArtifact = () => <h2>NewArtifact</h2>
@@ -19,7 +21,8 @@ const App = () => {
                         {/* Use exact keyword to provide strict path*/}
                         <Navbar />
                         <Route exact path = "/" component={Landing}/>
-                        <Route exact path = "/artifacts" component = {Dashboard}/>
+                        <Route exact path = "/timeline" component={Timelines}/>
+                        <Route exact path = "/artifacts" component = {Artifact}/>
                         <Route path = "/artifacts/new" component = {NewArtifact}/>
                     {/* </Container> */}
                 </div>
