@@ -15,13 +15,13 @@ const App = () => {
             {/* Only one child in a router */}
             <BrowserRouter>
                 <div>
-                    <Container style = {{margin :20}}>
+                    {/* <Container style = {{margin :20}}> */}
                         {/* Use exact keyword to provide strict path*/}
                         <Navbar />
                         <Route exact path = "/" component={Landing}/>
                         <Route exact path = "/artifacts" component = {Dashboard}/>
                         <Route path = "/artifacts/new" component = {NewArtifact}/>
-                    </Container>
+                    {/* </Container> */}
                 </div>
             </BrowserRouter>
         </div>
