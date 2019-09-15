@@ -4,6 +4,7 @@ import {BrowserRouter, Route} from 'react-router-dom';
 import Navbar from './Navbar';
 import Landing from './Landing';
 import NewArtifact from './NewArtifact';
+import HomeContent from './HomeContent';
 import { Container } from 'semantic-ui-react';
 const Dashboard = () => <h2>Dashboard</h2>
 // const NewArtifact = () => <h2>NewArtifact</h2>
@@ -18,8 +19,7 @@ const App = () => {
                     {/* <Container style = {{margin :20}}> */}
                         {/* Use exact keyword to provide strict path*/}
                         <Navbar />
-                        <Route exact path = "/" component={Landing}/>
-                        <Route exact path = "/artifacts" component = {Dashboard}/>
+                        <Route exact path = "/" component={HomeContent}/>
                         <Route path = "/artifacts/new" component = {NewArtifact}/>
                     {/* </Container> */}
                 </div>
@@ -29,3 +29,8 @@ const App = () => {
 };
 
 export default App;
+
+
+
+
+

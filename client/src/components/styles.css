@@ -14,4 +14,95 @@
       transform: rotate(360deg);
     }
   }
+
+
+
+
+#pageWrapper {
+    font-family: Arial;
+
+}
+
+body {
+    font-size: 24px;
+}
+
+h1 {
+    font-size: 32px;
+}
+
+p {
+    max-width: 26vw;
+}
+
+.homeGrid {
+    height: 50vh;
+    padding-left: 10vw;
+}
+
+.insertImageLeft {
+    width: 25vw;
+    height: 30vh;
+    padding: 0 0 0 0;
+}
+
+.insertImageRight {
+    width: 25vw;
+    height: 30vh;
+}
+
+#test {
+    width: 10vw;
+    height: 20vh;
+    position: absolute;
+    left: 600px;
+    top: 200px;
+}
+
+
+
+.line {
+    border-left-style: solid;
+    border-left-color: grey;
+    border-left-width: 2px;
+    height:41vh;
+    margin-Left: 1.75em;
+}
+
+#midIcons {
+    top: 43vh;
+    position: absolute;
+    left: 49vw;
+}
+
+#midIcons i {
+    position: relative;
+    margin-bottom: 1vh;
+    margin-left: 3px;
+}
+
+#midIcons Avatar {
+    backgroundColor: #8fb4c4;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   
