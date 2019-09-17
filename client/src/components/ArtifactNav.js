@@ -10,11 +10,10 @@ import './styles.css'
 
 class ArtifactNav extends Component {
     state = {}
-    handleItemClick = (e, { name }) => this.setState({ activeItem: name })
-    handleHeader = (e, { desc }) => this.setState({ headerDesc: desc })
+    handleItemClick = (e, { name, desc }) => this.setState({ activeItem: name, headerDesc: desc })
     render(){
-        const { activeItem} = this.state
-        const { headerDesc } = this.state
+        const { activeItem, headerDesc} = this.state
+        // const { headerDesc } = this.state
         return (
         <Container style={{ minHeight: 90, padding: '1em 0em'}}>
             <Header
@@ -27,25 +26,28 @@ class ArtifactNav extends Component {
       <Menu.Item
           as = {Link} to= '/artifacts'
           name='All'
-          desc= 'Hello randy'
-          active={activeItem === 'All', headerDesc === 'Hello Randy'}
-          onClick={this.handleItemClick, this.handleHeader}
+          desc= 'List of All Artifacts'
+          active={activeItem === 'All'}
+          onClick={this.handleItemClick}
         />
         <Menu.Item
           as = {Link} to= '/artifacts/photos'
           name='Photos'
+          desc= 'List of Photos'
           active={activeItem === 'Photos'}
           onClick={this.handleItemClick}
         />
         <Menu.Item
           as = {Link} to= '/artifacts/letters'
           name='Letters'
+          desc= 'List of Letters'
           active={activeItem === 'Letters'}
           onClick={this.handleItemClick}
         />
         <Menu.Item
           as = {Link} to= '/artifacts/objects'
           name='Physical Objects'
+          desc= 'List of Physical Artifacts'
           active={activeItem === 'Physical Objects'}
           onClick={this.handleItemClick}
         />
@@ -54,7 +56,7 @@ class ArtifactNav extends Component {
           <Menu.Item
             as = {Link} to= '/artifacts/new'
             name='Register Artifact'
-
+            desc= 'Add a new artifact'
             active={activeItem === 'Register Artifact'}
             onClick={this.handleItemClick}
           />
