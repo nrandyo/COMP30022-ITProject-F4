@@ -93,7 +93,7 @@ const NewArtifact= () => (
                    to upload this image to cloud server.
                   </p>
                   <p>Is it okay to use this photo?</p>
-                  <Button color='facebook' type='submit'>Upload</Button>
+                  <Button color='blue' type='submit'>Upload</Button>
                 </Modal.Description>
               </Modal.Content>
             </Modal>
