@@ -7,7 +7,7 @@ const NewArtifact= () => (
 
   {/*Design for adding artifacts page*/}
   <div>
-    <Header as='h1' icon textAlign='center'>
+    {/* <Header as='h1' icon textAlign='center'>
       <Icon name='users' circular />
       <Header.Content>Add a new artifact</Header.Content>
     </Header>
@@ -15,11 +15,11 @@ const NewArtifact= () => (
       centered
       size='large'
       src='https://react.semantic-ui.com/images/wireframe/centered-paragraph.png'
-    />
+    /> */}
   </div>
 
-    <Segment inverted>
-       <Form inverted>
+    {/* <Segment > */}
+       <Form >
 
          {/*Form for name*/}
          <Form.Group widths='equal'>
@@ -82,9 +82,9 @@ const NewArtifact= () => (
             </Modal>
           </Form.Field>
 
-         <Button color='facebook' type='submit'>Submit</Button>
+         <Button color='primary' type='submit'>Submit</Button>
        </Form>
-     </Segment>
+     {/* </Segment> */}
   </Container>
 </Form>
 )

@@ -7,41 +7,7 @@ const Artifact = () => {
 
     return(
         <Container>
-              <Header
-                    as='h2'
-                    textAlign='center'
-                    content='Artifacts'
-                    subheader='A regeister of all the artifacts are displayed below'
-                />
-        <Menu pointing secondary>
-          <Menu.Item
-            as = {Link} to= '/artifacts/photos'
-            name='Photos'
-            // active={activeItem === 'home'}
-            // onClick={this.handleItemClick}
-          />
-          <Menu.Item
-            as = {Link} to= '/artifacts/letters'
-            name='Letters'
-            // active={activeItem === 'messages'}
-            // onClick={this.handleItemClick}
-          />
-          <Menu.Item
-            as = {Link} to= '/artifacts/objects'
-            name='Physical Objects'
-            // active={activeItem === 'friends'}
-            // onClick={this.handleItemClick}
-          />
-          <Menu.Menu position='right'>
-            <Menu.Item
-              as = {Link} to= '/artifacts/new'
-              name='Register Artifact'
 
-            //   active={activeItem === 'logout'}
-            //   onClick={this.handleItemClick}
-            />
-          </Menu.Menu>
-        </Menu>
         <Item.Group divided>
         <Item>
           <Item.Image src='https://react.semantic-ui.com/images/wireframe/image.png' />
