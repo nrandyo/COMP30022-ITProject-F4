@@ -9,7 +9,7 @@ import {
 import './styles.css'
 
 class ArtifactNav extends Component {
-    state = {}
+    state = {activeItem: 'All', headerDesc: 'List of All Artifacts'}
     handleItemClick = (e, { name, desc }) => this.setState({ activeItem: name, headerDesc: desc })
     render(){
         const { activeItem, headerDesc} = this.state

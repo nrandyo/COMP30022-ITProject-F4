@@ -20,7 +20,7 @@ import logo from '../logo.svg';
 import './styles.css'
 
 class Navbar extends Component {
-    state = { }
+    state = { activeItem: 'home'}
     handleItemClick = (e, { name }) => this.setState({ activeItem: name })
     render(){
         const { activeItem } = this.state

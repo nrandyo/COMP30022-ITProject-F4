@@ -4,7 +4,9 @@
 
     pointer-events: none;
   }
-  
+#blue {
+  color: #00617F !important;
+}
 
 @keyframes Navbar-logo-spin {
     from {

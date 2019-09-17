@@ -8,7 +8,7 @@ const Artifact = () => {
     return(
         <Container>
 
-        <Item.Group divided>
+        <Item.Group divided >
         <Item>
           <Item.Image src='https://react.semantic-ui.com/images/wireframe/image.png' />
     

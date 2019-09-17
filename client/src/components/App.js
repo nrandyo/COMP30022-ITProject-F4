@@ -7,6 +7,7 @@ import HomeContent from './HomeContent';
 import Artifact from './Artifact'
 import Timelines from './Timeline'
 import ArtifactNav from './ArtifactNav'
+import Homepage from './Homepage'
 
 
 const App = () => {
@@ -17,7 +18,7 @@ const App = () => {
                 <div>
                     {/* Use exact keyword to provide strict path*/}
                     <Navbar />
-                    <Route exact path = "/" component={HomeContent}/>
+                    <Route exact path = "/" component={Homepage}/>
                     <Route exact path = "/timeline" component={Timelines}/>
                     <Route path = "/artifacts" component = {ArtifactNav}/>
                     <Route exact path = "/artifacts" component = {Artifact}/>
