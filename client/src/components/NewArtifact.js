@@ -1,31 +1,16 @@
 import React from 'react'
-import { Button, Form, Container, Segment, Input, Popup, Icon, Header, Modal, Image } from 'semantic-ui-react'
+import { Button, Form, Container, Input, Popup, Icon, Header, Modal, Image, Label } from 'semantic-ui-react'
 
 const NewArtifact= () => (
 <Form>
   <Container textAlign='center'>
-
-  {/*Design for adding artifacts page*/}
-  <div>
-    {/* <Header as='h1' icon textAlign='center'>
-      <Icon name='users' circular />
-      <Header.Content>Add a new artifact</Header.Content>
-    </Header>
-    <Image
-      centered
-      size='large'
-      src='https://react.semantic-ui.com/images/wireframe/centered-paragraph.png'
-    /> */}
-  </div>
-
-    {/* <Segment > */}
        <Form >
 
          {/*Form for name*/}
          <Form.Group widths='equal'>
            <Form.Field required>
             <label> Name
-            <Popup size='small' content='This field is mandatory' trigger={
+            <Popup content='This field is mandatory' trigger={
             <Icon name='info circle' size ='large'/>}/> :
             </label>
             <Input placeholder='Input name of artifact'/>
@@ -56,6 +41,38 @@ const NewArtifact= () => (
           <Form.TextArea placeholder='A short description'/>
          </Form.Field>
 
+         {/*Tags for artifacts*/}
+         <Form.Field>
+           <label> Tags
+            <Popup content=
+            'This field is optional. Able to support multiple tags!'trigger={
+            <Icon name='info circle' size ='large'/>}/> :
+           </label>
+           <Input
+            icon='tags'
+            iconPosition='left'
+            label={{ tag: true, content: 'Add Tag' }}
+            labelPosition='right'
+            placeholder='Enter tags'
+           />
+         </Form.Field>
+
+         {/*On update tag - Still not implemented*/}
+         <div>
+          <Label>
+            Old piano
+            <Icon name='delete' />
+          </Label>
+          <Label>
+            Antique
+            <Icon name='delete' />
+          </Label>
+          <Label>
+            Family treasure
+            <Icon name='delete' />
+          </Label>
+        </div>
+
          {/*Modal to upload artifact image*/}
           <Form.Field>
             <label> Click this to upload image to cloud
@@ -84,9 +101,9 @@ const NewArtifact= () => (
 
          <Button color='primary' type='submit'>Submit</Button>
        </Form>
-     {/* </Segment> */}
   </Container>
 </Form>
+
 )
 
 export default NewArtifact
