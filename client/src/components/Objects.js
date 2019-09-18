@@ -45,7 +45,7 @@ class Objects extends Component {
   handleLoad = () => {
     var self = this;
     axios
-        .get("/api/artifacts")
+        .get("/api/artifacts/physical")
         .then(function(response) {
             var d = response.data;
             self.setState({ physicalObjects: d });

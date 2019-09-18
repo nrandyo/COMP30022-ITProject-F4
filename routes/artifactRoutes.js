@@ -1,15 +1,44 @@
 var db = require('../db/db');
 
 module.exports = app => {
-    app.get('/api/artifacts', (req,res) =>{
-      //Originally artifact, no caps -Randy
-    db.query('SELECT * FROM Artifact', (err, rows, fields) => {
-        if (!err){
-        res.json(rows)
-        } else {
-        console.log(err);
-        }
-    });
+    app.get('/api/artifacts/all', (req,res) =>{
+        db.query('SELECT * FROM Artifact', (err, rows, fields) => {
+            if (!err){
+            res.json(rows)
+            } else {
+            console.log(err);
+            }
+        });
+    })
+
+    app.get('/api/artifacts/photos', (req,res) =>{
+        db.query('SELECT * FROM Artifact WHERE Type=\'photo\'', (err, rows, fields) => {
+            if (!err){
+            res.json(rows)
+            } else {
+            console.log(err);
+            }
+        });
+    })
+
+    app.get('/api/artifacts/physical', (req,res) =>{
+        db.query('SELECT * FROM Artifact WHERE Type=\'physical\'', (err, rows, fields) => {
+            if (!err){
+            res.json(rows)
+            } else {
+            console.log(err);
+            }
+        });
+    })
+
+    app.get('/api/artifacts/letter', (req,res) =>{
+        db.query('SELECT * FROM Artifact WHERE Type=\'letter\'', (err, rows, fields) => {
+            if (!err){
+            res.json(rows)
+            } else {
+            console.log(err);
+            }
+        });
     })
 
     // app.get('/api/familymembers', (req,res) =>{
@@ -52,14 +81,15 @@ module.exports = app => {
         const month = req.body.Month;
         const year = req.body.Year;
         const history = req.body.Description;
+        const type = req.body.Type;
 
         var artifactID = newArtifactID();
         var currOwn = 1;
 
         db.query(`INSERT INTO Artifact SET ArtifactID = ?, Name = ?, Geotag = ?,
           DateAcquireYear = ?, DateAcquireMonth = ?, DateAcquireDay = ?,
-          description = ?, CurrentOwner = ? `,
-          [artifactID, name, geoTag, year, month, day, history, currOwn], function(err, result) {
+          description = ?, CurrentOwner = ?, Type = ?`,
+          [artifactID, name, geoTag, year, month, day, history, currOwn, type], function(err, result) {
             if (!err) {
               console.log("Added successfully");
               res.status(201).end("Success!");
