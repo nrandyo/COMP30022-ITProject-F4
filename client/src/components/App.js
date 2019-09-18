@@ -6,6 +6,8 @@ import NewArtifact from './NewArtifact';
 import HomeContent from './HomeContent';
 import Artifact from './Artifact'
 import Objects from './Objects'
+import Photos from './Photos'
+import Letters from './Letters'
 import Timelines from './Timeline'
 import ArtifactNav from './ArtifactNav'
 import Homepage from './Homepage'
@@ -23,8 +25,8 @@ const App = () => {
                     <Route exact path = "/timeline" component={Timelines}/>
                     <Route path = "/artifacts" component = {ArtifactNav}/>
                     <Route exact path = "/artifacts" component = {Artifact}/>
-                    <Route exact path = "/artifacts/photos" component = {Artifact}/>
-                    <Route exact path = "/artifacts/letters" component = {Artifact}/>
+                    <Route exact path = "/artifacts/photos" component = {Photos}/>
+                    <Route exact path = "/artifacts/letters" component = {Letters}/>
                     <Route exact path = "/artifacts/objects" component = {Objects}/>
                     <Route path = "/artifacts/new" component = {NewArtifact}/>
                 </div>
