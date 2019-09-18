@@ -17,9 +17,9 @@ export default class ArtifactItem extends Component {
           <Item.Content>
             <Item.Header as='a'>{artifact.Name}</Item.Header>
             <Item.Meta>
-              <span className='cinema'>{artifact.DateAddedYear}</span>
+              <span className='cinema'>{artifact.DateAcquireYear}</span>
             </Item.Meta>
-            <Item.Description>{artifact.Text}</Item.Description>
+            <Item.Description>{artifact.description}</Item.Description>
             <Item.Extra>
               <Button primary floated='right'>
                  Additional Info
