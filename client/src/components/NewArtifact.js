@@ -18,12 +18,12 @@ class NewArtifact extends Component {
     super();
 
     this.state = {
-      name: '',
-      geoTag: '',
-      day: '',
-      month: '',
-      year: '',
-      history: '',
+      Name: '',
+      GeoTag: '',
+      Day: '',
+      Month: '',
+      Year: '',
+      Description: '',
       fireRedirect: false
       };
 
@@ -32,15 +32,15 @@ class NewArtifact extends Component {
 
 handleSubmit(event) {
   event.preventDefault();
-  this.props.history.push('/artifacts');
+  this.props.history.push('/artifacts/objects');
   var data =
     {
-      name:this.state.name,
-      geoTag:this.state.geoTag,
-      day:this.state.day,
-      month:this.state.month,
-      year:this.state.year,
-      history:this.state.history
+      Name:this.state.Name,
+      GeoTag:this.state.GeoTag,
+      Day:this.state.Day,
+      Month:this.state.Month,
+      Year:this.state.Year,
+      Description:this.state.Description
     };
 
   fetch('/artifacts/new', { method: 'POST',
@@ -78,7 +78,7 @@ handleSubmit(event) {
                  <Icon name='info circle' size ='large'/>}/> :
                </label>
                <Input placeholder='Input name of artifact'
-                name='name' onChange={this.handleChange} />
+                name='Name' onChange={this.handleChange} />
               </Form.Field>
 
               {/*Form for location*/}
@@ -88,18 +88,18 @@ handleSubmit(event) {
                  <Icon name='info circle' size ='large'/>}/> :
                </label>
                <Input placeholder='Current location of artifacts'
-                name='geoTag' onChange={this.handleChange}/>
+                name='GeoTag' onChange={this.handleChange}/>
               </Form.Field>
             </Form.Group>
 
             {/*Form for dates*/}
             <Form.Group widths='equal'>
               <Form.Input fluid label='Day:' placeholder='Day'
-               name='day' onChange={this.handleChange}/>
+               name='Day' onChange={this.handleChange}/>
               <Form.Input fluid label='Month:' placeholder='Month'
-               name='month' onChange={this.handleChange}/>
+               name='Month' onChange={this.handleChange}/>
               <Form.Input fluid label='Year:' placeholder='Year'
-               name='year' onChange={this.handleChange}/>
+               name='Year' onChange={this.handleChange}/>
             </Form.Group>
 
             {/*Form for History input*/}
@@ -111,7 +111,7 @@ handleSubmit(event) {
               </label>
 
               <Form.TextArea placeholder='A short description'
-               name='history' onChange={this.handleChange}/>
+               name='Description' onChange={this.handleChange}/>
             </Form.Field>
 
             {/*Tags for artifacts*/}
