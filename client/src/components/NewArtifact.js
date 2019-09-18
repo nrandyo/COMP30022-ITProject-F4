@@ -153,7 +153,7 @@ handleSubmit(event) {
                 'This field is optional.'trigger={
                 <Icon name='info circle' size ='large'/>}/> :
               </label>
-              <Modal closeIcon trigger={<Button icon='cloud upload'></Button>}>
+              <Modal closeIcon trigger={<Button type='Button' icon='cloud upload'></Button>}>
                 <Modal.Header>Select an Image</Modal.Header>
                 <Modal.Content image>
                   <Image wrapped size='medium'

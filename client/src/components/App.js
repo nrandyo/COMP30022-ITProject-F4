@@ -8,6 +8,7 @@ import Artifact from './Artifact'
 import Objects from './Objects'
 import Photos from './Photos'
 import Letters from './Letters'
+import ArtifactPage from './ArtifactPage'
 import Timelines from './Timeline'
 import ArtifactNav from './ArtifactNav'
 import Homepage from './Homepage'
@@ -28,6 +29,7 @@ const App = () => {
                     <Route exact path = "/artifacts/photos" component = {Photos}/>
                     <Route exact path = "/artifacts/letters" component = {Letters}/>
                     <Route exact path = "/artifacts/objects" component = {Objects}/>
+                    <Route exact path = "/artifacts/artifactpage" component = {ArtifactPage}/>
                     <Route path = "/artifacts/new" component = {NewArtifact}/>
                 </div>
             </BrowserRouter>
