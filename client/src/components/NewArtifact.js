@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import { Redirect } from 'react-router';
+import { withRouter } from 'react-router';
 import { Button,
          Form,
          Container,
@@ -32,7 +32,7 @@ class NewArtifact extends Component {
 
 handleSubmit(event) {
   event.preventDefault();
-
+  this.props.history.push('/artifacts');
   var data =
     {
       name:this.state.name,
@@ -184,4 +184,4 @@ handleSubmit(event) {
   }
 }
 
-export default NewArtifact
+export default withRouter(NewArtifact);
