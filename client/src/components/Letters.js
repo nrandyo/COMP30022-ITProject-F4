@@ -3,7 +3,7 @@ import { Input, Menu, Button, Icon, Image, Item, Label, Container, Header, Segme
 import {Link} from 'react-router-dom'
 
 const paragraph = <Image src='https://react.semantic-ui.com/images/wireframe/short-paragraph.png' />
-const Objects = () => {
+const Letters = () => {
 
     return(
         <Container>
@@ -13,7 +13,7 @@ const Objects = () => {
           <Item.Image src='https://react.semantic-ui.com/images/wireframe/image.png' />
     
           <Item.Content>
-            <Item.Header as='a'>Object 1</Item.Header>
+            <Item.Header as='a'>Letter 1</Item.Header>
             <Item.Meta>
               <span className='cinema'>Photo</span>
             </Item.Meta>
@@ -32,7 +32,7 @@ const Objects = () => {
           <Item.Image src='https://react.semantic-ui.com/images/wireframe/image.png' />
     
           <Item.Content>
-            <Item.Header as='a'>Object 2</Item.Header>
+            <Item.Header as='a'>Letter 2</Item.Header>
             <Item.Meta>
               <span className='cinema'>Letter</span>
             </Item.Meta>
@@ -51,7 +51,7 @@ const Objects = () => {
           <Item.Image src='https://react.semantic-ui.com/images/wireframe/image.png' />
     
           <Item.Content>
-            <Item.Header as='a'>Object 3</Item.Header>
+            <Item.Header as='a'>Letter 3</Item.Header>
             <Item.Meta>
               <span className='cinema'>Object</span>
             </Item.Meta>
@@ -72,4 +72,4 @@ const Objects = () => {
 }
 
 
-export default Objects
+export default Letters
