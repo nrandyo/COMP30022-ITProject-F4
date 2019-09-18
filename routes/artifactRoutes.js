@@ -46,12 +46,12 @@ module.exports = app => {
 
     //POST route for registration of new artifacts
     app.post('/artifacts/new', function(req, res) {
-        const name = req.body.name;
-        const geoTag = req.body.geoTag;
-        const day = req.body.day;
-        const month = req.body.month;
-        const year = req.body.year;
-        const history = req.body.history;
+        const name = req.body.Name;
+        const geoTag = req.body.Geotag;
+        const day = req.body.Day;
+        const month = req.body.Month;
+        const year = req.body.Year;
+        const history = req.body.Description;
 
         var artifactID = newArtifactID();
         var currOwn = 1;
@@ -62,6 +62,7 @@ module.exports = app => {
           [artifactID, name, geoTag, year, month, day, history, currOwn], function(err, result) {
             if (!err) {
               console.log("Added successfully");
+              res.status(201).end("Success!");
             } else {
               console.log(err);
               res.sendStatus(404);
