@@ -4,9 +4,10 @@
 
     pointer-events: none;
   }
-#blue {
+.leonblue {
   color: #00617F !important;
 }
+
 
 @keyframes Navbar-logo-spin {
     from {
