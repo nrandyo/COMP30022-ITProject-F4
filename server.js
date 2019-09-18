@@ -26,15 +26,15 @@ app.get("/members", (req, res) => {
 app.get('/api/artifacts', (req,res) =>{
   db.query('SELECT * FROM artifact', (err, rows, fields) => {
     if (!err){
-        res.send(rows);
+      res.json(rows)
     } else {
       console.log(err);
     }
   });
 })
 
-app.get('/api/artifacts', (req,res) =>{
-  db.query('SELECT * FROM artifact', (err, rows, fields) => {
+app.get('/api/familymembers', (req,res) =>{
+  db.query('SELECT * FROM user', (err, rows, fields) => {
     if (!err){
         res.send(rows);
     } else {
@@ -54,12 +54,21 @@ function newArtifactID(callback) {
   // return newID;
 }
 
+function doubleBackticks(inputstr){
+  return inputstr
+    .split("")
+    .map(function (c, i) { if (c === "'") return "''"; else return c; })
+    .join('')
+}
+
 app.post('/new/artifact', function(req, res) {
-  var artifactID = newArtifactID();
-  var artifactName = req.body.artifactName,
+  var artifactID = newArtifactID(),
+  artifactName = req.body.artifactName,
   year = req.body.year,
+  description = doubleBackticks(req.body.desc)
   userID = 1,
-  insertStatement = "INSERT INTO `mydb`.`Artifact` (`ArtifactID`, `Name`, `Geotag`, `Tags`, `DateAddedYear`, `DateAddedMonth`, `DateAddedDay`, `DateSentYear`, `DateSentMonth`, `DateSentDay`, `DateAcquireYear`, `DateAcquireMonth`, `DateAcquireDay`, `AccuracyAdded`, `AccuracyAcquire`, `AccuracySent`, `Text`, `Heir`, `CurrentOwner`, `User_UserID`, `Photo_PhotoID`) VALUES (" + artifactID + ", '" + artifactName + "', NULL, NULL," + year + ", NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL," + userID + ", NULL);";
+  insertStatement = "INSERT INTO `mydb`.`Artifact` (`ArtifactID`, `Name`, `Geotag`, `Tags`, `DateAddedYear`, `DateAddedMonth`, `DateAddedDay`, `DateSentYear`, `DateSentMonth`, `DateSentDay`, `DateAcquireYear`, `DateAcquireMonth`, `DateAcquireDay`, `AccuracyAdded`, `AccuracyAcquire`, `AccuracySent`, `Text`, `Heir`, `CurrentOwner`, `User_UserID`, `Photo_PhotoID`) VALUES (" + artifactID + ", '" + artifactName + "', NULL, NULL," + year + ", NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,'"+ description +"', NULL, NULL," + userID + ", NULL);";
+  console.log(description)
   db.query(insertStatement,(err, rows, fields) => {
       if (!err){
         console.log("Sucess!");
