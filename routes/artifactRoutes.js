@@ -33,20 +33,23 @@ module.exports = app => {
     }
 
     function doubleBackticks(inputstr){
-    return inputstr
-        .split("")
-        .map(function (c, i) { if (c === "'") return "''"; else return c; })
-        .join('')
+        try{
+            return inputstr
+                .split("")
+                .map(function (c, i) { if (c === "'") return "''"; else return c; })
+                .join('');
+        } catch (e) {
+            console.log(e);
+        }
     }
 
     app.post('/new/artifact', function(req, res) {
     var artifactID = newArtifactID(),
-    artifactName = req.body.artifactName,
-    year = req.body.year,
-    description = doubleBackticks(req.body.desc)
+    artifactName = doubleBackticks(req.body.Name),
+    year = req.body.Year,
+    description = doubleBackticks(req.body.Description)
     userID = 1,
     insertStatement = "INSERT INTO `mydb`.`Artifact` (`ArtifactID`, `Name`, `Geotag`, `Tags`, `DateAddedYear`, `DateAddedMonth`, `DateAddedDay`, `DateSentYear`, `DateSentMonth`, `DateSentDay`, `DateAcquireYear`, `DateAcquireMonth`, `DateAcquireDay`, `AccuracyAdded`, `AccuracyAcquire`, `AccuracySent`, `Text`, `Heir`, `CurrentOwner`, `User_UserID`, `Photo_PhotoID`) VALUES (" + artifactID + ", '" + artifactName + "', NULL, NULL," + year + ", NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,'"+ description +"', NULL, NULL," + userID + ", NULL);";
-    console.log(description)
     db.query(insertStatement,(err, rows, fields) => {
         if (!err){
             console.log("Sucess!");

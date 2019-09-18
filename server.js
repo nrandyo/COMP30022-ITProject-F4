@@ -7,7 +7,8 @@ const port = 5000;
 
 var db = require('./db/db');
 var bodyParser = require('body-parser')
-
+app.use(express.json());       // to support JSON-encoded bodies
+app.use(express.urlencoded()); // to support URL-encoded bodies
 
 require("./routes/authRoutes")(app);
 require("./routes/artifactRoutes")(app);
@@ -20,7 +21,6 @@ app.get("/members", (req, res) => {
     console.log(err);
   })
 });
-
 
 
 
