@@ -1,4 +1,5 @@
 var db = require('../db/db');
+var axios = require('axios')
 
 module.exports = app => {
     app.get('/api/artifacts/all', (req,res) =>{
@@ -41,6 +42,16 @@ module.exports = app => {
         });
     })
 
+    app.get('/api/newartifactid', (req,res) =>{
+        db.query('select max(artifactID) as maximum from artifact', (err, rows, fields) => {
+            if (!err){
+                res.send(rows)
+            } else {
+                console.log(err);
+            }
+        });
+    })
+
     // app.get('/api/familymembers', (req,res) =>{
     // db.query('SELECT * FROM user', (err, rows, fields) => {
     //     if (!err){
@@ -52,14 +63,10 @@ module.exports = app => {
     // })
 
     function newArtifactID(callback) {
-    var high = 10000,
-    low = 0;
-    return Math.random() * (high - low) + low
-
-    // let newID = db.query('select max(artifactID) as maximum from artifact', (err, rows, fields) => {
-    //   return callback(rows[0].maximum + 1);
-    // });
-    // return newID;
+        axios.get('/api/newartifact')
+        .then(function (response) {
+            return response.maximum + 1
+        })
     }
 
     function doubleBackticks(inputstr){
