@@ -95,9 +95,11 @@ module.exports = app => {
             if (!err) {
               console.log("Added successfully");
               res.status(201).end("Success!");
+              return res;
             } else {
               console.log(err);
               res.sendStatus(404);
+              return err;
             }
         });
     });

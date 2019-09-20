@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
-import { withRouter } from 'react-router';
+import { withRouter } from 'react-router'
+import { Redirect } from 'react-router-dom'
 import { Button,
          Form,
          Container,
@@ -10,7 +11,8 @@ import { Button,
          Modal,
          Image,
          Label,
-         Message } from 'semantic-ui-react'
+         Message,
+         Loader } from 'semantic-ui-react'
 
 class NewArtifact extends Component {
 
@@ -24,7 +26,9 @@ class NewArtifact extends Component {
       Month: '',
       Year: '',
       Description: '',
-      fireRedirect: false
+      isLoading: false,
+      successMessage: false,
+      redirect: false
       };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -32,7 +36,8 @@ class NewArtifact extends Component {
 
 handleSubmit(event) {
   event.preventDefault();
-  this.props.history.push('/artifacts/objects');
+  this.setState({ isLoading: true });
+
   var data =
     {
       Name:this.state.Name,
@@ -43,18 +48,32 @@ handleSubmit(event) {
       Description:this.state.Description
     };
 
-  fetch('/artifacts/new', { method: 'POST',
+  fetch('/artifacts/new',
+    { method: 'POST',
+      body: JSON.stringify(data), // data can be `string` or {object}!
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+  .then((res) => {
+    if(res.status === 200) {
+      console.log("Status: 200, Successful insertion");
+      return res.json();
+    }
+  })
+  .then((data) => {
+    setTimeout(() => {
+      this.setState({ isLoading: false});
+      this.setState({ successMessage: true});
+    }, 1500);
+    setTimeout(() => {
+      this.props.history.push('/artifacts/objects');
+    }, 3500);
 
-  body: JSON.stringify(data), // data can be `string` or {object}!
-
-  headers:{ 'Content-Type': 'application/json' } })
-
-  .then(res => res.json())
-
-  .catch(error => console.error('Error:', error))
-
-  .then(response => console.log('Successfully added'));
-
+  })
+  .catch((error) => {
+    console.log("Error:", error);
+  })
 }
 
    handleChange = (e) => {
@@ -63,7 +82,22 @@ handleSubmit(event) {
     })
   }
 
+  setRedirect = () => {
+    this.setState({
+      redirect: true
+    })
+  }
+
+  renderRedirect = () => {
+    if (this.state.redirect) {
+      return <Redirect to='/artifacts/objects' />
+    }
+  }
+
+
   render() {
+    const { isLoading, successMessage } = this.state;
+
     return (
       <div>
         <Container textAlign='center'>
@@ -175,8 +209,26 @@ handleSubmit(event) {
               </Modal>
             </Form.Field>
 
-            <Button color='blue' type='submit'>Submit</Button>
+            {/*Loader for waiting HTTP post request response*/}
+            <Modal open = {isLoading}>
+              <Loader intermediate size='huge'>Uploading Artifact</Loader>
+            </Modal>
 
+            {/*Message to show successfuly registration of artifact*/}
+            <Modal open = {successMessage}>
+              <Container textAlign='center'>
+                <Message icon success>
+                  <Icon name='checkmark'/>
+                  <Message.Content>
+                    <Message.Header>Success!</Message.Header>
+                      Artifact has been successfully registered into our database.
+                      <p>Redirecting you to physical artifacts page ...... </p>
+                  </Message.Content>
+                </Message>
+              </Container>
+            </Modal>
+
+            <Button color='blue' type='submit'>Submit</Button>
           </Form>
         </Container>
       </div>
