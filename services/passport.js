@@ -1,6 +1,5 @@
 const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
-const keys = require("../config/keys");
 require('dotenv').config();
 const mysql =require('mysql');
 var db = require('../db/db');
