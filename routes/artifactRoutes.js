@@ -52,16 +52,6 @@ module.exports = app => {
         });
     })
 
-    // app.get('/api/familymembers', (req,res) =>{
-    // db.query('SELECT * FROM user', (err, rows, fields) => {
-    //     if (!err){
-    //         res.send(rows);
-    //     } else {
-    //     console.log(err);
-    //     }
-    // });
-    // })
-
     function newArtifactID(callback) {
         axios.get('/api/newartifact')
         .then(function (response) {
@@ -86,9 +76,14 @@ module.exports = app => {
         const geoTag = req.body.Geotag;
         const day = req.body.Day;
         const month = req.body.Month;
-        const year = req.body.Year;
+        const year = Number(req.body.Year);
         const history = req.body.Description;
-        const type = req.body.Type;
+        var type = req.body.Type;
+
+        if (typeof type === 'undefined') {
+            type = 'physical'
+        }
+        console.log(type)
 
         var artifactID = newArtifactID();
         var currOwn = 1;
@@ -106,22 +101,4 @@ module.exports = app => {
             }
         });
     });
-
-    // app.post('/new/artifact', function(req, res) {
-    // var artifactID = newArtifactID(),
-    // artifactName = doubleBackticks(req.body.Name),
-    // year = req.body.Year,
-    // description = doubleBackticks(req.body.Description)
-    // userID = 1,
-    // insertStatement = "INSERT INTO `mydb`.`Artifact` (`ArtifactID`, `Name`, `Geotag`, `Tags`, `DateAddedYear`, `DateAddedMonth`, `DateAddedDay`, `DateSentYear`, `DateSentMonth`, `DateSentDay`, `DateAcquireYear`, `DateAcquireMonth`, `DateAcquireDay`, `AccuracyAdded`, `AccuracyAcquire`, `AccuracySent`, `Text`, `Heir`, `CurrentOwner`, `User_UserID`, `Photo_PhotoID`) VALUES (" + artifactID + ", '" + artifactName + "', NULL, NULL," + year + ", NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,'"+ description +"', NULL, NULL," + userID + ", NULL);";
-    // db.query(insertStatement,(err, rows, fields) => {
-    //     if (!err){
-    //         console.log("Sucess!");
-    //         res.status(201).end("Success!");
-    //     } else {
-    //         console.log(err);
-    //         res.status(400).end("Failed :(")
-    //     }
-    //     });
-    // });
 }
