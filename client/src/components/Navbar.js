@@ -1,23 +1,14 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom'
-import { Button, Icon } from 'semantic-ui-react'
 import {
-
+    Button,
+    Icon,
     Container,
-    Divider,
-    Grid,
-    Header,
-
-    Image,
-    List,
     Menu,
     Responsive,
     Segment,
-    Sidebar,
-    Visibility,
   } from 'semantic-ui-react'
-import logo from '../logo.svg';
-import './styles.css'
+
 
 class Navbar extends Component {
     state = { activeItem: 'home'}

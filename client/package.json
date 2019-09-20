@@ -9,21 +9,22 @@
     "bootstrap": "^4.3.1",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
+    "react-icons": "^3.7.0",
     "react-redux": "^7.1.1",
     "react-router-dom": "^5.0.1",
     "react-scripts": "3.1.1",
     "react-timeline-semantic-ui": "^1.0.13",
+    "react-vertical-timeline-component": "^2.5.0",
     "redux": "^4.0.4",
     "redux-thunk": "^2.3.0",
-    "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^0.88.1",
     "typeface-roboto": "0.0.75"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test",
+    "eject": "craco eject"
   },
   "proxy": "http://localhost:5000",
   "eslintConfig": {
@@ -40,5 +41,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@craco/craco": "^5.5.0",
+    "@semantic-ui-react/craco-less": "^1.1.0",
+    "semantic-ui-less": "^2.4.1"
   }
 }

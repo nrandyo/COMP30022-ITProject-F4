@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Input, Menu, Button, Icon, Image, Item, Label, Container, Header, Segment } from 'semantic-ui-react'
+import {Button, Icon, Image, Item, Label, Container, Pagination} from 'semantic-ui-react'
 import {Link} from 'react-router-dom'
 
 const paragraph = <Image src='https://react.semantic-ui.com/images/wireframe/short-paragraph.png' />
@@ -66,6 +66,15 @@ const Artifact = () => {
           </Item.Content>
         </Item>
       </Item.Group>
+      {/* <Pagination
+    defaultActivePage={1}
+    firstItem={null}
+    lastItem={null}
+    pointing
+    secondary
+    style={{textAlign: "center"}}
+    totalPages={3}
+  /> */}
       </Container>
     )
     

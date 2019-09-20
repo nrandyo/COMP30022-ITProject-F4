@@ -74,8 +74,8 @@ handleSubmit(event) {
               {/*Form for name*/}
               <Form.Field required>
                <label> Name
-                 <Popup content='This field is mandatory' trigger={
-                 <Icon name='info circle' size ='large'/>}/> :
+                 {/* <Popup content='This field is mandatory' trigger={
+                 <Icon name='info circle' size =''/>}/> : */}
                </label>
                <Input placeholder='Input name of artifact'
                 name='Name' onChange={this.handleChange} />
@@ -84,8 +84,8 @@ handleSubmit(event) {
               {/*Form for location*/}
               <Form.Field>
                <label> GeoTag
-                 <Popup content='This field is optional' trigger={
-                 <Icon name='info circle' size ='large'/>}/> :
+                 {/* <Popup content='This field is optional' trigger={
+                 <Icon name='info circle' size ='large'/>}/> : */}
                </label>
                <Input placeholder='Current location of artifacts'
                 name='GeoTag' onChange={this.handleChange}/>
@@ -105,9 +105,9 @@ handleSubmit(event) {
             {/*Form for History input*/}
             <Form.Field>
               <label> History
-                <Popup content=
+                {/* <Popup content=
                 'This field is optional. If possible, please specify a brief history of the artifacts'trigger={
-                <Icon name='info circle' size ='large'/>}/> :
+                <Icon name='info circle' size ='large'/>}/> : */}
               </label>
 
               <Form.TextArea placeholder='A short description'
@@ -117,9 +117,9 @@ handleSubmit(event) {
             {/*Tags for artifacts*/}
             <Form.Field>
               <label> Tags
-                <Popup content=
+                {/* <Popup content=
                 'This field is optional. Able to support multiple tags!'trigger={
-                <Icon name='info circle' size ='large'/>}/> :
+                <Icon name='info circle' size ='large'/>}/> : */}
               </label>
               <Input
               icon='tags'
@@ -149,9 +149,9 @@ handleSubmit(event) {
             {/*Modal to upload artifact image*/}
             <Form.Field>
               <label> Click this to upload image to cloud
-                <Popup content=
+                {/* <Popup content=
                 'This field is optional.'trigger={
-                <Icon name='info circle' size ='large'/>}/> :
+                <Icon name='info circle' size ='large'/>}/> : */}
               </label>
               <Modal closeIcon trigger={<Button type='Button' icon='cloud upload'></Button>}>
                 <Modal.Header>Select an Image</Modal.Header>
@@ -175,7 +175,7 @@ handleSubmit(event) {
               </Modal>
             </Form.Field>
 
-            <Button color='facebook' type='submit'>Submit</Button>
+            <Button color='blue' type='submit'>Submit</Button>
 
           </Form>
         </Container>

@@ -1,0 +1,16 @@
+@primaryColor   : #00617F;
+@secondaryColor : #8fb4c4;
+@red            : #B03060;
+@orange         : #FE9A76;
+@yellow         : #FFD700;
+@olive          : #32CD32;
+@green          : #016936;
+@teal           : #8fb4c4;
+@blue           : #00617F;
+@violet         : #EE82EE;
+@purple         : #B413EC;
+@pink           : #FF1493;
+@brown          : #A52A2A;
+@grey           : #A0A0A0;
+@black          : #000000;
+@pageBackground: #f7f7f7;

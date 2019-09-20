@@ -5,7 +5,7 @@ import requests
 # defining the api-endpoint  
 API_ENDPOINT = "http://localhost:5000/artifacts/new"
 
-FILE_PATH = 'artifacts/Copy of Artifact Collection - Photos.csv'
+FILE_PATH = 'artifacts/Copy_of_Artifact_Collection_-_Physical.csv'
 
 # function to send a post request to insert a new artifact
 def send_artifact(artifact):

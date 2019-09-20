@@ -2,8 +2,8 @@ import React from 'react';
 import {BrowserRouter, Route} from 'react-router-dom';
 
 import Navbar from './Navbar';
+import Footer from './Footer';
 import NewArtifact from './NewArtifact';
-import HomeContent from './HomeContent';
 import Artifact from './Artifact'
 import Objects from './Objects'
 import Photos from './Photos'
@@ -12,6 +12,7 @@ import ArtifactPage from './ArtifactPage'
 import Timelines from './Timeline'
 import ArtifactNav from './ArtifactNav'
 import Homepage from './Homepage'
+import ThemeTest from './ThemeTest'
 
 
 const App = () => {
@@ -22,6 +23,8 @@ const App = () => {
                 <div>
                     {/* Use exact keyword to provide strict path*/}
                     <Navbar />
+                    
+                    <Route exact path = "/theme" component={ThemeTest}/>
                     <Route exact path = "/" component={Homepage}/>
                     <Route exact path = "/timeline" component={Timelines}/>
                     <Route path = "/artifacts" component = {ArtifactNav}/>
@@ -31,6 +34,7 @@ const App = () => {
                     <Route exact path = "/artifacts/objects" component = {Objects}/>
                     <Route exact path = "/artifacts/artifactpage" component = {ArtifactPage}/>
                     <Route path = "/artifacts/new" component = {NewArtifact}/>
+                    <Footer />
                 </div>
             </BrowserRouter>
         </div>

@@ -28,7 +28,8 @@ const Homepage = () => {
                   Welcome to Leon Sterling's artifact registry
                 </Header>
                 <p style={{ fontSize: '1.33em' }}>
-                  The best lecturer and client in the world!
+                  {/* The best lecturer and client in the world! */}
+                  A Professor in the School of Computing and Information Systems at The University of Melbourne.
                 </p>
                 <Header as='h3' style={{ fontSize: '2em' }}>
                   A place where Leon's artifacts are registered and organised
@@ -105,7 +106,7 @@ const Homepage = () => {
             </Button>
           </Container> */}
         </Segment>
-        <Segment inverted vertical style={{ padding: '5em 0em' }}>
+        {/* <Segment inverted vertical style={{ padding: '5em 0em' }}>
           <Container>
             <Grid divided inverted stackable>
               <Grid.Row>
@@ -126,17 +127,11 @@ const Homepage = () => {
                   </List>
                 </Grid.Column>
                 <Grid.Column width={7}>
-                  {/* <Header as='h4' inverted>
-                    Footer Header
-                  </Header>
-                  <p>
-                    Extra space for a call to action inside the footer that could help re-engage users.
-                  </p> */}
                 </Grid.Column>
               </Grid.Row>
             </Grid>
           </Container>
-        </Segment>
+        </Segment> */}
 
     </Responsive>
     )
