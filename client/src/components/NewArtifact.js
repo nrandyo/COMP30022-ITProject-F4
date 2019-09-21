@@ -1,18 +1,17 @@
 import React, {Component} from 'react'
 import { withRouter } from 'react-router'
-import { Redirect } from 'react-router-dom'
 import { Button,
          Form,
          Container,
          Input,
-         Popup,
          Icon,
          Header,
          Modal,
          Image,
          Label,
          Message,
-         Loader } from 'semantic-ui-react'
+         Loader,
+         List } from 'semantic-ui-react'
 
 class NewArtifact extends Component {
 
@@ -28,7 +27,7 @@ class NewArtifact extends Component {
       Description: '',
       isLoading: false,
       successMessage: false,
-      redirect: false
+      tags: []
       };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -62,13 +61,14 @@ handleSubmit(event) {
     }
   })
   .then((data) => {
+    {/*Control loading/success screen and redirect to object page*/}
     setTimeout(() => {
       this.setState({ isLoading: false});
       this.setState({ successMessage: true});
-    }, 1500);
+    }, 1000);
     setTimeout(() => {
       this.props.history.push('/artifacts/objects');
-    }, 3500);
+    }, 3000);
 
   })
   .catch((error) => {
@@ -76,27 +76,37 @@ handleSubmit(event) {
   })
 }
 
-   handleChange = (e) => {
+  handleChange = (e) => {
+    {/*Constantly updates changes in user input*/}
     this.setState({
       [e.target.name]: e.target.value
     })
   }
 
-  setRedirect = () => {
-    this.setState({
-      redirect: true
-    })
+  inputKeyDown = (e) => {
+    {/*Controlled field when enter key is pressed for tags*/}
+    const val = e.target.value;
+    if (e.key === 'Enter' && val) {
+      // Prevent user from entering duplicate tags
+      if (this.state.tags.find(tag => tag.toLowerCase() === val.toLowerCase())) {
+        return;
+      }
+      this.setState({ tags: [...this.state.tags, val]});
+      this.tagInput.value = null;
+    }
+    console.log(this.state.tags);
   }
 
-  renderRedirect = () => {
-    if (this.state.redirect) {
-      return <Redirect to='/artifacts/objects' />
-    }
+  removeTag = (i) => {
+    {/*Delete tags from an array*/}
+    const newTags = [ ...this.state.tags ];
+    newTags.splice(i, 1);
+    this.setState({ tags: newTags });
   }
 
 
   render() {
-    const { isLoading, successMessage } = this.state;
+    const { isLoading, successMessage, tags } = this.state;
 
     return (
       <div>
@@ -148,41 +158,34 @@ handleSubmit(event) {
                name='Description' onChange={this.handleChange}/>
             </Form.Field>
 
-            {/*Tags for artifacts*/}
+            {/*Modal and form for adding multiple tags*/}
             <Form.Field>
-              <label> Tags
+              <label> Click this to add tags:
                 {/* <Popup content=
-                'This field is optional. Able to support multiple tags!'trigger={
+                'This field is optional.'trigger={
                 <Icon name='info circle' size ='large'/>}/> : */}
               </label>
-              <Input
-              icon='tags'
-              iconPosition='left'
-              label={{ tag: true, content: 'Add Tag' }}
-              labelPosition='right'
-              placeholder='Disabled' disabled
-              />
+              <Modal size='mini' closeIcon trigger={<Button type='Button' icon='tags'></Button>}>
+                <Modal.Header>Add multiple tags</Modal.Header>
+                  <Container textAlign='center'>
+                    <Modal.Description textalign='center'>
+                      <input onKeyDown={this.inputKeyDown} ref={c => { this.tagInput = c; }} />
+                      { tags.map((tag, i) => (
+                        <List key={tag}>
+                          <Label>
+                          {tag}
+                          <Icon name='delete' onClick={() => { this.removeTag(i); }}/>
+                          </Label>
+                        </List>
+                      ))}
+                    </Modal.Description>
+                  </Container>
+              </Modal>
             </Form.Field>
 
-            {/*On update tag - Still not implemented*/}
-            <div>
-              <Label>
-                Old piano
-                <Icon name='delete' />
-              </Label>
-              <Label>
-                Antique
-                <Icon name='delete' />
-              </Label>
-              <Label>
-                Family treasure
-                <Icon name='delete' />
-              </Label>
-            </div>
-
-            {/*Modal to upload artifact image*/}
+            {/*Modal and form to upload artifact image*/}
             <Form.Field>
-              <label> Click this to upload image to cloud
+              <label> Click this to upload image to cloud:
                 {/* <Popup content=
                 'This field is optional.'trigger={
                 <Icon name='info circle' size ='large'/>}/> : */}
@@ -211,10 +214,10 @@ handleSubmit(event) {
 
             {/*Loader for waiting HTTP post request response*/}
             <Modal open = {isLoading}>
-              <Loader intermediate size='huge'>Uploading Artifact</Loader>
+              <Loader intermediate='true' size='huge'>Uploading Artifact</Loader>
             </Modal>
 
-            {/*Message to show successfuly registration of artifact*/}
+            {/*Message to show successfull registration of artifact*/}
             <Modal open = {successMessage}>
               <Container textAlign='center'>
                 <Message icon success>
