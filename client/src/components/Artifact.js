@@ -27,12 +27,7 @@ const Artifact = () => {
             </Item.Meta>
             <Item.Description>{paragraph}</Item.Description>
             <Item.Extra>
-              <Button
-                primary
-                floated="right"
-                as={Link}
-                to="/artifacts/artifactpage"
-              >
+              <Button primary floated="right" as={Link} to="/artifactpage">
                 Additional Info
                 <Icon name="right chevron" />
               </Button>

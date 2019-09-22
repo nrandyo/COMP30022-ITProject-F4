@@ -10,6 +10,7 @@ import {
 
 const Footer = () => {
   return (
+    // <div className="fixed-bottom">
     <Responsive>
       <Segment
         inverted
@@ -48,6 +49,7 @@ const Footer = () => {
         </Container>
       </Segment>
     </Responsive>
+    // </div>
   );
 };
 
