@@ -2,18 +2,12 @@ import React from "react";
 import LeonSterling from "../images/LeonSterling.jpg";
 import {
   Button,
-  Container,
-  Divider,
   Grid,
   Header,
   Icon,
   Image,
-  List,
-  Menu,
   Responsive,
-  Segment,
-  Sidebar,
-  Visibility
+  Segment
 } from "semantic-ui-react";
 
 const Homepage = () => {

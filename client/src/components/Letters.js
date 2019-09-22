@@ -1,75 +1,46 @@
-import React, { Component } from 'react';
-import { Input, Menu, Button, Icon, Image, Item, Label, Container, Header, Segment } from 'semantic-ui-react'
-import {Link} from 'react-router-dom'
+import React, { useState, useEffect } from "react";
+import { Container } from "semantic-ui-react";
+import ArtifactItem from "./ArtifactItem";
+import ArtifactPagination from "./ArtifactPagination";
+import axios from "axios";
 
-const paragraph = <Image src='https://react.semantic-ui.com/images/wireframe/short-paragraph.png' />
 const Letters = () => {
+  const [items, setItems] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(4);
 
-    return(
-        <Container>
+  useEffect(() => {
+    const fetchItems = async () => {
+      setLoading(true);
+      const res = await axios.get("/api/artifacts/letter");
+      setItems(res.data);
+      setLoading(false);
+    };
+    fetchItems();
+  }, []);
 
-        <Item.Group divided >
-        <Item>
-          <Item.Image src='https://react.semantic-ui.com/images/wireframe/image.png' />
-    
-          <Item.Content>
-            <Item.Header as='a'>Letter 1</Item.Header>
-            <Item.Meta>
-              <span className='cinema'>Photo</span>
-            </Item.Meta>
-            <Item.Description>{paragraph}</Item.Description>
-            <Item.Extra>
-              <Button primary floated='right'>
-                 Additional Info
-                <Icon name='right chevron' />
-              </Button>
-              <Label>Limited</Label>
-            </Item.Extra>
-          </Item.Content>
-        </Item>
-    
-        <Item>
-          <Item.Image src='https://react.semantic-ui.com/images/wireframe/image.png' />
-    
-          <Item.Content>
-            <Item.Header as='a'>Letter 2</Item.Header>
-            <Item.Meta>
-              <span className='cinema'>Letter</span>
-            </Item.Meta>
-            <Item.Description>{paragraph}</Item.Description>
-            <Item.Extra>
-              <Button primary floated='right'>
-                 Additional Info
-                <Icon name='right chevron' />
-              </Button>
-              <Label>Limited</Label>
-            </Item.Extra>
-          </Item.Content>
-        </Item>
-    
-        <Item>
-          <Item.Image src='https://react.semantic-ui.com/images/wireframe/image.png' />
-    
-          <Item.Content>
-            <Item.Header as='a'>Letter 3</Item.Header>
-            <Item.Meta>
-              <span className='cinema'>Object</span>
-            </Item.Meta>
-            <Item.Description>{paragraph}</Item.Description>
-            <Item.Extra>
-              <Button primary floated='right'>
-                 Additional Info
-                <Icon name='right chevron' />
-              </Button>
-              <Label>Limited</Label>
-            </Item.Extra>
-          </Item.Content>
-        </Item>
-      </Item.Group>
-      </Container>
-    )
-    
-}
+  // Get current artifacts
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = items.slice(indexOfFirstItem, indexOfLastItem);
 
+  // Change page
+  const paginate = (e, pageInfo) => {
+    setCurrentPage(pageInfo.activePage);
+  };
 
-export default Letters
+  return (
+    <Container>
+      <ArtifactItem items={currentItems} loading={loading} />
+      <ArtifactPagination
+        itemsPerPage={itemsPerPage}
+        totalItems={items.length}
+        onChange={paginate}
+        currentPage={currentPage}
+      />
+    </Container>
+  );
+};
+
+export default Letters;

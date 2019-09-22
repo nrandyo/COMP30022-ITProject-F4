@@ -37,7 +37,7 @@ const ArtifactItem = ({ items, loading }) => {
             <Item.Content>
               <Item.Header as="a">{item.Name}</Item.Header>
               <Item.Meta>
-                <span className="cinema">{item.DateAddedYear}</span>
+                <span className="cinema">{item.DateAcquireYear}</span>
               </Item.Meta>
               <Item.Description>{item.description}</Item.Description>
               <Item.Extra>

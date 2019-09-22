@@ -1,17 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import {
-  Input,
-  Menu,
-  Button,
-  Icon,
-  Image,
-  Item,
-  Label,
-  Container,
-  Header,
-  Segment
-} from "semantic-ui-react";
+import { Container } from "semantic-ui-react";
 import {
   VerticalTimeline,
   VerticalTimelineElement
