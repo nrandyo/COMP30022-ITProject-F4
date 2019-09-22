@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import {
   Input,
   Menu,
@@ -41,7 +42,7 @@ const ArtifactItem = ({ items, loading }) => {
               </Item.Meta>
               <Item.Description>{item.description}</Item.Description>
               <Item.Extra>
-                <Button primary floated="right">
+                <Button as={Link} to="/artifactpage" primary floated="right">
                   Additional Info
                   <Icon name="right chevron" />
                 </Button>

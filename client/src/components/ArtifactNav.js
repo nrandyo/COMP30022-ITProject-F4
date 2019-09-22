@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { Container, Header, Menu } from "semantic-ui-react";
-
-import "./styles.css";
+import { Container, Header, Menu, Input } from "semantic-ui-react";
 
 class ArtifactNav extends Component {
   state = { activeItem: "All", headerDesc: "List of All Artifacts" };
@@ -52,16 +50,16 @@ class ArtifactNav extends Component {
             active={activeItem === "Physical Objects"}
             onClick={this.handleItemClick}
           />
+          <Menu.Item
+            as={Link}
+            to="/artifacts/new"
+            name="Register Artifact"
+            desc="Add a new artifact"
+            active={activeItem === "Register Artifact"}
+            onClick={this.handleItemClick}
+          />
           <Menu.Menu position="right">
-            {/* <Input size='mini' icon='search' placeholder='Search...' /> */}
-            <Menu.Item
-              as={Link}
-              to="/artifacts/new"
-              name="Register Artifact"
-              desc="Add a new artifact"
-              active={activeItem === "Register Artifact"}
-              onClick={this.handleItemClick}
-            />
+            <Input transparent icon="search" placeholder="Search..." />
           </Menu.Menu>
         </Menu>
       </Container>
