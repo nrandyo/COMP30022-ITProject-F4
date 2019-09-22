@@ -13,6 +13,9 @@ import { Button,
          Loader,
          List } from 'semantic-ui-react'
 
+// Constants for res.status
+const RES_CREATED = 201;
+
 class NewArtifact extends Component {
 
   constructor() {
@@ -27,6 +30,7 @@ class NewArtifact extends Component {
       Description: '',
       isLoading: false,
       successMessage: false,
+      failureMessage: false,
       tags: []
       };
 
@@ -54,37 +58,48 @@ handleSubmit(event) {
         'Content-Type': 'application/json'
       }
     })
+
   .then((res) => {
-    if(res.status === 200) {
-      console.log("Status: 200, Successful insertion");
-      return res.json();
+    if(res.status === RES_CREATED) {
+
+      // Handle loading/success screen and redirect to object page
+      setTimeout(() => {
+        this.setState({ isLoading: false});
+        this.setState({ successMessage: true});
+      }, 1000);
+
+      setTimeout(() => {
+        this.props.history.push('/artifacts/objects');
+      }, 3200);
+    } else {
+
+      // Handles error display/failed POST request
+      setTimeout(() => {
+        this.setState({ isLoading: false });
+        this.setState({ failureMessage: true });
+      }, 1000);
+
+      setTimeout(() => {
+        this.setState({ failureMessage: false });
+      }, 3500);
     }
   })
-  .then((data) => {
-    {/*Control loading/success screen and redirect to object page*/}
-    setTimeout(() => {
-      this.setState({ isLoading: false});
-      this.setState({ successMessage: true});
-    }, 1000);
-    setTimeout(() => {
-      this.props.history.push('/artifacts/objects');
-    }, 3000);
 
-  })
   .catch((error) => {
     console.log("Error:", error);
   })
 }
 
   handleChange = (e) => {
-    {/*Constantly updates changes in user input*/}
+    // Constantly updates changes in user input
     this.setState({
       [e.target.name]: e.target.value
     })
   }
 
   inputKeyDown = (e) => {
-    {/*Controlled field when enter key is pressed for tags*/}
+
+    // Controlled field when enter key is pressed for tags
     const val = e.target.value;
     if (e.key === 'Enter' && val) {
       // Prevent user from entering duplicate tags
@@ -98,7 +113,7 @@ handleSubmit(event) {
   }
 
   removeTag = (i) => {
-    {/*Delete tags from an array*/}
+    // Delete specific tags from an array
     const newTags = [ ...this.state.tags ];
     newTags.splice(i, 1);
     this.setState({ tags: newTags });
@@ -106,7 +121,7 @@ handleSubmit(event) {
 
 
   render() {
-    const { isLoading, successMessage, tags } = this.state;
+    const { isLoading, successMessage, failureMessage, tags } = this.state;
 
     return (
       <div>
@@ -138,11 +153,11 @@ handleSubmit(event) {
 
             {/*Form for dates*/}
             <Form.Group widths='equal'>
-              <Form.Input fluid label='Day:' placeholder='Day'
+              <Form.Input fluid label='Day' placeholder='Day'
                name='Day' onChange={this.handleChange}/>
-              <Form.Input fluid label='Month:' placeholder='Month'
+              <Form.Input fluid label='Month' placeholder='Month'
                name='Month' onChange={this.handleChange}/>
-              <Form.Input fluid label='Year:' placeholder='Year'
+              <Form.Input fluid label='Year' placeholder='Year'
                name='Year' onChange={this.handleChange}/>
             </Form.Group>
 
@@ -169,7 +184,7 @@ handleSubmit(event) {
                 <Modal.Header>Add multiple tags</Modal.Header>
                   <Container textAlign='center'>
                     <Modal.Description textalign='center'>
-                      <input onKeyDown={this.inputKeyDown} ref={c => { this.tagInput = c; }} />
+                      <input onKeyDown = {this.inputKeyDown} ref={c => { this.tagInput = c; }} />
                       { tags.map((tag, i) => (
                         <List key={tag}>
                           <Label>
@@ -231,7 +246,23 @@ handleSubmit(event) {
               </Container>
             </Modal>
 
+            {/*Message to failed registration of artifact*/}
+            <Modal open = {failureMessage}>
+              <Container textAlign='center'>
+                <Message icon negative>
+                  <Icon name='checkmark'/>
+                  <Message.Content>
+                    <Message.Header>An unexpected error has occured!</Message.Header>
+                      A problem has been encountered. This artifact could not be registered.
+                      <p>Please try again later ...... </p>
+                  </Message.Content>
+                </Message>
+              </Container>
+            </Modal>
+
+            {/*Final button for all form submission*/}
             <Button color='blue' type='submit'>Submit</Button>
+
           </Form>
         </Container>
       </div>
