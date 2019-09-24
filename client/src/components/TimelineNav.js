@@ -31,6 +31,7 @@ class TimelineNav extends Component {
           <Menu.Item>
             <Form>
               <DateInput
+                popupPosition="bottom center"
                 name="start"
                 maxDate={this.state.end}
                 transparent
@@ -46,6 +47,7 @@ class TimelineNav extends Component {
           <Menu.Item>
             <Form>
               <DateInput
+                popupPosition="bottom center"
                 name="end"
                 minDate={this.state.start}
                 transparent
