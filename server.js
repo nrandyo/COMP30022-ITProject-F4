@@ -11,6 +11,8 @@ app.use(express.urlencoded()); // to support URL-encoded bodies
 
 require("./routes/authRoutes")(app);
 require("./routes/artifactRoutes")(app);
+require("./routes/imgRoutes")(app);
+require("./routes/commentRoutes")(app);
 
 app.get("/members", (req, res) => {
   db.query("SELECT * FROM user", (err, rows, fields) => {

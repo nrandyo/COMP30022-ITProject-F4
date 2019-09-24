@@ -15,6 +15,7 @@ import {
   Dimmer
 } from "semantic-ui-react";
 
+
 const ArtifactItem = ({ items, loading }) => {
   //   formatDate = (date) => {
   //     var d = new Date(date).toDateString();
@@ -27,35 +28,35 @@ const ArtifactItem = ({ items, loading }) => {
       </Container>
     );
   }
+  
 
   return (
     <Container style={{ minHeight: 600, padding: "1em 0em" }}>
       <Item.Group divided>
-        {items.map(item => (
-          <Item>
-            <Item.Image src="https://react.semantic-ui.com/images/wireframe/image.png" />
-
-            <Item.Content>
-              <Item.Header as="a">{item.Name}</Item.Header>
-              <Item.Meta>
-                <span className="cinema">{item.DateAcquireYear}</span>
-              </Item.Meta>
-              <Item.Description>{item.description}</Item.Description>
-              <Item.Extra>
-                <Button
-                  as={Link}
-                  to={"/artifactpage/" + item.ArtifactID}
-                  primary
-                  floated="right"
-                >
-                  Additional Info
-                  <Icon name="right chevron" />
-                </Button>
-                <Label>Limited</Label>
-              </Item.Extra>
-            </Item.Content>
-          </Item>
-        ))}
+        {items.map(item => {
+          var path = item.FilePath;
+          return (
+          
+            <Item>
+              <Item.Image src={require('../artifactImages/' + path)} />
+              <Item.Content>
+                <Item.Header as="a">{item.Name}</Item.Header>
+                <Item.Meta>
+                  <span className="cinema">{item.DateAcquireYear}</span>
+                </Item.Meta>
+                <Item.Description>{item.description}</Item.Description>
+                <Item.Extra>
+                  <Button as={Link} to={'/artifactpage/' + item.ArtifactID} primary floated="right">
+                    Additional Info
+                    <Icon name="right chevron" />
+                  </Button>
+                  <Label>Limited</Label>
+                </Item.Extra>
+              </Item.Content>
+            </Item>
+          )
+        }
+          )}
       </Item.Group>
     </Container>
   );
