@@ -92,11 +92,12 @@ module.exports = app => {
     const month = req.body.Month;
     const year = Number(req.body.Year);
     const history = req.body.Description;
-    const type = req.body.Type;
+    var type = req.body.Type;
 
     if (typeof type === "undefined") {
       type = "physical";
     }
+
     console.log(type);
 
     var artifactID = newArtifactID();

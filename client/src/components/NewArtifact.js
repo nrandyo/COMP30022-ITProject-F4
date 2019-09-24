@@ -189,21 +189,28 @@ handleSubmit(event) {
                 <Modal.Header>Add multiple tags</Modal.Header>
                   <Container textAlign='center'>
                     <Modal.Description textalign='center'>
-                      <input style={{ margin: 10 }} placeholder='Press Enter to add'
-                        onKeyDown = {this.inputKeyDown} ref={c => { this.tagInput = c; }}
+                      <input style={{ margin: 10, width:"85%", height:"30px", "font-size":"12pt",
+                       "border-radius":"4px" }} placeholder='Press "Enter" to keep adding'
+                       onKeyDown = {this.inputKeyDown} ref={c => { this.tagInput = c; }}
                       />
                       { tags.map((tag, i) => (
-                        <List key={tag}>
-                          <Label>
-                          {tag}
-                          <Icon name='delete' onClick={() => { this.removeTag(i); }}/>
-                          </Label>
-                        </List>
+                        <Label style={{ marginBottom:5 }} key={tag} size='large'>
+                        {tag}
+                        <Icon name='delete' onClick={() => { this.removeTag(i); }}/>
+                        </Label>
                       ))}
                     </Modal.Description>
                   </Container>
               </Modal>
             </Form.Field>
+
+            <Label as='a' tag color='teal' size='large'>Added tags: </Label>
+            { tags.map((tag, i) => (
+              <Label style={{ marginBottom:5 }} key={tag} size='large'>
+              {tag}
+              <Icon name='delete' onClick={() => { this.removeTag(i); }}/>
+              </Label>
+            ))}
 
             {/*Modal and form to upload artifact image*/}
             <Form.Field>
