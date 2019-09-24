@@ -1,6 +1,8 @@
 import React from "react";
 import { BrowserRouter, Route } from "react-router-dom";
 
+import { useRoutes } from "hookrouter";
+
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import NewArtifact from "./NewArtifact";
@@ -49,5 +51,30 @@ const App = () => {
     </div>
   );
 };
+
+// const routes = {
+//   "/*": () => <Navbar />,
+//   "/": () => <Homepage />,
+//   "/timeline": () => <TimelineNav />,
+//   "/timeline": () => <Timelines />,
+//   "/artifacts*": () => <ArtifactNav />,
+//   "/artifacts": () => <Artifact />,
+//   "/artifacts/photos": () => <Photos />,
+//   "/artifacts/letters": () => <Letters />,
+//   "/artifacts/objects": () => <Objects />,
+//   "/artifactpage/:id*": ({ id }) => <ArtifactPage Id={id} />,
+//   "/artifactpage/:id*": () => <CommentSection />,
+//   "/familytree": () => <FamilyTree />,
+//   "/artifacts/new": () => <NewArtifact />,
+//   "/artifacts/update": () => <DeleteArtifact />,
+//   "/artifacts/delete": () => <UpdateArtifact />
+// };
+
+// const App = () => {
+//   const routeResult = useRoutes(routes);
+
+//   return routeResult;
+//   //   || <NotFoundPage />;
+// };
 
 export default App;

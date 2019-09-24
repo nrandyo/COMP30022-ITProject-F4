@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
-import axios from 'axios';
+import axios from "axios";
 // import ImageGallery from "react-image-gallery";
 import {
   Container,
@@ -52,135 +52,123 @@ function SamplePrevArrow(props) {
     />
   );
 }
+const settings = {
+  dots: true,
+  infinite: true,
+  speed: 500,
+  slidesToShow: 1,
+  slidesToScroll: 1,
+  nextArrow: <SampleNextArrow />,
+  prevArrow: <SamplePrevArrow />
+  // centerMode: true
+};
 
-// class ArtifactPage extends Component {
-  const ArtifactPage = () => {
-  // state = {
-  //   artifact: null
-  // }
-  
-  const [artifact, setArtifact] = useState([]);
-  useEffect(() => {
-    const fetchArtifact = async () => {
-      const res = await axios.get("/api/artifacts/1");
-      setArtifact(res.data);
-    };
-    fetchArtifact();
-  }, []);
-  // componentDidMount () {
-  //   const { id } = this.props.match.params;
-  //   const artifactt =  axios.get('/api/artifacts/1');
-  //   this.setState((state) => {
-  //     return {artifact: artifactt};
-  //   });
-  // }
+class ArtifactPage extends Component {
+  // const ArtifactPage = ({ id }) => {
 
+  state = {
+    artifact: []
+  };
+  componentDidMount() {
+    const { id } = this.props.match.params;
 
-  // render() {
-    const settings = {
-      dots: true,
-      infinite: true,
-      speed: 500,
-      slidesToShow: 1,
-      slidesToScroll: 1,
-      nextArrow: <SampleNextArrow />,
-      prevArrow: <SamplePrevArrow />
-      // centerMode: true
-    };
+    axios.get(`/api/artifacts/${id}`).then(res => {
+      const artifact = res.data;
+      this.setState(() => ({ artifact }));
+    });
+  }
+
+  render() {
     return (
       <Responsive>
-        {artifact.map(artifact =>(
-        <Container style={{ minHeight: 600, padding: "1em 0em" }}>
-          <Header
-            as="h2"
-            textAlign="center"
-            content="Artifact Name"
-            subheader={"More information about the artifact"}
-          />
-          <Menu pointing secondary color="blue">
-            <Menu.Menu position="right">
-              <Menu.Item
-                as={Link}
-                to="/artifacts/new"
-                name="Update Artifact"
-                desc="Update artifact"
-                // active={activeItem === "Register Artifact"}
-                // onClick={this.handleItemClick}
-              />
-            </Menu.Menu>
-          </Menu>
-          <Slider {...settings}>
-            <div>
-              <Image centered src={LeonSterling} bordered />
-            </div>
-            <div>
-              <Image centered src={LeonSterling} bordered />
-            </div>
-            <div>
-              <Image centered src={LeonSterling} bordered />
-            </div>
-            <div>
-              <Image centered src={LeonSterling} bordered />
-            </div>
-            <div>
-              <Image centered src={LeonSterling} bordered />
-            </div>
-            <div>
-              <h3>6</h3>
-            </div>
-          </Slider>
-          <Segment style={{ padding: "3em 0em" }} vertical>
-            <Container text>
-              <Divider horizontal>
-                <Header as="h4">
-                  <Icon name="book" />
-                  Description
-                </Header>
-              </Divider>
-              <p style={{ fontSize: "1.2em" }}>
-                Yes I know you probably disregarded the earlier boasts as
-                non-sequitur filler content, but it's really true. It took years
-                of gene splicing and combinatory DNA research, but our bananas
-                can really dance.
-              </p>
-              <Divider horizontal>
-                <Header as="h4">
-                  <Icon name="info circle" />
-                  Details
-                </Header>
-              </Divider>
-              <Table definition color="blue">
-                <Table.Body>
-                  <Table.Row>
-                    <Table.Cell width={2}>Name</Table.Cell>
-                    <Table.Cell>{artifact.Name}</Table.Cell>
-                  </Table.Row>
-                  <Table.Row>
-                    <Table.Cell>Type</Table.Cell>
-                    <Table.Cell>{artifact.Type}</Table.Cell>
-                  </Table.Row>
-                  <Table.Row>
-                    <Table.Cell>Current Owner</Table.Cell>
-                    <Table.Cell>Leon Sterling</Table.Cell>
-                  </Table.Row>
-                  <Table.Row>
-                    <Table.Cell>Current Location</Table.Cell>
-                    {/* <Table.Cell>Not available</Table.Cell> */}
-                    <Table.Cell>{artifact.Geotag}</Table.Cell>
-                  </Table.Row>
-                  <Table.Row>
-                    <Table.Cell>Date Acquired</Table.Cell>
-                    <Table.Cell>{artifact.DateAcquireYear}</Table.Cell>
-                  </Table.Row>
-                </Table.Body>
-              </Table>
-            </Container>
-          </Segment>
-        </Container>
+        {this.state.artifact.map(artifact => (
+          <Container style={{ minHeight: 600, padding: "1em 0em" }}>
+            <Header
+              as="h2"
+              textAlign="center"
+              content={artifact.Name}
+              subheader={"More information about the artifact"}
+            />
+            <Menu pointing secondary color="blue">
+              <Menu.Menu position="right">
+                <Menu.Item
+                  as={Link}
+                  to="/artifacts/new"
+                  name="Update Artifact"
+                  desc="Update artifact"
+                  // active={activeItem === "Register Artifact"}
+                  // onClick={this.handleItemClick}
+                />
+              </Menu.Menu>
+            </Menu>
+            <Slider {...settings}>
+              <div>
+                <Image centered src={LeonSterling} bordered />
+              </div>
+              <div>
+                <Image centered src={LeonSterling} bordered />
+              </div>
+              <div>
+                <Image centered src={LeonSterling} bordered />
+              </div>
+              <div>
+                <Image centered src={LeonSterling} bordered />
+              </div>
+              <div>
+                <Image centered src={LeonSterling} bordered />
+              </div>
+              <div>
+                <h3>6</h3>
+              </div>
+            </Slider>
+            <Segment style={{ padding: "3em 0em" }} vertical>
+              <Container text>
+                <Divider horizontal>
+                  <Header as="h4">
+                    <Icon name="book" />
+                    Description
+                  </Header>
+                </Divider>
+                <p style={{ fontSize: "1.2em" }}>{artifact.description}</p>
+                <Divider horizontal>
+                  <Header as="h4">
+                    <Icon name="info circle" />
+                    Details
+                  </Header>
+                </Divider>
+                <Table definition color="blue">
+                  <Table.Body>
+                    <Table.Row>
+                      <Table.Cell width={2}>Name</Table.Cell>
+                      <Table.Cell>{artifact.Name}</Table.Cell>
+                    </Table.Row>
+                    <Table.Row>
+                      <Table.Cell>Type</Table.Cell>
+                      <Table.Cell>{artifact.Type}</Table.Cell>
+                    </Table.Row>
+                    <Table.Row>
+                      <Table.Cell>Current Owner</Table.Cell>
+                      <Table.Cell>Leon Sterling</Table.Cell>
+                    </Table.Row>
+                    <Table.Row>
+                      <Table.Cell>Current Location</Table.Cell>
+                      {/* <Table.Cell>Not available</Table.Cell> */}
+                      <Table.Cell>{artifact.Geotag}</Table.Cell>
+                    </Table.Row>
+                    <Table.Row>
+                      <Table.Cell>Date Acquired</Table.Cell>
+                      <Table.Cell>{artifact.DateAcquireYear}</Table.Cell>
+                    </Table.Row>
+                  </Table.Body>
+                </Table>
+              </Container>
+            </Segment>
+          </Container>
         ))}
       </Responsive>
     );
   }
+}
 // }
 
 export default ArtifactPage;
