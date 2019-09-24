@@ -51,6 +51,19 @@ module.exports = app => {
     );
   });
 
+  app.get("/api/artifacts/:artifactID", (req, res) => {
+    db.query(
+      ("SELECT * FROM Artifact WHERE ArtifactID=" + req.params.artifactID),
+      (err, rows, fields) => {
+        if (!err) {
+          res.json(rows);
+        } else {
+          console.log(err);
+        }
+      }
+    );
+  });
+
   app.get("/api/newartifactid", (req, res) => {
     db.query(
       "select max(artifactID) as maximum from artifact",

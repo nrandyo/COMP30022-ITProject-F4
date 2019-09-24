@@ -35,8 +35,8 @@ const App = () => {
           <Route exact path="/artifacts/photos" component={Photos} />
           <Route exact path="/artifacts/letters" component={Letters} />
           <Route exact path="/artifacts/objects" component={Objects} />
-          <Route exact path="/artifactpage" component={ArtifactPage} />
-          <Route exact path="/artifactpage" component={CommentSection} />
+          <Route exact path="/artifactpage/:id" component={ArtifactPage} />
+          <Route exact path="/artifactpage/:id" component={CommentSection} />
           <Route exact path="/familytree" component={FamilyTree} />
           <Route path="/artifacts/new" component={NewArtifact} />
           <Footer />

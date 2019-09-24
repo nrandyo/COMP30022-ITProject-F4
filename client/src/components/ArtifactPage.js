@@ -1,9 +1,10 @@
-import React, { Component } from "react";
+import React, { Component, useState, useEffect } from "react";
 import LeonSterling from "../images/LeonSterling.jpg";
 import { Link } from "react-router-dom";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
+import axios from 'axios';
 // import ImageGallery from "react-image-gallery";
 import {
   Container,
@@ -52,8 +53,30 @@ function SamplePrevArrow(props) {
   );
 }
 
-class ArtifactPage extends Component {
-  render() {
+// class ArtifactPage extends Component {
+  const ArtifactPage = () => {
+  // state = {
+  //   artifact: null
+  // }
+  
+  const [artifact, setArtifact] = useState([]);
+  useEffect(() => {
+    const fetchArtifact = async () => {
+      const res = await axios.get("/api/artifacts/1");
+      setArtifact(res.data);
+    };
+    fetchArtifact();
+  }, []);
+  // componentDidMount () {
+  //   const { id } = this.props.match.params;
+  //   const artifactt =  axios.get('/api/artifacts/1');
+  //   this.setState((state) => {
+  //     return {artifact: artifactt};
+  //   });
+  // }
+
+
+  // render() {
     const settings = {
       dots: true,
       infinite: true,
@@ -66,6 +89,7 @@ class ArtifactPage extends Component {
     };
     return (
       <Responsive>
+        {artifact.map(artifact =>(
         <Container style={{ minHeight: 600, padding: "1em 0em" }}>
           <Header
             as="h2"
@@ -129,32 +153,34 @@ class ArtifactPage extends Component {
                 <Table.Body>
                   <Table.Row>
                     <Table.Cell width={2}>Name</Table.Cell>
-                    <Table.Cell>Name of artifact</Table.Cell>
+                    <Table.Cell>{artifact.Name}</Table.Cell>
                   </Table.Row>
                   <Table.Row>
                     <Table.Cell>Type</Table.Cell>
-                    <Table.Cell>Type of artifact</Table.Cell>
+                    <Table.Cell>{artifact.Type}</Table.Cell>
                   </Table.Row>
                   <Table.Row>
                     <Table.Cell>Current Owner</Table.Cell>
-                    <Table.Cell>Current owner of artifact</Table.Cell>
+                    <Table.Cell>Leon Sterling</Table.Cell>
                   </Table.Row>
                   <Table.Row>
                     <Table.Cell>Current Location</Table.Cell>
-                    <Table.Cell>Current loaction of artifact</Table.Cell>
+                    {/* <Table.Cell>Not available</Table.Cell> */}
+                    <Table.Cell>{artifact.Geotag}</Table.Cell>
                   </Table.Row>
                   <Table.Row>
                     <Table.Cell>Date Acquired</Table.Cell>
-                    <Table.Cell>Date artifact was obtained</Table.Cell>
+                    <Table.Cell>{artifact.DateAcquireYear}</Table.Cell>
                   </Table.Row>
                 </Table.Body>
               </Table>
             </Container>
           </Segment>
         </Container>
+        ))}
       </Responsive>
     );
   }
-}
+// }
 
 export default ArtifactPage;
