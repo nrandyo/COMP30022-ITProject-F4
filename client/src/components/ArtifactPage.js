@@ -105,7 +105,7 @@ class ArtifactPage extends Component {
               <h3>6</h3>
             </div>
           </Slider>
-          <Segment style={{ padding: "8em 0em" }} vertical>
+          <Segment style={{ padding: "3em 0em" }} vertical>
             <Container text>
               <Divider horizontal>
                 <Header as="h4">
@@ -125,7 +125,7 @@ class ArtifactPage extends Component {
                   Details
                 </Header>
               </Divider>
-              <Table definition>
+              <Table definition color="blue">
                 <Table.Body>
                   <Table.Row>
                     <Table.Cell width={2}>Name</Table.Cell>

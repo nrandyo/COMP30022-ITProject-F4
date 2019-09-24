@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { Container, Header, Menu } from "semantic-ui-react";
-
-import "./styles.css";
+import mySvg from "../images/family.svg";
 
 class FamilyTree extends Component {
   state = { activeItem: "All", headerDesc: "List of All Artifacts" };
@@ -19,6 +18,9 @@ class FamilyTree extends Component {
           content="Family Tree"
           subheader={headerDesc}
         />
+        <div className="header">
+          <img src={mySvg} />
+        </div>
       </Container>
     );
   }
