@@ -93,9 +93,17 @@ class ArtifactPage extends Component {
               <Menu.Menu position="right">
                 <Menu.Item
                   as={Link}
-                  to="/artifacts/new"
+                  to={"/artifactpage/update/" + artifact.ArtifactID}
                   name="Update Artifact"
                   desc="Update artifact"
+                  // active={activeItem === "Register Artifact"}
+                  // onClick={this.handleItemClick}
+                />
+                <Menu.Item
+                  as={Link}
+                  to={"/artifactpage/delete/" + artifact.ArtifactID}
+                  name="Delete Artifact"
+                  desc="Delete artifact"
                   // active={activeItem === "Register Artifact"}
                   // onClick={this.handleItemClick}
                 />

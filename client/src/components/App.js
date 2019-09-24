@@ -43,8 +43,8 @@ const App = () => {
           <Route exact path="/artifactpage/:id" component={CommentSection} />
           <Route exact path="/familytree" component={FamilyTree} />
           <Route path="/artifacts/new" component={NewArtifact} />
-          <Route path="/artifacts/delete" component={DeleteArtifact} />
-          <Route path="/artifacts/update" component={UpdateArtifact} />
+          <Route path="/artifactpage/delete/:id" component={DeleteArtifact} />
+          <Route path="/artifactpage/update/:id" component={UpdateArtifact} />
           <Footer />
         </div>
       </BrowserRouter>
