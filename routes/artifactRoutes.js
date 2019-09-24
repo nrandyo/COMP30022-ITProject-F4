@@ -92,7 +92,7 @@ module.exports = app => {
     const month = req.body.Month;
     const year = Number(req.body.Year);
     const history = req.body.Description;
-    var type = req.body.Type;
+    const type = req.body.Type;
 
     if (typeof type === "undefined") {
       type = "physical";
@@ -119,5 +119,47 @@ module.exports = app => {
         }
       }
     );
+  });
+
+  //Delete Route for artifacts
+  app.delete("artifacts/delete", function(req,res) {
+    const id = req.body.id;
+    let sql = `DELETE FROM todos WHERE id = ?`;
+
+    db.query(sql, id, (error, results, fields) => {
+      if(error) {
+        return console.error(error.message);
+      } else {
+        console.log('Deleted Row(s):', results.affectedRows);
+      }
+    });
+  });
+
+  //Update route for artifacts
+  app.post("artifacts/update", function(req,res) {
+    const id = req.body.id;
+    const name = req.body.Name;
+    const geoTag = req.body.Geotag;
+    const day = req.body.Day;
+    const month = req.body.Month;
+    const year = Number(req.body.Year);
+    const history = req.body.Description;
+    const type = req.body.Type;
+
+    let sql = `UPDATE todos
+               SET Name = ?, Geotag = ?,
+                   DateAcquireYear = ?, DateAcquireMonth = ?,
+                   DateAcquireDay = ?, description = ?,
+                   CurrentOwner = ?, Type = ? WHERE id = ?`;
+
+    let toUpdate = [name, geoTag, day, month, year, history, type, id];
+
+    db.query(sql, toUpdate, (error, results, fields) => {
+      if(error) {
+        return console.error(error.message);
+      } else {
+        console.log('Deleted Row(s):', results.affectedRows);
+      }
+    });
   });
 };

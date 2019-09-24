@@ -4,6 +4,8 @@ import { BrowserRouter, Route } from "react-router-dom";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import NewArtifact from "./NewArtifact";
+import DeleteArtifact from "./DeleteArtifact";
+import UpdateArtifact from "./UpdateArtifact";
 import Artifact from "./Artifact";
 import Objects from "./Objects";
 import Photos from "./Photos";
@@ -37,6 +39,8 @@ const App = () => {
           <Route exact path="/artifactpage" component={ArtifactPage} />
           <Route exact path="/familytree" component={FamilyTree} />
           <Route path="/artifacts/new" component={NewArtifact} />
+          <Route path="/artifacts/delete" component={DeleteArtifact} />
+          <Route path="/artifacts/update" component={UpdateArtifact} />
           <Footer />
         </div>
       </BrowserRouter>
