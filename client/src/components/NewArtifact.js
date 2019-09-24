@@ -13,7 +13,7 @@ import { Button,
          Loader,
          List } from 'semantic-ui-react'
 
-// Constants for res.status
+//Http response status for create
 const RES_CREATED = 201;
 
 class NewArtifact extends Component {
@@ -37,6 +37,7 @@ class NewArtifact extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+// Handles submission for all form fields
 handleSubmit(event) {
   event.preventDefault();
   this.setState({ isLoading: true });
@@ -51,9 +52,10 @@ handleSubmit(event) {
       Description:this.state.Description
     };
 
+  //POST route via backend artifactsRoute
   fetch('/artifacts/new',
     { method: 'POST',
-      body: JSON.stringify(data), // data can be `string` or {object}!
+      body: JSON.stringify(data),
       headers: {
         'Content-Type': 'application/json'
       }
@@ -62,18 +64,19 @@ handleSubmit(event) {
   .then((res) => {
     if(res.status === RES_CREATED) {
 
-      // Handle loading/success screen and redirect to object page
+      //Handles loading/success screen and redirect to object page
       setTimeout(() => {
         this.setState({ isLoading: false});
         this.setState({ successMessage: true});
       }, 1000);
 
+      //Automatically redirects back to physical object page
       setTimeout(() => {
         this.props.history.push('/artifacts/objects');
       }, 3200);
     } else {
 
-      // Handles error display/failed POST request
+      //Handles error display message for failed POST request
       setTimeout(() => {
         this.setState({ isLoading: false });
         this.setState({ failureMessage: true });
@@ -97,6 +100,7 @@ handleSubmit(event) {
     })
   }
 
+  // This function is used to detect when keyboard enter key is pressed
   inputKeyDown = (e) => {
 
     // Controlled field when enter key is pressed for tags
@@ -112,8 +116,8 @@ handleSubmit(event) {
     console.log(this.state.tags);
   }
 
+  //This function is used to delete specific tags from an array
   removeTag = (i) => {
-    // Delete specific tags from an array
     const newTags = [ ...this.state.tags ];
     newTags.splice(i, 1);
     this.setState({ tags: newTags });
@@ -121,6 +125,7 @@ handleSubmit(event) {
 
 
   render() {
+    //Some constants that are used in rendering state
     const { isLoading, successMessage, failureMessage, tags } = this.state;
 
     return (
@@ -184,19 +189,28 @@ handleSubmit(event) {
                 <Modal.Header>Add multiple tags</Modal.Header>
                   <Container textAlign='center'>
                     <Modal.Description textalign='center'>
-                      <input onKeyDown = {this.inputKeyDown} ref={c => { this.tagInput = c; }} />
+                      <input style={{ margin: 10, width:"85%", height:"30px", "font-size":"12pt",
+                       "border-radius":"4px" }} placeholder='Press "Enter" to keep adding'
+                       onKeyDown = {this.inputKeyDown} ref={c => { this.tagInput = c; }}
+                      />
                       { tags.map((tag, i) => (
-                        <List key={tag}>
-                          <Label>
-                          {tag}
-                          <Icon name='delete' onClick={() => { this.removeTag(i); }}/>
-                          </Label>
-                        </List>
+                        <Label style={{ marginBottom:5 }} key={tag} size='large'>
+                        {tag}
+                        <Icon name='delete' onClick={() => { this.removeTag(i); }}/>
+                        </Label>
                       ))}
                     </Modal.Description>
                   </Container>
               </Modal>
             </Form.Field>
+
+            <Label as='a' tag color='teal' size='large'>Added tags: </Label>
+            { tags.map((tag, i) => (
+              <Label style={{ marginBottom:5 }} key={tag} size='large'>
+              {tag}
+              <Icon name='delete' onClick={() => { this.removeTag(i); }}/>
+              </Label>
+            ))}
 
             {/*Modal and form to upload artifact image*/}
             <Form.Field>
