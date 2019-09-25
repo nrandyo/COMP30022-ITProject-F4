@@ -111,19 +111,24 @@ class ArtifactPage extends Component {
             </Menu>
             <Slider {...settings}>
               <div>
-                <Image centered src={require('../artifactImages/' + artifact.FilePath)} ordered />
+                <Image
+                  size="large"
+                  centered
+                  src={require("../artifactImages/" + artifact.FilePath)}
+                  ordered
+                />
               </div>
               <div>
-                <Image centered src={LeonSterling} bordered />
+                <Image size="large" centered src={LeonSterling} bordered />
               </div>
               <div>
-                <Image centered src={LeonSterling} bordered />
+                <Image size="large" centered src={LeonSterling} bordered />
               </div>
               <div>
-                <Image centered src={LeonSterling} bordered />
+                <Image size="large" centered src={LeonSterling} bordered />
               </div>
               <div>
-                <Image centered src={LeonSterling} bordered />
+                <Image size="large" centered src={LeonSterling} bordered />
               </div>
               <div>
                 <h3>6</h3>
