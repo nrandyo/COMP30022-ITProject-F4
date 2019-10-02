@@ -3,7 +3,7 @@ var axios = require("axios");
 
 module.exports = app => {
   app.get("/api/artifacts/all", (req, res) => {
-    db.query("SELECT * FROM artifact INNER JOIN artifactimage ON artifactimage.filepath!='' AND artifact.artifactid = artifactimage.artifactid", (err, rows, fields) => {
+    db.query("SELECT * FROM Artifact INNER JOIN ArtifactImage ON ArtifactImage.FilePath!='' AND Artifact.ArtifactID = ArtifactImage.Artifact_ArtifactID", (err, rows, fields) => {
       if (!err) {
         res.json(rows);
       } else {
@@ -27,7 +27,7 @@ module.exports = app => {
 
   app.get("/api/artifacts/physical", (req, res) => {
     db.query(
-      "SELECT * FROM artifact INNER JOIN artifactimage ON artifactimage.filepath!='' AND artifact.artifactid = artifactimage.artifactid AND Type='physical'",
+      "SELECT * FROM Artifact INNER JOIN ArtifactImage ON ArtifactImage.FilePath!='' AND Artifact.ArtifactID = ArtifactImage.Artifact_ArtifactID AND Type='physical'",
       (err, rows, fields) => {
         if (!err) {
           res.json(rows);
@@ -53,7 +53,7 @@ module.exports = app => {
 
   app.get("/api/artifacts/:artifactID", (req, res) => {
     db.query(
-      ("SELECT * FROM artifact INNER JOIN artifactimage  ON artifactimage.filepath!='' AND artifact.artifactid = artifactimage.artifactid AND artifact.artifactid=" + req.params.artifactID),
+      ("SELECT * FROM Artifact INNER JOIN ArtifactImage  ON ArtifactImage.FilePath!='' AND Artifact.ArtifactId = ArtifactImage.Artifact_ArtifactID AND Artifact.ArtifactID=" + req.params.artifactID),
       (err, rows, fields) => {
         if (!err) {
           res.json(rows);
@@ -66,7 +66,7 @@ module.exports = app => {
 
   app.get("/api/newartifactid", (req, res) => {
     db.query(
-      "select max(artifactID) as maximum from artifact",
+      "select max(ArtifactID) as maximum from Artifact",
       (err, rows, fields) => {
         if (!err) {
           res.send(rows);
@@ -110,17 +110,13 @@ module.exports = app => {
     if (typeof type === "undefined") {
       type = "physical";
     }
-
-    console.log(type);
-
-    var artifactID = newArtifactID();
     var currOwn = 1;
 
     db.query(
-      `INSERT INTO Artifact SET ArtifactID = ?, Name = ?, Geotag = ?,
+      `INSERT INTO Artifact SET Name = ?, Geotag = ?,
           DateAcquireYear = ?, DateAcquireMonth = ?, DateAcquireDay = ?,
           description = ?, CurrentOwner = ?, Type = ?`,
-      [artifactID, name, geoTag, year, month, day, history, currOwn, type],
+      [name, geoTag, year, month, day, history, currOwn, type],
       function(err, result) {
         if (!err) {
           console.log("Added successfully");
