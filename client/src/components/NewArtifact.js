@@ -43,12 +43,13 @@ handleSubmit(event) {
 
   var data =
     {
-      Name:this.state.Name,
-      GeoTag:this.state.GeoTag,
-      Day:this.state.Day,
-      Month:this.state.Month,
-      Year:this.state.Year,
-      Description:this.state.Description
+      Name: this.state.Name,
+      GeoTag: this.state.GeoTag,
+      Day: this.state.Day,
+      Month: this.state.Month,
+      Year: this.state.Year,
+      Description: this.state.Description,
+      Tags: this.state.tags
     };
 
   //POST route via backend artifactsRoute
@@ -189,8 +190,8 @@ handleSubmit(event) {
                   <Container textAlign='center'>
                     <Modal.Description textalign='center'>
                       <input style={{ margin: 10, width:"85%", height:"30px", "font-size":"12pt",
-                       "border-radius":"4px" }} placeholder='Press "Enter" to keep adding'
-                       onKeyDown = {this.inputKeyDown} ref={c => { this.tagInput = c; }}
+                       "border-radius":"4px" }} placeholder = 'Press "Enter" key to keep adding'
+                       onKeyDown = {this.inputKeyDown} ref = {c => { this.tagInput = c; }}
                       />
                       { tags.map((tag, i) => (
                         <Label style={{ marginBottom:5 }} key={tag} size='large'>

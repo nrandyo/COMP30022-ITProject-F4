@@ -100,23 +100,33 @@ module.exports = app => {
   //POST route for registration of new artifacts
   app.post("/artifacts/new", function(req, res) {
     const name = req.body.Name;
-    const geoTag = req.body.Geotag;
+    const geoTag = req.body.GeoTag;
     const day = req.body.Day;
     const month = req.body.Month;
     const year = Number(req.body.Year);
     const history = req.body.Description;
+    const tags = (req.body.Tags).toString();
     var type = req.body.Type;
 
     if (typeof type === "undefined") {
       type = "physical";
     }
-    var currOwn = 1;
+
+    const currOwn = 1;
+
+    // Acquire current data
+    const currentDate = new Date();
+    const yearAdded = currentDate.getFullYear();
+    const monthAdded = currentDate.getMonth() + 1;
+    const dayAdded = currentDate.getDate();
 
     db.query(
-      `INSERT INTO Artifact SET Name = ?, Geotag = ?,
+      `INSERT INTO Artifact SET Name = ?, Geotag = ?, Tags = ?,
+          DateAddedYear = ?, DateAddedMonth = ?, DateAddedDay = ?,
           DateAcquireYear = ?, DateAcquireMonth = ?, DateAcquireDay = ?,
           description = ?, CurrentOwner = ?, Type = ?`,
-      [name, geoTag, year, month, day, history, currOwn, type],
+      [name, geoTag, tags, yearAdded, monthAdded, dayAdded,
+       year, month, day, history, currOwn, type],
       function(err, result) {
         if (!err) {
           console.log("Added successfully");
