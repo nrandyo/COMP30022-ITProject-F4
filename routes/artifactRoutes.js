@@ -100,23 +100,33 @@ module.exports = app => {
   //POST route for registration of new artifacts
   app.post("/artifacts/new", function(req, res) {
     const name = req.body.Name;
-    const geoTag = req.body.Geotag;
+    const geoTag = req.body.GeoTag;
     const day = req.body.Day;
     const month = req.body.Month;
     const year = Number(req.body.Year);
     const history = req.body.Description;
+    const tags = (req.body.Tags).toString();
     var type = req.body.Type;
 
     if (typeof type === "undefined") {
       type = "physical";
     }
-    var currOwn = 1;
+
+    const currOwn = 1;
+
+    // Acquire current data
+    const currentDate = new Date();
+    const yearAdded = currentDate.getFullYear();
+    const monthAdded = currentDate.getMonth() + 1;
+    const dayAdded = currentDate.getDate();
 
     db.query(
-      `INSERT INTO Artifact SET Name = ?, Geotag = ?,
+      `INSERT INTO Artifact SET Name = ?, Geotag = ?, Tags = ?,
+          DateAddedYear = ?, DateAddedMonth = ?, DateAddedDay = ?,
           DateAcquireYear = ?, DateAcquireMonth = ?, DateAcquireDay = ?,
           description = ?, CurrentOwner = ?, Type = ?`,
-      [name, geoTag, year, month, day, history, currOwn, type],
+      [name, geoTag, tags, yearAdded, monthAdded, dayAdded,
+       year, month, day, history, currOwn, type],
       function(err, result) {
         if (!err) {
           console.log("Added successfully");
@@ -132,15 +142,15 @@ module.exports = app => {
   });
 
   //Delete Route for artifacts
-  app.delete("artifacts/delete", function(req,res) {
+  app.delete("/artifacts/delete", function(req,res) {
     const id = req.body.id;
-    let sql = `DELETE FROM todos WHERE id = ?`;
+    let sql = `DELETE FROM artifact WHERE ArtifactID = ?`;
 
-    db.query(sql, id, (error, results, fields) => {
-      if(error) {
-        return console.error(error.message);
-      } else {
-        console.log('Deleted Row(s):', results.affectedRows);
+    db.query(sql,[id], function (err, result) {
+      if (err){
+        res.send(err);
+      }else{res.send(200)
+      console.log("Number of records deleted: " + result.affectedRows);
       }
     });
   });

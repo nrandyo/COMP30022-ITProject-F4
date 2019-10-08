@@ -43,7 +43,7 @@ module.exports = app => {
         const artifactID = req.body.ArtifactID;
 
         db.query(`INSERT INTO ArtifactImage SET ArtifactImageID = ?, Image = ?, FilePath= ?,Caption = ?,
-        ArtifactID = ?`,
+        Artifact_ArtifactID = ?`,
           [imageID, '', path, caption, artifactID], function(err, result) {
             if (!err) {
               console.log("Added successfully");
