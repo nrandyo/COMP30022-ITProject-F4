@@ -20,6 +20,7 @@ import Homepage from "./Homepage";
 import ThemeTest from "./ThemeTest";
 import FamilyTree from "./FamilyTree";
 import CommentSection from "./CommentSection";
+import NewFamilyMember from "./NewFamilyMember";
 
 const App = () => {
   return (
@@ -45,6 +46,7 @@ const App = () => {
           <Route path="/artifacts/new" component={NewArtifact} />
           <Route path="/artifactpage/delete/:id" component={DeleteArtifact} />
           <Route path="/artifactpage/update/:id" component={UpdateArtifact} />
+          <Route path="/family/new" component={NewFamilyMember}/>
           <Footer />
         </div>
       </BrowserRouter>
