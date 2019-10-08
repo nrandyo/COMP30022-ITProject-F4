@@ -78,6 +78,19 @@ class ArtifactPage extends Component {
     });
   }
 
+  handleDelete = (artifactID) => {
+    console.log(artifactID);
+    console.log("Jimmy!")
+
+    axios.delete('/artifacts/delete', {data:{id:artifactID}})
+    // .then(function (response) {
+    //   console.log(response);
+    // })
+    // .catch(function (error) {
+    //   console.log(error);
+    // });
+  }
+
   render() {
     return (
       <Responsive>
@@ -101,9 +114,10 @@ class ArtifactPage extends Component {
                 />
                 <Menu.Item
                   as={Link}
-                  to={"/artifactpage/delete/" + artifact.ArtifactID}
+                  to={"/artifacts"}
                   name="Delete Artifact"
                   desc="Delete artifact"
+                  onClick={() => { this.handleDelete(artifact.ArtifactID)} }
                   // active={activeItem === "Register Artifact"}
                   // onClick={this.handleItemClick}
                 />

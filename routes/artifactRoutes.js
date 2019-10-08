@@ -132,15 +132,15 @@ module.exports = app => {
   });
 
   //Delete Route for artifacts
-  app.delete("artifacts/delete", function(req,res) {
+  app.delete("/artifacts/delete", function(req,res) {
     const id = req.body.id;
-    let sql = `DELETE FROM todos WHERE id = ?`;
+    let sql = `DELETE FROM artifact WHERE ArtifactID = ?`;
 
-    db.query(sql, id, (error, results, fields) => {
-      if(error) {
-        return console.error(error.message);
-      } else {
-        console.log('Deleted Row(s):', results.affectedRows);
+    db.query(sql,[id], function (err, result) {
+      if (err){
+        res.send(err);
+      }else{res.send(200)
+      console.log("Number of records deleted: " + result.affectedRows);
       }
     });
   });
