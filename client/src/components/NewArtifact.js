@@ -10,11 +10,10 @@ import { Button,
          Image,
          Label,
          Message,
-         Loader,
-         List } from 'semantic-ui-react'
+         Loader } from 'semantic-ui-react'
 
 //Http response status for create
-const RES_CREATED = 201;
+const HTTP_RES_POST = 201;
 
 class NewArtifact extends Component {
 
@@ -62,7 +61,7 @@ handleSubmit(event) {
     })
 
   .then((res) => {
-    if(res.status === RES_CREATED) {
+    if(res.status === HTTP_RES_POST) {
 
       //Handles loading/success screen and redirect to object page
       setTimeout(() => {

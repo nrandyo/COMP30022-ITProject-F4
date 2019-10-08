@@ -1,23 +1,88 @@
-import React, { Component, useState, useEffect } from "react";
-import {
-  Responsive,
-  Button,
-  Comment,
-  Form,
-  Header,
-  Container,
-  Divider,
-  Icon,
-  Input
-} from "semantic-ui-react";
+import React, { Component } from "react";
 import axios from 'axios';
-  
-export default class CommentSection extends Component {
-  // const ArtifactPage = ({ id }) => {
+import {
+        Responsive,
+        Button,
+        Comment,
+        Form,
+        Header,
+        Container,
+        Divider,
+        Icon,
+        Input,
+        Modal,
+        Message } from "semantic-ui-react";
 
-  state = {
-    comment: []
-  };
+//Http response status for create
+const HTTP_RES_POST = 201;
+
+class CommentSection extends Component {
+
+  constructor() {
+    super();
+
+    this.state = {
+      comment: [],
+      postComment: "",
+      author: "",
+      successMessage: false,
+      failureMessage: false
+    };
+
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  // Handles submission for all form fields
+  handleSubmit(event) {
+    event.preventDefault();
+
+    var data =
+      {
+        Comment: this.state.postComment,
+        Author: this.state.author,
+        ArtifactID: this.props.match.params.id
+      };
+
+    //POST route via backend artifactsRoute
+    fetch('/new/comment',
+      { method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+
+    .then((res) => {
+      if(res.status === HTTP_RES_POST) {
+        this.setState({ successMessage: true });
+
+        setTimeout(() => {
+          this.setState({ successMessage: false });
+          window.location.reload();
+        }, 1500);
+
+      } else {
+        this.setState({ failureMessage: true });
+
+        setTimeout(() => {
+          this.setState({ failureMessage: false });
+          window.location.reload();
+        }, 2000);
+      }
+    })
+
+    .catch((error) => {
+      console.log("Error:", error);
+    })
+  }
+
+  handleChange = (e) => {
+    // Constantly updates changes in user input
+    this.setState({
+      [e.target.name]: e.target.value
+    })
+  }
+
   componentDidMount() {
     const { id } = this.props.match.params;
 
@@ -28,9 +93,13 @@ export default class CommentSection extends Component {
   }
 
   render() {
+
+    //Some constants that are used in rendering state
+    const { successMessage, failureMessage } = this.state;
+
     return (
     <Responsive>
-     
+
       <Container text>
         <Divider horizontal>
           <Header as="h4">
@@ -51,19 +120,52 @@ export default class CommentSection extends Component {
             </Comment.Content>
           </Comment>))}
         </Comment.Group>
-  
-        <Form reply>
-          <Form.Field control={Input} label="Author" placeholder="Author" />
-          <Form.TextArea />
-          <Button
-            content="Add Comment"
-            labelPosition="left"
-            icon="edit"
-            primary
-          />
+
+        <Form onSubmit = {this.handleSubmit}>
+          <Form.Field>
+            <label> Author: </label>
+            <Input name='author' onChange = {this.handleChange} />
+          </Form.Field>
+
+          <Form.Field>
+            <label> Reply: </label>
+            <Form.TextArea name='postComment' onChange = {this.handleChange} />
+          </Form.Field>
+
+          <Container textAlign='center'>
+            <Button color='blue' type='submit'>Submit</Button>
+          </Container>
+
+          {/*To display success message to user*/}
+          <Modal open = {successMessage}>
+            <Container textAlign='center'>
+              <Message icon success>
+                <Icon name='checkmark'/>
+                  <Container textAlign='center'>
+                    <Message.Header>Your comment has been posted!</Message.Header>
+                  </Container>
+              </Message>
+            </Container>
+          </Modal>
+
+          {/*To display error/failure message to user*/}
+          <Modal open = {failureMessage}>
+            <Container textAlign='center'>
+              <Message icon negative>
+                <Icon name='checkmark'/>
+                <Message.Content>
+                  <Message.Header>An unexpected error has occured!</Message.Header>
+                    A problem has been encountered.
+                    <p>Please try again later ...... </p>
+                </Message.Content>
+              </Message>
+            </Container>
+          </Modal>
+
         </Form>
-      </Container>))}
+      </Container>
     </Responsive>
-  )
-    }
-  }
+  )}
+}
+
+export default CommentSection;
