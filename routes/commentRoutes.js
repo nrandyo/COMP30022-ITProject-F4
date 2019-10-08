@@ -4,7 +4,7 @@ var axios = require("axios");
 module.exports = app => {
   app.get("/api/comments/:artifactID", (req, res) => {
     db.query(
-      ("SELECT * FROM artifact INNER JOIN `comment` ON artifact.artifactid = `comment`.artifact_artifactid AND artifact.artifactid=" + req.params.artifactID),
+      ("SELECT * FROM Artifact INNER JOIN `Comment` ON Artifact.ArtifactID = `Comment`.ArtifactID AND Artifact.ArtifactID =" + req.params.artifactID),
       (err, rows, fields) => {
         if (!err) {
           res.json(rows);
@@ -37,14 +37,15 @@ module.exports = app => {
 
   //POST route for registration of new artifacts
   app.post("/new/comment", function(req, res) {
-    var commentID = newCommentID();
     const comment = req.body.Comment;
-    const artifactID = req.body.artifactID;
+    const author = req.body.Author;
+    const artifactID = req.body.ArtifactID;
+    console.log(artifactID);
     const datePosted = new Date().toISOString().slice(0, 19).replace('T', ' ');
 
     db.query(
-      `INSERT INTO Comment SET CommentID = ?, Comment = ?, Author = ?, DatePosted = ?, Artifact_ArtifactID = ?`,
-      [commentID, comment, 'Leon Sterling', datePosted, artifactID],
+      `INSERT INTO Comment SET Comment = ?, Author = ?, DatePosted = ?, ArtifactID = ?`,
+      [comment, author, datePosted, artifactID],
       function(err, result) {
         if (!err) {
           console.log("Added successfully");
