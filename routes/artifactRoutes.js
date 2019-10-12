@@ -129,9 +129,9 @@ module.exports = app => {
        year, month, day, history, currOwn, type],
       function(err, result) {
         if (!err) {
-          console.log("Added successfully");
+          console.log("Artifact added successfully");
           res.status(201).end("Success!");
-          return res;
+          return res.status(201);
         } else {
           console.log(err);
           res.sendStatus(404);

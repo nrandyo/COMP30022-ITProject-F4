@@ -1,5 +1,6 @@
-import React, {Component} from 'react'
-import { withRouter } from 'react-router'
+import React, {Component} from 'react';
+import { withRouter } from 'react-router';
+import axios from 'axios';
 import { Button,
          Form,
          Container,
@@ -10,7 +11,8 @@ import { Button,
          Image,
          Label,
          Message,
-         Loader } from 'semantic-ui-react'
+         Loader,
+         Segment } from 'semantic-ui-react';
 
 //Http response status for create
 const HTTP_RES_POST = 201;
@@ -30,68 +32,98 @@ class NewArtifact extends Component {
       isLoading: false,
       successMessage: false,
       failureMessage: false,
-      tags: []
+      tags: [],
+      file: null,
+      filename: '',
+      lastAdded: null
       };
 
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-// Handles submission for all form fields
-handleSubmit(event) {
-  event.preventDefault();
-  this.setState({ isLoading: true });
+  // Request to add artifacts to database
+  requestAddArtifact = data => {
+    // POST route via backend for artifacts
+    fetch('/artifacts/new',
+      { method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      .then((res) => {
+        //this.setState({ imageSite: res });
 
-  var data =
-    {
-      Name: this.state.Name,
-      GeoTag: this.state.GeoTag,
-      Day: this.state.Day,
-      Month: this.state.Month,
-      Year: this.state.Year,
-      Description: this.state.Description,
-      Tags: this.state.tags
-    };
+      })
+  }
 
-  //POST route via backend artifactsRoute
-  fetch('/artifacts/new',
-    { method: 'POST',
-      body: JSON.stringify(data),
-      headers: {
-        'Content-Type': 'application/json'
-      }
+  //Upload images to /artifactImages server
+  requestUploadServer = data => {
+    // POST route for image upload
+    axios.post('/upload/artifactimage', data, {
+      headers: { 'content-type': 'multipart/form-data' }
     })
+    .then((res) => {
+      //this.setState({ imageSite: res });
+      this.setState({ filename: res.data.filename });
+      console.log(this.state.filename);
+      console.log(res);
+    })
+  }
 
-  .then((res) => {
-    if(res.status === HTTP_RES_POST) {
+  // Request to add image to database
+  requestAddImage = data => {
 
-      //Handles loading/success screen and redirect to object page
-      setTimeout(() => {
-        this.setState({ isLoading: false});
-        this.setState({ successMessage: true});
-      }, 1000);
+    // POST route for adding image to database
+    fetch('/new/artifactImage',
+      { method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+  }
 
-      //Automatically redirects back to physical object page
-      setTimeout(() => {
-        this.props.history.push('/artifacts/objects');
-      }, 3200);
-    } else {
+  // Handles multiple submission for all form fields
+  async handleSubmit(event) {
+    event.preventDefault();
+    //this.setState({ isLoading: true });
 
-      //Handles error display message for failed POST request
-      setTimeout(() => {
-        this.setState({ isLoading: false });
-        this.setState({ failureMessage: true });
-      }, 1000);
+    // Data for artifact image
+    const imageData = new FormData();
+    imageData.append('file', this.state.file);
 
-      setTimeout(() => {
-        this.setState({ failureMessage: false });
-      }, 3500);
-    }
-  })
+    // Data for artifacts
+    var artifactData =
+      {
+        Name: this.state.Name,
+        GeoTag: this.state.GeoTag,
+        Day: this.state.Day,
+        Month: this.state.Month,
+        Year: this.state.Year,
+        Description: this.state.Description,
+        Tags: this.state.tags
+      };
 
-  .catch((error) => {
-    console.log("Error:", error);
-  })
-}
+      var addImageData = {
+        filename: this.state.filename
+      };
+
+      await this.requestAddArtifact(artifactData);
+      console.log("Site 1 success!");
+      await this.requestUploadServer(imageData);
+      console.log("Site 2 success!");
+      //await this.requestAddImage(addImageData);
+      //console.log("Site 3 success!");
+  }
+
+  handleImageChange = (e) => {
+    this.setState({
+      file: e.target.files[0],
+      loaded:0
+    })
+    console.log(e.target.files[0]);
+  }
 
   handleChange = (e) => {
     // Constantly updates changes in user input
@@ -214,31 +246,8 @@ handleSubmit(event) {
 
             {/*Modal and form to upload artifact image*/}
             <Form.Field>
-              <label> Click this to upload image to cloud:
-                {/* <Popup content=
-                'This field is optional.'trigger={
-                <Icon name='info circle' size ='large'/>}/> : */}
-              </label>
-              <Modal closeIcon trigger={<Button type='Button' icon='cloud upload'></Button>}>
-                <Modal.Header>Select an Image</Modal.Header>
-                <Modal.Content image>
-                  <Image wrapped size='medium'
-                  src='https://www.musicjunction.com.au/wp-content/uploads/2019/03/427DE39AADE447B5A30422DF725647A8_12073_2139x2001_c587b9fef86903b89a823353fa512cf0.jpg' />
-                  <Container textAlign='center'>
-                    <Modal.Description textalign='center'>
-                      <Header>This image will be uploaded to cloud</Header>
-                      <p>
-                      Please double check with the image selected on the left.
-                      If the selected image is correct, click on the button
-                      below to upload this image to cloud server.
-                      </p>
-                      <p>Is it okay to use this photo?</p>
-
-                      <Button color='blue' type='submit'>Upload</Button>
-                    </Modal.Description>
-                  </Container>
-                </Modal.Content>
-              </Modal>
+              <label> Click this to upload image to cloud: </label>
+              <Input type="file" name="file" onChange={this.handleImageChange}/>
             </Form.Field>
 
             {/*Loader for waiting HTTP post request response*/}
@@ -283,5 +292,26 @@ handleSubmit(event) {
     );
   }
 }
+{/*
+  <Modal closeIcon trigger={<Button type='Button' icon='cloud upload'></Button>}>
+    <Modal.Header>Select an Image</Modal.Header>
+    <Modal.Content image>
+      <Image wrapped size='medium'
+      src='https://www.musicjunction.com.au/wp-content/uploads/2019/03/427DE39AADE447B5A30422DF725647A8_12073_2139x2001_c587b9fef86903b89a823353fa512cf0.jpg' />
+      <Container textAlign='center'>
+        <Modal.Description textalign='center'>
+          <Header>This image will be uploaded to cloud</Header>
+          <p>
+          Please double check with the image selected on the left.
+          If the selected image is correct, click on the button
+          below to upload this image to cloud server.
+          </p>
+          <p>Is it okay to use this photo?</p>
 
+          <Button color='blue' type='submit'>Upload</Button>
+        </Modal.Description>
+      </Container>
+    </Modal.Content>
+  </Modal>
+  */}
 export default withRouter(NewArtifact);
