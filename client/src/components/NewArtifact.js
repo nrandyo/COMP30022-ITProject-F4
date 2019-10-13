@@ -35,7 +35,8 @@ class NewArtifact extends Component {
       tags: [],
       file: null,
       filename: '',
-      lastAdded: null
+      lastAdded: '',
+      addArtifactStatus: false
       };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -52,8 +53,24 @@ class NewArtifact extends Component {
         }
       })
       .then((res) => {
-        //this.setState({ imageSite: res });
+        if(res.status === HTTP_RES_POST) {
+          this.setState({ addArtifactStatus: true });
+        }
+      })
+  }
 
+  // Request foreign key for last added artifact
+  requestLastAddedArtifact = () => {
+    fetch('/artifact/lastAdded',
+      { method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      .then((res) => {
+        res.json().then((data) => {
+          this.setState({ lastAdded: data.lastAdded });
+        })
       })
   }
 
@@ -64,10 +81,9 @@ class NewArtifact extends Component {
       headers: { 'content-type': 'multipart/form-data' }
     })
     .then((res) => {
-      //this.setState({ imageSite: res });
+      console.log(res.data.filename);
       this.setState({ filename: res.data.filename });
       console.log(this.state.filename);
-      console.log(res);
     })
   }
 
@@ -82,19 +98,28 @@ class NewArtifact extends Component {
           'Content-Type': 'application/json'
         }
       })
+      .then((res) => {
+        if(res.status === HTTP_RES_POST) {
+          this.setState({ isLoading: false });
+          this.setState({ successMessage: true });
+          setTimeout(() => {
+            this.props.history.push('/artifacts/objects');
+          }, 2000);
+        }
+      })
   }
 
   // Handles multiple submission for all form fields
   async handleSubmit(event) {
     event.preventDefault();
-    //this.setState({ isLoading: true });
+    this.setState({ isLoading: true });
 
     // Data for artifact image
     const imageData = new FormData();
     imageData.append('file', this.state.file);
 
     // Data for artifacts
-    var artifactData =
+    const artifactData =
       {
         Name: this.state.Name,
         GeoTag: this.state.GeoTag,
@@ -105,16 +130,23 @@ class NewArtifact extends Component {
         Tags: this.state.tags
       };
 
-      var addImageData = {
-        filename: this.state.filename
-      };
+    let reqAddArtifact = await this.requestAddArtifact(artifactData);
+    let reqLastAdded = await this.requestLastAddedArtifact();
+    let reqUpload = await this.requestUploadServer(imageData);
 
-      await this.requestAddArtifact(artifactData);
-      console.log("Site 1 success!");
-      await this.requestUploadServer(imageData);
-      console.log("Site 2 success!");
-      //await this.requestAddImage(addImageData);
-      //console.log("Site 3 success!");
+    if(Promise.all([reqAddArtifact, reqLastAdded, reqUpload])) {
+      setTimeout(() => {
+        const addImageData =
+        {
+          filename: this.state.filename,
+          lastAdded: this.state.lastAdded
+        };
+        this.requestAddImage(addImageData);
+      }, 2500);
+    } else {
+      this.setState({ isLoading: false });
+      this.setState({ failureMessage: true });
+    }
   }
 
   handleImageChange = (e) => {
@@ -122,7 +154,6 @@ class NewArtifact extends Component {
       file: e.target.files[0],
       loaded:0
     })
-    console.log(e.target.files[0]);
   }
 
   handleChange = (e) => {
@@ -145,7 +176,6 @@ class NewArtifact extends Component {
       this.setState({ tags: [...this.state.tags, val]});
       this.tagInput.value = null;
     }
-    console.log(this.state.tags);
   }
 
   //This function is used to delete specific tags from an array
@@ -221,8 +251,8 @@ class NewArtifact extends Component {
                 <Modal.Header>Add multiple tags</Modal.Header>
                   <Container textAlign='center'>
                     <Modal.Description textalign='center'>
-                      <input style={{ margin: 10, width:"85%", height:"30px", "font-size":"12pt",
-                       "border-radius":"4px" }} placeholder = 'Press "Enter" key to keep adding'
+                      <input style={{ margin: 10, width:"85%", height:"30px", "fontSize":"12pt",
+                       "borderRadius":"4px" }} placeholder = 'Press "Enter" key to keep adding'
                        onKeyDown = {this.inputKeyDown} ref = {c => { this.tagInput = c; }}
                       />
                       { tags.map((tag, i) => (

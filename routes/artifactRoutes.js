@@ -97,6 +97,15 @@ module.exports = app => {
     }
   }
 
+  // GET Route for last added artifact ID
+  app.get("/artifact/lastAdded", function(req, res) {
+    db.query('SELECT max(ArtifactID) as lastAdded from Artifact',
+    (err, results, fields) => {
+      if(err) throw err
+      res.send(results[0]);
+    })
+  })
+
   //POST route for registration of new artifacts
   app.post("/artifacts/new", function(req, res) {
     const name = req.body.Name;

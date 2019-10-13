@@ -1,7 +1,5 @@
 var db = require('../db/db');
-var cors = require('cors');
 var multer  =  require('multer');
-var axios = require("axios");
 
 module.exports = app => {
 
@@ -43,10 +41,8 @@ module.exports = app => {
     app.post('/new/artifactImage', function(req, res) {
         const caption = '';
         const path = req.body.filename;
-        //const artifactID = newArtifactID();
-        //console.log("ID: " + artifactID);
+        const artifactID = req.body.lastAdded;
 
-        //console.log(artifactID);
         db.query(`INSERT INTO ArtifactImage SET Image = ?, FilePath= ?,Caption = ?,
         Artifact_ArtifactID = ?`,
           ['', path, caption, artifactID], function(err, result) {
@@ -54,8 +50,7 @@ module.exports = app => {
               console.log("Added ArtifactImage successfully");
               res.status(201).end("Success!");
             } else {
-              console.log(err);
-              res.sendStatus(404);
+              res.sendStatus(500);
             }
         });
     });
