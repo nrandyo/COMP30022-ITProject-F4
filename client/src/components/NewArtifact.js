@@ -36,7 +36,8 @@ class NewArtifact extends Component {
       file: null,
       filename: '',
       lastAdded: '',
-      addArtifactStatus: false
+      addArtifactStatus: false,
+      imagePreview: ''
       };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -117,6 +118,10 @@ class NewArtifact extends Component {
     // Data for artifact image
     const imageData = new FormData();
     imageData.append('file', this.state.file);
+    // for(var x = 0; x<this.state.file.length; x++) {
+    //   imageData.append('file', this.state.file[x]);
+    //   console.log(this.state.file[x]);
+    // }
 
     // Data for artifacts
     const artifactData =
@@ -152,7 +157,7 @@ class NewArtifact extends Component {
   handleImageChange = (e) => {
     this.setState({
       file: e.target.files[0],
-      loaded:0
+      imagePreview: URL.createObjectURL(e.target.files[0])
     })
   }
 
@@ -276,9 +281,16 @@ class NewArtifact extends Component {
 
             {/*Modal and form to upload artifact image*/}
             <Form.Field>
-              <label> Click this to upload image to cloud: </label>
-              <Input type="file" name="file" onChange={this.handleImageChange}/>
+              <label> Click this to select image: </label>
+              <input type="file" name="file" onChange={this.handleImageChange}/>
             </Form.Field>
+
+            <Segment textAlign='center'>
+              <label> Selected Image: </label>
+              <Image.Group size='medium'>
+                <Image src={this.state.imagePreview} />
+              </Image.Group>
+            </Segment>
 
             {/*Loader for waiting HTTP post request response*/}
             <Modal open = {isLoading}>
