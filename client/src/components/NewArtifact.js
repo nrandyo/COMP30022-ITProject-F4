@@ -33,13 +33,14 @@ class NewArtifact extends Component {
       successMessage: false,
       failureMessage: false,
       tags: [],
-      file: null,
-      filename: '',
+      file: [],
+      filename: [],
       lastAdded: '',
       addArtifactStatus: false,
-      imagePreview: ''
+      imagePreview: []
       };
 
+    this.handleImageChange = this.handleImageChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -82,9 +83,17 @@ class NewArtifact extends Component {
       headers: { 'content-type': 'multipart/form-data' }
     })
     .then((res) => {
-      console.log(res.data.filename);
-      this.setState({ filename: res.data.filename });
-      console.log(this.state.filename);
+      console.log("------------");
+      for(var x = 0; x<this.state.file.length; x++) {
+        var name = res.data[x].filename;
+        this.setState({
+          filename: [...this.state.filename, name],
+        })
+        console.log(this.state.filename[x]);
+      }
+      // console.log(res.data.filename);
+      // this.setState({ filename: res.data.filename });
+      // console.log(this.state.filename);
     })
   }
 
@@ -117,11 +126,11 @@ class NewArtifact extends Component {
 
     // Data for artifact image
     const imageData = new FormData();
-    imageData.append('file', this.state.file);
-    // for(var x = 0; x<this.state.file.length; x++) {
-    //   imageData.append('file', this.state.file[x]);
-    //   console.log(this.state.file[x]);
-    // }
+    // imageData.append('file', this.state.file);
+    for(var x = 0; x<this.state.file.length; x++) {
+      imageData.append('file', this.state.file[x]);
+      console.log(this.state.file[x]);
+    }
 
     // Data for artifacts
     const artifactData =
@@ -141,12 +150,14 @@ class NewArtifact extends Component {
 
     if(Promise.all([reqAddArtifact, reqLastAdded, reqUpload])) {
       setTimeout(() => {
-        const addImageData =
-        {
-          filename: this.state.filename,
-          lastAdded: this.state.lastAdded
-        };
-        this.requestAddImage(addImageData);
+        for(var x = 0; x<this.state.file.length; x++) {
+          const addImageData =
+          {
+            filename: this.state.filename[x],
+            lastAdded: this.state.lastAdded
+          };
+          this.requestAddImage(addImageData);
+        }
       }, 2500);
     } else {
       this.setState({ isLoading: false });
@@ -155,10 +166,24 @@ class NewArtifact extends Component {
   }
 
   handleImageChange = (e) => {
-    this.setState({
-      file: e.target.files[0],
-      imagePreview: URL.createObjectURL(e.target.files[0])
+    e.preventDefault();
+
+    let listFiles = Array.from(e.target.files);
+
+    listFiles.forEach((img) => {
+      let reader = new FileReader();
+      reader.onloadend = () => {
+        this.setState({
+          file: [...this.state.file, img],
+          imagePreview: [...this.state.imagePreview, reader.result]
+        })
+      }
+      reader.readAsDataURL(img);
     })
+    // this.setState({
+    //   file: e.target.files,
+    //   imagePreview: URL.createObjectURL(e.target.files)
+    // })
   }
 
   handleChange = (e) => {
@@ -282,13 +307,18 @@ class NewArtifact extends Component {
             {/*Modal and form to upload artifact image*/}
             <Form.Field>
               <label> Click this to select image: </label>
-              <input type="file" name="file" onChange={this.handleImageChange}/>
+              <input type="file" name="file" multiple onChange={this.handleImageChange}/>
             </Form.Field>
 
-            <Segment textAlign='center'>
-              <label> Selected Image: </label>
+            <Segment>
+              <Header> Image Preview: </Header>
               <Image.Group size='medium'>
-                <Image src={this.state.imagePreview} />
+              {this.state.imagePreview.map((preview) => {
+                return (
+                  <Image key={preview} alt='previewImg' src={preview} />
+
+                )
+              })}
               </Image.Group>
             </Segment>
 

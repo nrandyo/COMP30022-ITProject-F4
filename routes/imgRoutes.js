@@ -10,14 +10,14 @@ module.exports = app => {
       }
     })
 
-    var upload = multer({ storage: storage }).single('file')
+    var upload = multer({ storage: storage }).array('file')
 
     app.post('/upload/artifactimage', function(req, res) {
       upload(req, res, function(err) {
-        console.log("Request --", req.file);
+        console.log("Request --", req.files);
         if(!err) {
           console.log("Image uploaded to SERVER successfully");
-          return res.status(200).send(req.file);
+          return res.status(200).send(req.files);
         } else {
           res.status(500).end();
         }
