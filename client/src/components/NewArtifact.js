@@ -12,7 +12,8 @@ import { Button,
          Label,
          Message,
          Loader,
-         Segment } from 'semantic-ui-react';
+         Segment,
+         Transition } from 'semantic-ui-react';
 
 //Http response status for create
 const HTTP_RES_POST = 201;
@@ -37,7 +38,8 @@ class NewArtifact extends Component {
       filename: [],
       lastAdded: '',
       addArtifactStatus: false,
-      imagePreview: []
+      imagePreview: [],
+      previewOn: false
       };
 
     this.handleImageChange = this.handleImageChange.bind(this);
@@ -180,6 +182,7 @@ class NewArtifact extends Component {
       }
       reader.readAsDataURL(img);
     })
+    this.setState({ previewOn: true });
     // this.setState({
     //   file: e.target.files,
     //   imagePreview: URL.createObjectURL(e.target.files)
@@ -250,11 +253,11 @@ class NewArtifact extends Component {
 
             {/*Form for dates*/}
             <Form.Group widths='equal'>
-              <Form.Input fluid label='Day' placeholder='Day'
+              <Form.Input fluid label='Day' placeholder='DD'
                name='Day' onChange={this.handleChange}/>
-              <Form.Input fluid label='Month' placeholder='Month'
+              <Form.Input fluid label='Month' placeholder='MM'
                name='Month' onChange={this.handleChange}/>
-              <Form.Input fluid label='Year' placeholder='Year'
+              <Form.Input fluid label='Year' placeholder='YYYY'
                name='Year' onChange={this.handleChange}/>
             </Form.Group>
 
@@ -273,9 +276,6 @@ class NewArtifact extends Component {
             {/*Modal and form for adding multiple tags*/}
             <Form.Field>
               <label> Click this to add tags:
-                {/* <Popup content=
-                'This field is optional.'trigger={
-                <Icon name='info circle' size ='large'/>}/> : */}
               </label>
               <Modal size='mini' closeIcon trigger={<Button type='Button' icon='tags'></Button>}>
                 <Modal.Header>Add multiple tags</Modal.Header>
@@ -304,23 +304,28 @@ class NewArtifact extends Component {
               </Label>
             ))}
 
-            {/*Modal and form to upload artifact image*/}
-            <Form.Field>
-              <label> Click this to select image: </label>
-              <input type="file" name="file" multiple onChange={this.handleImageChange}/>
-            </Form.Field>
-
+            {/* Field to select multiple images */}
             <Segment>
-              <Header> Image Preview: </Header>
-              <Image.Group size='medium'>
-              {this.state.imagePreview.map((preview) => {
-                return (
-                  <Image key={preview} alt='previewImg' src={preview} />
-
-                )
-              })}
-              </Image.Group>
+              <Form.Field>
+                <Input type="file" name="file"
+                 multiple onChange = {this.handleImageChange}
+                 label='Select Images:'/>
+              </Form.Field>
             </Segment>
+
+            <Transition visible={this.state.previewOn} animation='scale' duration={500}>
+              <Segment>
+                <Header> - Preview - </Header>
+                <Image.Group size='small'>
+                {this.state.imagePreview.map((preview) => {
+                  return (
+                    <Image key={preview} alt='previewImg' src={preview} />
+
+                  )
+                })}
+                </Image.Group>
+              </Segment>
+            </Transition>
 
             {/*Loader for waiting HTTP post request response*/}
             <Modal open = {isLoading}>
@@ -364,26 +369,5 @@ class NewArtifact extends Component {
     );
   }
 }
-{/*
-  <Modal closeIcon trigger={<Button type='Button' icon='cloud upload'></Button>}>
-    <Modal.Header>Select an Image</Modal.Header>
-    <Modal.Content image>
-      <Image wrapped size='medium'
-      src='https://www.musicjunction.com.au/wp-content/uploads/2019/03/427DE39AADE447B5A30422DF725647A8_12073_2139x2001_c587b9fef86903b89a823353fa512cf0.jpg' />
-      <Container textAlign='center'>
-        <Modal.Description textalign='center'>
-          <Header>This image will be uploaded to cloud</Header>
-          <p>
-          Please double check with the image selected on the left.
-          If the selected image is correct, click on the button
-          below to upload this image to cloud server.
-          </p>
-          <p>Is it okay to use this photo?</p>
 
-          <Button color='blue' type='submit'>Upload</Button>
-        </Modal.Description>
-      </Container>
-    </Modal.Content>
-  </Modal>
-  */}
 export default withRouter(NewArtifact);

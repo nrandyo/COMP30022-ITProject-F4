@@ -24,19 +24,6 @@ module.exports = app => {
       })
     })
 
-    app.get("/api/lastAddedArtifact", (req, res) => {
-      db.query(
-        "select max(ArtifactID) as maximum from Artifact",
-        (err, rows, fields) => {
-          if (!err) {
-            res.send(JSON.stringify(rows));
-          } else {
-            console.log(err);
-          }
-        }
-      );
-    });
-
     // POST route to add Artifact Image to database
     app.post('/new/artifactImage', function(req, res) {
         const caption = '';
