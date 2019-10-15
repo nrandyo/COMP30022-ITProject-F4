@@ -3,7 +3,7 @@ var axios = require("axios");
 
 module.exports = app => {
   app.get("/api/artifacts/all", (req, res) => {
-    db.query("SELECT * FROM Artifact INNER JOIN ArtifactImage ON ArtifactImage.FilePath!='' AND Artifact.ArtifactID = ArtifactImage.Artifact_ArtifactID", (err, rows, fields) => {
+    db.query("SELECT * FROM Artifact INNER JOIN ArtifactImage ON Artifact.ArtifactID = ArtifactImage.Artifact_ArtifactID", (err, rows, fields) => {
       if (!err) {
         res.json(rows);
       } else {
