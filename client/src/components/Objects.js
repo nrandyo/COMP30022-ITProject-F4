@@ -84,6 +84,23 @@ const Objects = () => {
     fetchItems();
   }, []);
 
+  const sort_by = (field, reverse, primer) => {
+
+    const key = primer ?
+      function(x) {
+        return primer(x[field])
+      } :
+      function(x) {
+        return x[field]
+      };
+  
+    reverse = !reverse ? 1 : -1;
+  
+    return function(a, b) {
+      return a = key(a), b = key(b), reverse * ((a > b) - (b > a));
+    }
+  }  
+
   // Get current artifacts
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -99,9 +116,7 @@ const Objects = () => {
   // const { physicalObjects } = this.state;
   return (
     <Container>
-      <ArtifactNav />
-      <ArtifactItem items={currentItems} loading={loading} />
-
+      <ArtifactItem items={currentItems.sort(sort_by('Name', true, (a) =>  a.toUpperCase()))} loading={loading} />
       <ArtifactPagination
         itemsPerPage={itemsPerPage}
         totalItems={items.length}

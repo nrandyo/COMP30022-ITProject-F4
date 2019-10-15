@@ -44,7 +44,7 @@ const ArtifactItem = ({ items, loading }) => {
                 <Item.Meta>
                   <span className="cinema">{item.DateAcquireYear}</span>
                 </Item.Meta>
-                <Item.Description>{item.description}</Item.Description>
+                <Item.Description>{item.Description}</Item.Description>
                 <Item.Extra>
                   <Button as={Link} to={'/artifactpage/' + item.ArtifactID} primary floated="right">
                     Additional Info

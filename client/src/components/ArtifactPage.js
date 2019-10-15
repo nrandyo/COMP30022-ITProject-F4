@@ -77,6 +77,11 @@ class ArtifactPage extends Component {
       this.setState(() => ({ artifact }));
     });
   }
+  
+  formatDate = (date) => {
+    var d = new Date(date).toDateString();
+    return d;
+   }
 
   handleDelete = (artifactID) => {
     console.log(artifactID);
