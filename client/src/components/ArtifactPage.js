@@ -18,7 +18,8 @@ import {
   Segment,
   Button,
   Icon,
-  Table
+  Table,
+  Confirm
 } from "semantic-ui-react";
 
 function SampleNextArrow(props) {
@@ -77,24 +78,19 @@ class ArtifactPage extends Component {
       this.setState(() => ({ artifact }));
     });
   }
-  
-  formatDate = (date) => {
-    var d = new Date(date).toDateString();
-    return d;
-   }
 
-  handleDelete = (artifactID) => {
+  handleDelete = artifactID => {
     console.log(artifactID);
-    console.log("Jimmy!")
+    console.log("Jimmy!");
 
-    axios.delete('/artifacts/delete', {data:{id:artifactID}})
+    axios.delete("/artifacts/delete", { data: { id: artifactID } });
     // .then(function (response) {
     //   console.log(response);
     // })
     // .catch(function (error) {
     //   console.log(error);
     // });
-  }
+  };
 
   render() {
     return (
@@ -122,7 +118,9 @@ class ArtifactPage extends Component {
                   to={"/artifacts"}
                   name="Delete Artifact"
                   desc="Delete artifact"
-                  onClick={() => { this.handleDelete(artifact.ArtifactID)} }
+                  onClick={() => {
+                    this.handleDelete(artifact.ArtifactID);
+                  }}
                   // active={activeItem === "Register Artifact"}
                   // onClick={this.handleItemClick}
                 />
@@ -161,7 +159,7 @@ class ArtifactPage extends Component {
                     Description
                   </Header>
                 </Divider>
-                <p style={{ fontSize: "1.2em" }}>{artifact.description}</p>
+                <p style={{ fontSize: "1.2em" }}>{artifact.Description}</p>
                 <Divider horizontal>
                   <Header as="h4">
                     <Icon name="info circle" />
