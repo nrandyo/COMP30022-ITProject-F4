@@ -12,6 +12,7 @@ import {
   Segment
 } from "semantic-ui-react";
 import { Link } from "react-router-dom";
+import ArtifactNav from "./ArtifactNav";
 import ArtifactItem from "./ArtifactItem";
 import ArtifactPagination from "./ArtifactPagination";
 import axios from "axios";
@@ -98,7 +99,9 @@ const Objects = () => {
   // const { physicalObjects } = this.state;
   return (
     <Container>
+      <ArtifactNav />
       <ArtifactItem items={currentItems} loading={loading} />
+
       <ArtifactPagination
         itemsPerPage={itemsPerPage}
         totalItems={items.length}
