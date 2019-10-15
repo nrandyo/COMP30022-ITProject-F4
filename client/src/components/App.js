@@ -24,7 +24,6 @@ import NewFamilyMember from "./NewFamilyMember";
 import Member from "./Member";
 import MemberArtifacts from "./MemberArtifacts";
 
-
 const App = () => {
   return (
     <div>
@@ -51,7 +50,7 @@ const App = () => {
           <Route path="/artifacts/new" component={NewArtifact} />
           <Route path="/artifactpage/delete/:id" component={DeleteArtifact} />
           <Route path="/artifactpage/update/:id" component={UpdateArtifact} />
-          <Route path="/family/new" component={NewFamilyMember}/>
+          <Route path="/family/new" component={NewFamilyMember} />
           <Footer />
         </div>
       </BrowserRouter>
