@@ -1,3 +1,6 @@
+import _ from 'lodash'
+import PropTypes from 'prop-types'
+import axios from 'axios';
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import {
@@ -6,15 +9,68 @@ import {
   Menu,
   Input,
   Icon,
-  Dropdown
-} from "semantic-ui-react";
+  Dropdown,
+  Search,
+  Segment,
+  Label,
+  Grid } from "semantic-ui-react";
+
+const resultRenderer = ({ Name }) => <Label content={Name} />
+
+resultRenderer.propTypes = {
+  Name: PropTypes.string,
+  description: PropTypes.string,
+}
 
 class ArtifactNav extends Component {
-  state = { activeItem: "All", headerDesc: "List of All Artifacts" };
+  state = {
+    activeItem: "All",
+    headerDesc: "List of All Artifacts",
+    isLoading: false,
+    results: [],
+    value: '',
+    artifacts: null
+   };
+
+  componentDidMount() {
+   axios.get("/api/artifacts/all").then(res => {
+     this.setState({ artifacts: res.data});
+   });
+  }
+
+  handleResultSelect = (e, {result}) => {
+    this.props.history.push('/artifactpage/' + result.ArtifactID);
+  }
+
+  handleSearchChange = (e, { value }) => {
+    this.setState({ isLoading: true, value })
+
+    setTimeout(() => {
+      if (this.state.value.length < 1)
+        return this.setState({
+          isLoading: false,
+          results: [],
+          value: ''
+      })
+
+      const re = new RegExp(_.escapeRegExp(this.state.value), 'i')
+      const isMatch = (result) => {
+
+        console.log(result.Name);
+        return re.test(result.Name);
+      }
+      this.setState({
+        isLoading: false,
+        results: _.filter(this.state.artifacts, isMatch),
+      })
+    }, 300)
+  }
+
   handleItemClick = (e, { name, desc }) =>
     this.setState({ activeItem: name, headerDesc: desc });
+
   render() {
-    const { activeItem, headerDesc } = this.state;
+    const { activeItem, headerDesc, isLoading, value, results, artifacts } = this.state;
     const options = [
       {
         key: "name",
@@ -92,7 +148,22 @@ class ArtifactNav extends Component {
                 defaultValue={options[0].value}
               />
             </Menu.Item>
-            <Input transparent icon="search" placeholder="Search..." />
+            <Grid>
+              <Grid.Column width={6}>
+                <Search
+                  loading={isLoading}
+                  onResultSelect={this.handleResultSelect}
+                  onSearchChange={_.debounce(this.handleSearchChange, 500, {
+                    leading: true,
+                  })}
+                  results={results}
+                  value={value}
+                  resultRenderer={resultRenderer}
+                  {...this.props}
+
+                />
+              </Grid.Column>
+            </Grid>
           </Menu.Menu>
         </Menu>
       </Container>
