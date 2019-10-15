@@ -34,7 +34,7 @@ const Artifact = () => {
 
   return (
     <Container>
-      <ArtifactNav />
+      {/* <ArtifactNav /> */}
       <ArtifactItem items={currentItems} loading={loading} />
       <ArtifactPagination
         itemsPerPage={itemsPerPage}
