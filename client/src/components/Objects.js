@@ -99,7 +99,6 @@ const Objects = () => {
   // const { physicalObjects } = this.state;
   return (
     <Container>
-      <ArtifactNav />
       <ArtifactItem items={currentItems} loading={loading} />
 
       <ArtifactPagination
