@@ -1,6 +1,13 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { Container, Header, Menu, Input, Icon } from "semantic-ui-react";
+import {
+  Container,
+  Header,
+  Menu,
+  Input,
+  Icon,
+  Dropdown
+} from "semantic-ui-react";
 
 class ArtifactNav extends Component {
   state = { activeItem: "All", headerDesc: "List of All Artifacts" };
@@ -8,6 +15,20 @@ class ArtifactNav extends Component {
     this.setState({ activeItem: name, headerDesc: desc });
   render() {
     const { activeItem, headerDesc } = this.state;
+    const options = [
+      {
+        key: "name",
+        text: "name",
+        value: "name",
+        content: "Name"
+      },
+      {
+        key: "date",
+        text: "date",
+        value: "date",
+        content: "Date"
+      }
+    ];
     // const { headerDesc } = this.state
     return (
       <Container style={{ minHeight: 90, padding: "1em 0em" }}>
@@ -62,6 +83,15 @@ class ArtifactNav extends Component {
             <Icon name="add" size="small" />
           </Menu.Item>
           <Menu.Menu position="right">
+            <Menu.Item>
+              Sorted by:
+              <Dropdown
+                inline
+                header="Sort by"
+                options={options}
+                defaultValue={options[0].value}
+              />
+            </Menu.Item>
             <Input transparent icon="search" placeholder="Search..." />
           </Menu.Menu>
         </Menu>
