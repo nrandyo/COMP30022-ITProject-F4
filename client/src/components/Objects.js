@@ -116,7 +116,8 @@ const Objects = () => {
   // const { physicalObjects } = this.state;
   return (
     <Container>
-      <ArtifactItem items={currentItems.sort(sort_by('Name', true, (a) =>  a.toUpperCase()))} loading={loading} />
+      <ArtifactItem items={currentItems} loading={loading} />
+
       <ArtifactPagination
         itemsPerPage={itemsPerPage}
         totalItems={items.length}
