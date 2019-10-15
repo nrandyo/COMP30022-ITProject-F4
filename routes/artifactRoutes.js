@@ -27,7 +27,7 @@ module.exports = app => {
 
   app.get("/api/artifacts/physical", (req, res) => {
     db.query(
-      "SELECT * FROM Artifact INNER JOIN ArtifactImage ON ArtifactImage.FilePath!='' AND Artifact.ArtifactID = ArtifactImage.Artifact_ArtifactID AND Type='physical'",
+      "SELECT * FROM Artifact INNER JOIN ArtifactImage ON Artifact.ArtifactID = ArtifactImage.Artifact_ArtifactID AND Type='physical'",
       (err, rows, fields) => {
         if (!err) {
           res.json(rows);
@@ -53,7 +53,7 @@ module.exports = app => {
 
   app.get("/api/artifacts/:artifactID", (req, res) => {
     db.query(
-      ("SELECT * FROM Artifact INNER JOIN ArtifactImage  ON ArtifactImage.FilePath!='' AND Artifact.ArtifactId = ArtifactImage.Artifact_ArtifactID AND Artifact.ArtifactID=" + req.params.artifactID),
+      ("SELECT * FROM Artifact INNER JOIN ArtifactImage  ON Artifact.ArtifactId = ArtifactImage.Artifact_ArtifactID AND Artifact.ArtifactID=" + req.params.artifactID),
       (err, rows, fields) => {
         if (!err) {
           res.json(rows);
