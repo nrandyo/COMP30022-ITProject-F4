@@ -44,14 +44,15 @@ class NewFamilyMember extends React.Component {
         });
     }
 
-    handleChange2 = (e, result) => {
+    handleChangeSelect = (e, result) => {
+        // Constantly updates changes in user input on selectors
         const { name, value } = result;
         this.setState({
             [name]: value
         });
     };
 
-
+    //Handles submission of the form
     handleSubmit(event) {
         event.preventDefault();
         this.setState({ isLoading: true });
@@ -71,6 +72,7 @@ class NewFamilyMember extends React.Component {
             AccuracyDOD: this.state.AccuracyDOD
         };
 
+        // POST route via backend for family members
         fetch('/familymember/new',
             { method: 'POST',
                 body: JSON.stringify(data),
@@ -82,13 +84,13 @@ class NewFamilyMember extends React.Component {
         .then((res) => {
                 if(res.status === HTTP_RES_POST) {
 
-                    //Handles loading/success screen and redirect to object page
+                    //Handles loading/success screen and redirect to home page
                     setTimeout(() => {
                         this.setState({ isLoading: false});
                         this.setState({ successMessage: true});
                     }, 1000);
 
-                    //Automatically redirects back to main page
+                    //Automatically redirects back to home page
                     setTimeout(() => {
                         this.props.history.push('/');
                     }, 3200);
@@ -121,6 +123,8 @@ class NewFamilyMember extends React.Component {
                 <Container style={{paddingLeft: "17vw"}}>
                     <Form onSubmit={this.handleSubmit} style={{maxWidth: "40vw"}}>
                         <Form.Group widths='equal'>
+
+                            {/*Input for name*/}
                             <Form.Field>
                                 <label>First Name</label>
                                 <input name="FirstName" onChange={this.handleChange} placeholder='First Name'/>
@@ -130,24 +134,25 @@ class NewFamilyMember extends React.Component {
                                 <input name="LastName" onChange={this.handleChange} placeholder='Last Name'/>
                             </Form.Field>
                         </Form.Group>
-
                         <Form.Field>
                             <label>Maiden Name (optional)</label>
                             <input name="MaidenName" onChange={this.handleChange} placeholder='Maiden Name'/>
                         </Form.Field>
 
+                        {/*Dropdown for gender*/}
                         <Form.Dropdown
                             placeholder="Gender"
                             name="Gender"
                             label="Gender"
                             fluid
                             selection
-                            onChange={this.handleChange2}
+                            onChange={this.handleChangeSelect}
                             options={options}
                             value={this.state.Gender}
                             style={{maxWidth: "10vw", minWidth: "100px"}}
                         />
 
+                        {/*Input for date of birth and selection of accuracy*/}
                         <Header as="h4">Date of Birth</Header>
                         <Form.Group widths='equal'>
                             <Form.Field>
@@ -163,8 +168,6 @@ class NewFamilyMember extends React.Component {
                                 <input name="DOBYear" onChange={this.handleChange} placeholder='YYYY' maxLength={4}/>
                             </Form.Field>
                         </Form.Group>
-
-
                         <Form.Field>
                             <Checkbox
                                 radio
@@ -172,7 +175,7 @@ class NewFamilyMember extends React.Component {
                                 name='AccuracyDOB'
                                 value= "documented"
                                 checked={this.state.AccuracyDOB === "documented"}
-                                onChange={this.handleChange2}
+                                onChange={this.handleChangeSelect}
                             />
                         </Form.Field>
                         <Form.Field>
@@ -182,7 +185,7 @@ class NewFamilyMember extends React.Component {
                                 name='AccuracyDOB'
                                 value= "accurate"
                                 checked={this.state.AccuracyDOB === "accurate"}
-                                onChange={this.handleChange2}
+                                onChange={this.handleChangeSelect}
                             />
                         </Form.Field>
                         <Form.Field>
@@ -192,10 +195,11 @@ class NewFamilyMember extends React.Component {
                                 name='AccuracyDOB'
                                 value= "likely"
                                 checked={this.state.AccuracyDOB === "likely"}
-                                onChange={this.handleChange2}
+                                onChange={this.handleChangeSelect}
                             />
                         </Form.Field>
 
+                        {/*Input for date of death and selection of accuracy*/}
                         <Header as="h4">Date of Death</Header>
                         <Form.Group widths='equal'>
                             <Form.Field>
@@ -211,7 +215,6 @@ class NewFamilyMember extends React.Component {
                                 <input name="DODYear" onChange={this.handleChange} placeholder='YYYY' maxLength={4}/>
                             </Form.Field>
                         </Form.Group>
-
                         <Form.Field>
                             <Checkbox
                                 radio
@@ -219,7 +222,7 @@ class NewFamilyMember extends React.Component {
                                 name='AccuracyDOD'
                                 value= "documented"
                                 checked={this.state.AccuracyDOD === "documented"}
-                                onChange={this.handleChange2}
+                                onChange={this.handleChangeSelect}
                             />
                         </Form.Field>
                         <Form.Field>
@@ -229,7 +232,7 @@ class NewFamilyMember extends React.Component {
                                 name='AccuracyDOD'
                                 value= "accurate"
                                 checked={this.state.AccuracyDOD === "accurate"}
-                                onChange={this.handleChange2}
+                                onChange={this.handleChangeSelect}
                             />
                         </Form.Field>
                         <Form.Field>
@@ -239,16 +242,16 @@ class NewFamilyMember extends React.Component {
                                 name='AccuracyDOD'
                                 value= "likely"
                                 checked={this.state.AccuracyDOD === "likely"}
-                                onChange={this.handleChange2}
+                                onChange={this.handleChangeSelect}
                             />
                         </Form.Field>
 
                         {/*Loader for waiting HTTP post request response*/}
                         <Modal open = {isLoading}>
-                            <Loader intermediate='true' size='huge'>Uploading Artifact</Loader>
+                            <Loader intermediate='true' size='huge'>Uploading Family Member</Loader>
                         </Modal>
 
-                        {/*Message to show successfull registration of artifact*/}
+                        {/*Message to show successfull registration of family member*/}
                         <Modal open = {successMessage}>
                             <Container textAlign='center'>
                                 <Message icon success>
@@ -256,7 +259,7 @@ class NewFamilyMember extends React.Component {
                                     <Message.Content>
                                         <Message.Header>Success!</Message.Header>
                                         Family member has been successfully registered into our database.
-                                        <p>Redirecting you to physical artifacts page ...... </p>
+                                        <p>Redirecting you to home page ...... </p>
                                     </Message.Content>
                                 </Message>
                             </Container>
@@ -275,8 +278,9 @@ class NewFamilyMember extends React.Component {
                                 </Message>
                             </Container>
                         </Modal>
-
                         <br/>
+
+                        {/*Final button for all form submission*/}
                         <Container textAlign="center">
                             <Button color='blue' type='submit'>Submit</Button>
                         </Container>
