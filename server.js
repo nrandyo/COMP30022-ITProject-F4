@@ -13,6 +13,7 @@ require("./routes/authRoutes")(app);
 require("./routes/artifactRoutes")(app);
 require("./routes/imgRoutes")(app);
 require("./routes/commentRoutes")(app);
+require("./routes/familyRoutes")(app);
 
 app.get("/members", (req, res) => {
   db.query("SELECT * FROM user", (err, rows, fields) => {

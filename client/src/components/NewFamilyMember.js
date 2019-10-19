@@ -1,83 +1,280 @@
-import React from "react";
-import {Container, Header, Form, Button} from "semantic-ui-react";
+import React, {Component} from "react";
+import { withRouter } from 'react-router'
+import {Container, Header, Form, Button, Modal, Loader, Icon, Message, Checkbox} from "semantic-ui-react";
 
 const options = [
-    { key: 'm', text: 'Male', value: 'male' },
-    { key: 'f', text: 'Female', value: 'female' },
-    { key: 'o', text: 'Other', value: 'other' },
-]
+    {text: 'Male', value: 'm' },
+    {text: 'Female', value: 'f' },
+];
+
+//Http response status for create
+const HTTP_RES_POST = 201;
 
 class NewFamilyMember extends React.Component {
 
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            FirstName: '',
+            LastName: '',
+            MaidenName: '',
+            Gender: 'm',
+            DOBDay: 0,
+            DOBMonth: 0,
+            DOBYear: 0,
+            AccuracyDOB: 'documented',
+            DODDay: 0,
+            DODMonth: 0,
+            DODYear: 0,
+            AccuracyDOD: 'documented',
+            isLoading: false,
+            successMessage: false,
+            failureMessage: false,
+        };
+
+
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    handleChange = (e) => {
+        // Constantly updates changes in user input
+        this.setState({
+            [e.target.name]: e.target.value
+        });
+    }
+
+    handleChange2 = (e, result) => {
+        const { name, value } = result;
+        this.setState({
+            [name]: value
+        });
+    };
+
+
+    handleSubmit(event) {
+        event.preventDefault();
+        this.setState({ isLoading: true });
+
+        var data = {
+            FirstName: this.state.FirstName,
+            LastName: this.state.LastName,
+            MaidenName: this.state.MaidenName,
+            Gender: this.state.Gender,
+            DOBDay: this.state.DOBDay,
+            DOBMonth: this.state.DOBMonth,
+            DOBYear: this.state.DOBYear,
+            AccuracyDOB: this.state.AccuracyDOB,
+            DODDay: this.state.DODDay,
+            DODMonth: this.state.DODMonth,
+            DODYear: this.state.DODYear,
+            AccuracyDOD: this.state.AccuracyDOD
+        };
+
+        fetch('/familymember/new',
+            { method: 'POST',
+                body: JSON.stringify(data),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+
+        .then((res) => {
+                if(res.status === HTTP_RES_POST) {
+
+                    //Handles loading/success screen and redirect to object page
+                    setTimeout(() => {
+                        this.setState({ isLoading: false});
+                        this.setState({ successMessage: true});
+                    }, 1000);
+
+                    //Automatically redirects back to main page
+                    setTimeout(() => {
+                        this.props.history.push('/');
+                    }, 3200);
+                } else {
+
+                    //Handles error display message for failed POST request
+                    setTimeout(() => {
+                        this.setState({ isLoading: false });
+                        this.setState({ failureMessage: true });
+                    }, 1000);
+
+                    setTimeout(() => {
+                        this.setState({ failureMessage: false });
+                    }, 3500);
+                }
+            })
+
+                .catch((error) => {
+                    console.log("Error:", error);
+                })
+
+        }
+
 
     render() {
+        const { isLoading, successMessage, failureMessage } = this.state;
         return (
             <Container>
                 <Header as="h2" textAlign="center">New family member</Header>
                 <Container style={{paddingLeft: "17vw"}}>
-                    <Form style={{maxWidth: "40vw"}}>
+                    <Form onSubmit={this.handleSubmit} style={{maxWidth: "40vw"}}>
                         <Form.Group widths='equal'>
                             <Form.Field>
                                 <label>First Name</label>
-                                <input placeholder='First Name'/>
+                                <input name="FirstName" onChange={this.handleChange} placeholder='First Name'/>
                             </Form.Field>
                             <Form.Field>
                                 <label>Last Name</label>
-                                <input placeholder='Last Name'/>
+                                <input name="LastName" onChange={this.handleChange} placeholder='Last Name'/>
                             </Form.Field>
                         </Form.Group>
 
-                        <Form.Select
+                        <Form.Field>
+                            <label>Maiden Name (optional)</label>
+                            <input name="MaidenName" onChange={this.handleChange} placeholder='Maiden Name'/>
+                        </Form.Field>
+
+                        <Form.Dropdown
+                            placeholder="Gender"
+                            name="Gender"
+                            label="Gender"
                             fluid
-                            label='Gender'
+                            selection
+                            onChange={this.handleChange2}
                             options={options}
-                            placeholder='Gender'
+                            value={this.state.Gender}
                             style={{maxWidth: "10vw", minWidth: "100px"}}
                         />
+
                         <Header as="h4">Date of Birth</Header>
                         <Form.Group widths='equal'>
                             <Form.Field>
                                 <label>Day</label>
-                                <input placeholder='Day' maxLength={2}/>
+                                <input name="DOBDay" onChange={this.handleChange} placeholder='DD' maxLength={2}/>
                             </Form.Field>
                             <Form.Field>
                                 <label>Month</label>
-                                <input placeholder='Month' maxLength={2}/>
+                                <input name="DOBMonth" onChange={this.handleChange} placeholder='MM' maxLength={2}/>
                             </Form.Field>
                             <Form.Field>
                                 <label>Year</label>
-                                <input placeholder='Year' maxLength={4}/>
+                                <input name="DOBYear" onChange={this.handleChange} placeholder='YYYY' maxLength={4}/>
                             </Form.Field>
                         </Form.Group>
+
+
+                        <Form.Field>
+                            <Checkbox
+                                radio
+                                label='documented'
+                                name='AccuracyDOB'
+                                value= "documented"
+                                checked={this.state.AccuracyDOB === "documented"}
+                                onChange={this.handleChange2}
+                            />
+                        </Form.Field>
+                        <Form.Field>
+                            <Checkbox
+                                radio
+                                label='accurate'
+                                name='AccuracyDOB'
+                                value= "accurate"
+                                checked={this.state.AccuracyDOB === "accurate"}
+                                onChange={this.handleChange2}
+                            />
+                        </Form.Field>
+                        <Form.Field>
+                            <Checkbox
+                                radio
+                                label='likely'
+                                name='AccuracyDOB'
+                                value= "likely"
+                                checked={this.state.AccuracyDOB === "likely"}
+                                onChange={this.handleChange2}
+                            />
+                        </Form.Field>
 
                         <Header as="h4">Date of Death</Header>
                         <Form.Group widths='equal'>
                             <Form.Field>
                                 <label>Day</label>
-                                <input placeholder='Day' maxLength={2}/>
+                                <input name="DODDay" onChange={this.handleChange} placeholder='DD' maxLength={2}/>
                             </Form.Field>
                             <Form.Field>
                                 <label>Month</label>
-                                <input placeholder='Month' maxLength={2}/>
+                                <input name="DODMonth" onChange={this.handleChange} placeholder='MM' maxLength={2}/>
                             </Form.Field>
                             <Form.Field>
                                 <label>Year</label>
-                                <input placeholder='Year' maxLength={4}/>
+                                <input name="DODYear" onChange={this.handleChange} placeholder='YYYY' maxLength={4}/>
                             </Form.Field>
                         </Form.Group>
 
-                        <Header as="h4">Descendent of</Header>
-                        <Form.Group widths='equal'>
-                            <Form.Field>
-                                <label>First Name</label>
-                                <input placeholder='First Name'/>
-                            </Form.Field>
-                            <Form.Field>
-                                <label>Last Name</label>
-                                <input placeholder='Last Name'/>
-                            </Form.Field>
-                        </Form.Group>
+                        <Form.Field>
+                            <Checkbox
+                                radio
+                                label='documented'
+                                name='AccuracyDOD'
+                                value= "documented"
+                                checked={this.state.AccuracyDOD === "documented"}
+                                onChange={this.handleChange2}
+                            />
+                        </Form.Field>
+                        <Form.Field>
+                            <Checkbox
+                                radio
+                                label='accurate'
+                                name='AccuracyDOD'
+                                value= "accurate"
+                                checked={this.state.AccuracyDOD === "accurate"}
+                                onChange={this.handleChange2}
+                            />
+                        </Form.Field>
+                        <Form.Field>
+                            <Checkbox
+                                radio
+                                label='likely'
+                                name='AccuracyDOD'
+                                value= "likely"
+                                checked={this.state.AccuracyDOD === "likely"}
+                                onChange={this.handleChange2}
+                            />
+                        </Form.Field>
 
+                        {/*Loader for waiting HTTP post request response*/}
+                        <Modal open = {isLoading}>
+                            <Loader intermediate='true' size='huge'>Uploading Artifact</Loader>
+                        </Modal>
+
+                        {/*Message to show successfull registration of artifact*/}
+                        <Modal open = {successMessage}>
+                            <Container textAlign='center'>
+                                <Message icon success>
+                                    <Icon name='checkmark'/>
+                                    <Message.Content>
+                                        <Message.Header>Success!</Message.Header>
+                                        Family member has been successfully registered into our database.
+                                        <p>Redirecting you to physical artifacts page ...... </p>
+                                    </Message.Content>
+                                </Message>
+                            </Container>
+                        </Modal>
+
+                        {/*Message to failed registration of family*/}
+                        <Modal open = {failureMessage}>
+                            <Container textAlign='center'>
+                                <Message icon negative>
+                                    <Icon name='checkmark'/>
+                                    <Message.Content>
+                                        <Message.Header>An unexpected error has occured!</Message.Header>
+                                        A problem has been encountered. This family member could not be registered.
+                                        <p>Please try again later ...... </p>
+                                    </Message.Content>
+                                </Message>
+                            </Container>
+                        </Modal>
 
                         <br/>
                         <Container textAlign="center">
@@ -90,4 +287,4 @@ class NewFamilyMember extends React.Component {
     }
 }
 
-export default NewFamilyMember;
+export default withRouter(NewFamilyMember);
