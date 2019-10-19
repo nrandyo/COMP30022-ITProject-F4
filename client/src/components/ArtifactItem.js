@@ -28,7 +28,13 @@ const ArtifactItem = ({ items, loading }) => {
       </Container>
     );
   }
-  
+  function cleanPath(path){
+    if(path === ''){
+      return 'placeholder.png';
+    } else{
+      return path;
+    }
+  }
 
   return (
     <Container style={{ minHeight: 600, padding: "1em 0em" }}>
@@ -38,13 +44,13 @@ const ArtifactItem = ({ items, loading }) => {
           return (
           
             <Item>
-              <Item.Image src={require('../artifactImages/' + path)} />
+              <Item.Image src={require('../artifactImages/' + cleanPath(path))} />
               <Item.Content>
                 <Item.Header as="a">{item.Name}</Item.Header>
                 <Item.Meta>
                   <span className="cinema">{item.DateAcquireYear}</span>
                 </Item.Meta>
-                <Item.Description>{item.description}</Item.Description>
+                <Item.Description>{item.Description}</Item.Description>
                 <Item.Extra>
                   <Button as={Link} to={'/artifactpage/' + item.ArtifactID} primary floated="right">
                     Additional Info

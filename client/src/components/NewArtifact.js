@@ -1,5 +1,6 @@
-import React, {Component} from 'react'
-import { withRouter } from 'react-router'
+import React, {Component} from 'react';
+import { withRouter } from 'react-router';
+import axios from 'axios';
 import { Button,
          Form,
          Container,
@@ -10,7 +11,9 @@ import { Button,
          Image,
          Label,
          Message,
-         Loader } from 'semantic-ui-react'
+         Loader,
+         Segment,
+         Transition } from 'semantic-ui-react';
 
 //Http response status for create
 const HTTP_RES_POST = 201;
@@ -30,68 +33,161 @@ class NewArtifact extends Component {
       isLoading: false,
       successMessage: false,
       failureMessage: false,
-      tags: []
+      tags: [],
+      file: [],
+      filename: [],
+      lastAdded: '',
+      addArtifactStatus: false,
+      imagePreview: [],
+      previewOn: false
       };
 
+    this.handleImageChange = this.handleImageChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-// Handles submission for all form fields
-handleSubmit(event) {
-  event.preventDefault();
-  this.setState({ isLoading: true });
+  // Request to add artifacts to database
+  requestAddArtifact = data => {
+    // POST route via backend for artifacts
+    fetch('/artifacts/new',
+      { method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      .then((res) => {
+        if(res.status === HTTP_RES_POST) {
+          this.setState({ addArtifactStatus: true });
+        }
+      })
+  }
 
-  var data =
-    {
-      Name: this.state.Name,
-      GeoTag: this.state.GeoTag,
-      Day: this.state.Day,
-      Month: this.state.Month,
-      Year: this.state.Year,
-      Description: this.state.Description,
-      Tags: this.state.tags
-    };
+  // Request foreign key for last added artifact
+  requestLastAddedArtifact = () => {
+    fetch('/artifact/lastAdded',
+      { method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      .then((res) => {
+        res.json().then((data) => {
+          this.setState({ lastAdded: data.lastAdded });
+        })
+      })
+  }
 
-  //POST route via backend artifactsRoute
-  fetch('/artifacts/new',
-    { method: 'POST',
-      body: JSON.stringify(data),
-      headers: {
-        'Content-Type': 'application/json'
-      }
+  //Upload images to /artifactImages server
+  requestUploadServer = data => {
+    // POST route for image upload
+    axios.post('/upload/artifactimage', data, {
+      headers: { 'content-type': 'multipart/form-data' }
     })
+    .then((res) => {
+      console.log("------------");
+      for(var x = 0; x<this.state.file.length; x++) {
+        var name = res.data[x].filename;
+        this.setState({
+          filename: [...this.state.filename, name],
+        })
+        console.log(this.state.filename[x]);
+      }
+      // console.log(res.data.filename);
+      // this.setState({ filename: res.data.filename });
+      // console.log(this.state.filename);
+    })
+  }
 
-  .then((res) => {
-    if(res.status === HTTP_RES_POST) {
+  // Request to add image to database
+  requestAddImage = data => {
 
-      //Handles loading/success screen and redirect to object page
-      setTimeout(() => {
-        this.setState({ isLoading: false});
-        this.setState({ successMessage: true});
-      }, 1000);
+    // POST route for adding image to database
+    fetch('/new/artifactImage',
+      { method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      .then((res) => {
+        if(res.status === HTTP_RES_POST) {
+          this.setState({ isLoading: false });
+          this.setState({ successMessage: true });
+          setTimeout(() => {
+            this.props.history.push('/artifacts/objects');
+          }, 2000);
+        }
+      })
+  }
 
-      //Automatically redirects back to physical object page
-      setTimeout(() => {
-        this.props.history.push('/artifacts/objects');
-      }, 3200);
-    } else {
+  // Handles multiple submission for all form fields
+  async handleSubmit(event) {
+    event.preventDefault();
+    this.setState({ isLoading: true });
 
-      //Handles error display message for failed POST request
-      setTimeout(() => {
-        this.setState({ isLoading: false });
-        this.setState({ failureMessage: true });
-      }, 1000);
-
-      setTimeout(() => {
-        this.setState({ failureMessage: false });
-      }, 3500);
+    // Data for artifact image
+    const imageData = new FormData();
+    // imageData.append('file', this.state.file);
+    for(var x = 0; x<this.state.file.length; x++) {
+      imageData.append('file', this.state.file[x]);
+      console.log(this.state.file[x]);
     }
-  })
 
-  .catch((error) => {
-    console.log("Error:", error);
-  })
-}
+    // Data for artifacts
+    const artifactData =
+      {
+        Name: this.state.Name,
+        GeoTag: this.state.GeoTag,
+        Day: this.state.Day,
+        Month: this.state.Month,
+        Year: this.state.Year,
+        Description: this.state.Description,
+        Tags: this.state.tags
+      };
+
+    let reqAddArtifact = await this.requestAddArtifact(artifactData);
+    let reqLastAdded = await this.requestLastAddedArtifact();
+    let reqUpload = await this.requestUploadServer(imageData);
+
+    if(Promise.all([reqAddArtifact, reqLastAdded, reqUpload])) {
+      setTimeout(() => {
+        for(var x = 0; x<this.state.file.length; x++) {
+          const addImageData =
+          {
+            filename: this.state.filename[x],
+            lastAdded: this.state.lastAdded
+          };
+          this.requestAddImage(addImageData);
+        }
+      }, 2500);
+    } else {
+      this.setState({ isLoading: false });
+      this.setState({ failureMessage: true });
+    }
+  }
+
+  handleImageChange = (e) => {
+    e.preventDefault();
+
+    let listFiles = Array.from(e.target.files);
+
+    listFiles.forEach((img) => {
+      let reader = new FileReader();
+      reader.onloadend = () => {
+        this.setState({
+          file: [...this.state.file, img],
+          imagePreview: [...this.state.imagePreview, reader.result]
+        })
+      }
+      reader.readAsDataURL(img);
+    })
+    this.setState({ previewOn: true });
+    // this.setState({
+    //   file: e.target.files,
+    //   imagePreview: URL.createObjectURL(e.target.files)
+    // })
+  }
 
   handleChange = (e) => {
     // Constantly updates changes in user input
@@ -113,7 +209,6 @@ handleSubmit(event) {
       this.setState({ tags: [...this.state.tags, val]});
       this.tagInput.value = null;
     }
-    console.log(this.state.tags);
   }
 
   //This function is used to delete specific tags from an array
@@ -158,11 +253,11 @@ handleSubmit(event) {
 
             {/*Form for dates*/}
             <Form.Group widths='equal'>
-              <Form.Input fluid label='Day' placeholder='Day'
+              <Form.Input fluid label='Day' placeholder='DD'
                name='Day' onChange={this.handleChange}/>
-              <Form.Input fluid label='Month' placeholder='Month'
+              <Form.Input fluid label='Month' placeholder='MM'
                name='Month' onChange={this.handleChange}/>
-              <Form.Input fluid label='Year' placeholder='Year'
+              <Form.Input fluid label='Year' placeholder='YYYY'
                name='Year' onChange={this.handleChange}/>
             </Form.Group>
 
@@ -181,16 +276,13 @@ handleSubmit(event) {
             {/*Modal and form for adding multiple tags*/}
             <Form.Field>
               <label> Click this to add tags:
-                {/* <Popup content=
-                'This field is optional.'trigger={
-                <Icon name='info circle' size ='large'/>}/> : */}
               </label>
               <Modal size='mini' closeIcon trigger={<Button type='Button' icon='tags'></Button>}>
                 <Modal.Header>Add multiple tags</Modal.Header>
                   <Container textAlign='center'>
                     <Modal.Description textalign='center'>
-                      <input style={{ margin: 10, width:"85%", height:"30px", "font-size":"12pt",
-                       "border-radius":"4px" }} placeholder = 'Press "Enter" key to keep adding'
+                      <input style={{ margin: 10, width:"85%", height:"30px", "fontSize":"12pt",
+                       "borderRadius":"4px" }} placeholder = 'Press "Enter" key to keep adding'
                        onKeyDown = {this.inputKeyDown} ref = {c => { this.tagInput = c; }}
                       />
                       { tags.map((tag, i) => (
@@ -212,34 +304,28 @@ handleSubmit(event) {
               </Label>
             ))}
 
-            {/*Modal and form to upload artifact image*/}
-            <Form.Field>
-              <label> Click this to upload image to cloud:
-                {/* <Popup content=
-                'This field is optional.'trigger={
-                <Icon name='info circle' size ='large'/>}/> : */}
-              </label>
-              <Modal closeIcon trigger={<Button type='Button' icon='cloud upload'></Button>}>
-                <Modal.Header>Select an Image</Modal.Header>
-                <Modal.Content image>
-                  <Image wrapped size='medium'
-                  src='https://www.musicjunction.com.au/wp-content/uploads/2019/03/427DE39AADE447B5A30422DF725647A8_12073_2139x2001_c587b9fef86903b89a823353fa512cf0.jpg' />
-                  <Container textAlign='center'>
-                    <Modal.Description textalign='center'>
-                      <Header>This image will be uploaded to cloud</Header>
-                      <p>
-                      Please double check with the image selected on the left.
-                      If the selected image is correct, click on the button
-                      below to upload this image to cloud server.
-                      </p>
-                      <p>Is it okay to use this photo?</p>
+            {/* Field to select multiple images */}
+            <Segment>
+              <Form.Field>
+                <Input type="file" name="file"
+                 multiple onChange = {this.handleImageChange}
+                 label='Select Images:'/>
+              </Form.Field>
+            </Segment>
 
-                      <Button color='blue' type='submit'>Upload</Button>
-                    </Modal.Description>
-                  </Container>
-                </Modal.Content>
-              </Modal>
-            </Form.Field>
+            <Transition visible={this.state.previewOn} animation='scale' duration={500}>
+              <Segment>
+                <Header> - Preview - </Header>
+                <Image.Group size='small'>
+                {this.state.imagePreview.map((preview) => {
+                  return (
+                    <Image key={preview} alt='previewImg' src={preview} />
+
+                  )
+                })}
+                </Image.Group>
+              </Segment>
+            </Transition>
 
             {/*Loader for waiting HTTP post request response*/}
             <Modal open = {isLoading}>

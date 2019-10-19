@@ -12,6 +12,7 @@ import {
   Segment
 } from "semantic-ui-react";
 import { Link } from "react-router-dom";
+import ArtifactNav from "./ArtifactNav";
 import ArtifactItem from "./ArtifactItem";
 import ArtifactPagination from "./ArtifactPagination";
 import axios from "axios";
@@ -83,6 +84,23 @@ const Objects = () => {
     fetchItems();
   }, []);
 
+  const sort_by = (field, reverse, primer) => {
+
+    const key = primer ?
+      function(x) {
+        return primer(x[field])
+      } :
+      function(x) {
+        return x[field]
+      };
+  
+    reverse = !reverse ? 1 : -1;
+  
+    return function(a, b) {
+      return a = key(a), b = key(b), reverse * ((a > b) - (b > a));
+    }
+  }  
+
   // Get current artifacts
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -99,6 +117,7 @@ const Objects = () => {
   return (
     <Container>
       <ArtifactItem items={currentItems} loading={loading} />
+
       <ArtifactPagination
         itemsPerPage={itemsPerPage}
         totalItems={items.length}

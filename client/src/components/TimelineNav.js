@@ -36,7 +36,7 @@ class TimelineNav extends Component {
                 maxDate={this.state.end}
                 transparent
                 allowSameEndDate
-                startMode="year"
+                // startMode="year"
                 placeholder="From"
                 value={this.state.start}
                 iconPosition="left"
@@ -52,7 +52,7 @@ class TimelineNav extends Component {
                 minDate={this.state.start}
                 transparent
                 allowSameEndDate
-                startMode="year"
+                // startMode="year"
                 placeholder="To"
                 value={this.state.end}
                 iconPosition="left"

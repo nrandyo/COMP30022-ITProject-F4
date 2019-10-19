@@ -3,7 +3,7 @@ var axios = require("axios");
 
 module.exports = app => {
   app.get("/api/artifacts/all", (req, res) => {
-    db.query("SELECT * FROM Artifact INNER JOIN ArtifactImage ON ArtifactImage.FilePath!='' AND Artifact.ArtifactID = ArtifactImage.Artifact_ArtifactID", (err, rows, fields) => {
+    db.query("SELECT * FROM Artifact INNER JOIN ArtifactImage ON Artifact.ArtifactID = ArtifactImage.Artifact_ArtifactID", (err, rows, fields) => {
       if (!err) {
         res.json(rows);
       } else {
@@ -27,7 +27,7 @@ module.exports = app => {
 
   app.get("/api/artifacts/physical", (req, res) => {
     db.query(
-      "SELECT * FROM Artifact INNER JOIN ArtifactImage ON ArtifactImage.FilePath!='' AND Artifact.ArtifactID = ArtifactImage.Artifact_ArtifactID AND Type='physical'",
+      "SELECT * FROM Artifact INNER JOIN ArtifactImage ON Artifact.ArtifactID = ArtifactImage.Artifact_ArtifactID AND Type='physical'",
       (err, rows, fields) => {
         if (!err) {
           res.json(rows);
@@ -53,7 +53,7 @@ module.exports = app => {
 
   app.get("/api/artifacts/:artifactID", (req, res) => {
     db.query(
-      ("SELECT * FROM Artifact INNER JOIN ArtifactImage  ON ArtifactImage.FilePath!='' AND Artifact.ArtifactId = ArtifactImage.Artifact_ArtifactID AND Artifact.ArtifactID=" + req.params.artifactID),
+      ("SELECT * FROM Artifact INNER JOIN ArtifactImage  ON Artifact.ArtifactId = ArtifactImage.Artifact_ArtifactID AND Artifact.ArtifactID=" + req.params.artifactID),
       (err, rows, fields) => {
         if (!err) {
           res.json(rows);
@@ -97,6 +97,15 @@ module.exports = app => {
     }
   }
 
+  // GET Route for last added artifact ID
+  app.get("/artifact/lastAdded", function(req, res) {
+    db.query('SELECT max(ArtifactID) as lastAdded from Artifact',
+    (err, results, fields) => {
+      if(err) throw err
+      res.send(results[0]);
+    })
+  })
+
   //POST route for registration of new artifacts
   app.post("/artifacts/new", function(req, res) {
     const name = req.body.Name;
@@ -129,9 +138,9 @@ module.exports = app => {
        year, month, day, history, currOwn, type],
       function(err, result) {
         if (!err) {
-          console.log("Added successfully");
+          console.log("Artifact added successfully");
           res.status(201).end("Success!");
-          return res;
+          return res.status(201);
         } else {
           console.log(err);
           res.sendStatus(404);

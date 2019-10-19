@@ -3,6 +3,7 @@ import { Container } from "semantic-ui-react";
 import ArtifactItem from "./ArtifactItem";
 import ArtifactPagination from "./ArtifactPagination";
 import axios from "axios";
+import ArtifactNav from "./ArtifactNav";
 
 const Artifact = () => {
   const [items, setItems] = useState([]);
@@ -33,6 +34,7 @@ const Artifact = () => {
 
   return (
     <Container>
+      {/* <ArtifactNav /> */}
       <ArtifactItem items={currentItems} loading={loading} />
       <ArtifactPagination
         itemsPerPage={itemsPerPage}
