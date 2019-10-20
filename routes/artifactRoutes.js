@@ -38,6 +38,19 @@ module.exports = app => {
     );
   });
 
+  app.get("/api/artifacts/timeline", (req, res) => {
+    db.query(`SELECT * FROM Artifact 
+    INNER JOIN ArtifactImage ON 
+      Artifact.ArtifactID = ArtifactImage.Artifact_ArtifactID
+  ORDER BY Artifact.DateAcquireYear desc, Artifact.DateAcquireMonth desc, Artifact.DateAcquireDay desc`, (err, rows, fields) => {
+      if (!err) {
+        res.json(rows);
+      } else {
+        console.log(err);
+      }
+    });
+  });
+
   app.get("/api/artifacts/letter", (req, res) => {
     db.query(
       "SELECT * FROM Artifact WHERE Type='letter'",
