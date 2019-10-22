@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { Container } from "semantic-ui-react";
 import {
   VerticalTimeline,
   VerticalTimelineElement
@@ -8,56 +7,87 @@ import {
 import "react-vertical-timeline-component/style.min.css";
 import { MdPhoto, MdMail } from "react-icons/md";
 import axios from "axios";
+import { Container, Header, Menu, Form, Input, icon } from "semantic-ui-react";
+import { YearInput } from "semantic-ui-calendar-react";
 
 class Timelines extends Component {
   state = {
-    artifacts: []
+    artifacts: [],
+    start: 0,
+    end: 9999
   };
 
-  // sort_by = (field, reverse, primer) => {
-  //   const key = primer ?
-  //     function(x) {
-  //       return primer(x[field])
-  //     } :
-  //     function(x) {
-  //       return x[field]
-  //     };
-
-  //   reverse = !reverse ? 1 : -1;
-
-  //   return function(a, b) {
-  //     return a = key(a), b = key(b), reverse * ((a > b) - (b > a));
-  //   }
-  // }
-
-  handleSort(keys) {
-    return function(a, b) {
-      if (keys.length == 0) return 0; // force to equal if keys run out
-      var key = keys[0]; // take out the first key
-      if (a[key] < b[key]) return -1;
-      // will be 1 if DESC
-      else if (a[key] > b[key]) return 1;
-      // will be -1 if DESC
-      else return this.handleSort(keys.slice(1))(a, b);
-    };
+  componentDidMount() {
+    this.getArtifacts()
   }
 
-  componentDidMount() {
-    axios.get(`/api/artifacts/timeline`).then(res => {
+  getArtifacts() {
+    var apiEndpoint = `/api/timeline/` + this.state.start + '/' + this.state.end
+    console.log(apiEndpoint)
+    axios.get(apiEndpoint).then(res => {
       const artifacts = res.data;
+      // .sort(this.handleSort(['DateAcquireYear', 'DateAcquireMonth', 'DateAcquireDay']))
       this.setState({ artifacts });
     });
-
-    // this.state.artifacts.sort((a, b) => a. - b.sort1 || a.sort2 - b.sort2);
-    const artifacts = this.state.artifacts.sort(
-      this.handleSort(["DateAcquireYear", "DateAcquireMonth", "DateAcquireDay"])
-    );
-    this.setState({ artifacts });
   }
+
+  handleChange = (event, { name, value }) => {
+    if (this.state.hasOwnProperty(name)) {
+      this.setState({ [name]: value });
+    }
+    this.getArtifacts()
+  };
 
   render() {
     return (
       <Container>
+        <Container style={{ minHeight: 90, padding: "1em 0em" }}>
+        <Header
+          as="h2"
+          textAlign="center"
+          content="Timeline"
+          subheader="A timeline of significant events"
+        />
+        <Menu pointing secondary color="blue">
+          <Menu.Item>
+            <Form>
+              <YearInput
+                popupPosition="bottom center"
+                name="start"
+                maxDate={this.state.end}
+                transparent
+                allowSameEndDate
+                startMode="year"
+                placeholder="From"
+                value={this.state.start}
+                iconPosition="left"
+                onChange={this.handleChange}
+              />
+            </Form>
+          </Menu.Item>
+          <Menu.Item>
+            <Form>
+              <YearInput
+                popupPosition="bottom center"
+                name="end"
+                minDate={this.state.start}
+                transparent
+                allowSameEndDate
+                startMode="year"
+                disableMonth="true"  // disable month selection mode
+                disableMinute="true"
+                placeholder="To"
+                value={this.state.end}
+                iconPosition="left"
+                onChange={this.handleChange}
+              />
+            </Form>
+          </Menu.Item>
+          <Menu.Menu position="right">
+            <Input transparent icon="search" placeholder="Search..." />
+          </Menu.Menu>
+        </Menu>
+      </Container>
         <VerticalTimeline>
           {this.state.artifacts.map(artifact => (
             <VerticalTimelineElement

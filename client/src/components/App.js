@@ -35,7 +35,6 @@ const App = () => {
 
           <Route exact path="/theme" component={ThemeTest} />
           <Route exact path="/" component={Homepage} />
-          <Route exact path="/timeline" component={TimelineNav} />
           <Route exact path="/timeline" component={Timelines} />
           <Route path="/artifacts" component={ArtifactNav} />
           <Route exact path="/artifacts" component={Artifact} />
