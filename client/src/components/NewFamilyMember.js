@@ -119,7 +119,7 @@ class NewFamilyMember extends React.Component {
         const { isLoading, successMessage, failureMessage } = this.state;
         return (
             <Container>
-                <Header as="h2" textAlign="center">New family member</Header>
+                {/* <Header as="h2" textAlign="center">New family member</Header> */}
                 <Container >
                     <Form onSubmit={this.handleSubmit} >
                         <Form.Group widths='equal'>

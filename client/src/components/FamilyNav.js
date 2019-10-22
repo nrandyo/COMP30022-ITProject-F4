@@ -10,17 +10,18 @@ import {
 } from "semantic-ui-react";
 
 class FamilyNav extends Component {
-  state = { activeItem: "main" };
-  handleItemClick = (e, { name }) => this.setState({ activeItem: name });
+  state = { activeItem: "main", headerDesc: "List of All Artifacts" };
+  handleItemClick = (e, { name, desc }) =>
+    this.setState({ activeItem: name, headerDesc: desc });
   render() {
-    const { activeItem } = this.state;
+    const { activeItem, headerDesc } = this.state;
     return (
       <Container style={{ minHeight: 90, padding: "1em 0em" }}>
         <Header
           as="h2"
           textAlign="center"
           content="Family Tree"
-          // subheader={headerDesc}
+          subheader={headerDesc}
         />
         <Responsive>
           <Segment
@@ -35,6 +36,7 @@ class FamilyNav extends Component {
                   as={Link}
                   to="/familytree"
                   name="main"
+                  desc="Main Family"
                   active={activeItem === "main"}
                   onClick={this.handleItemClick}
                 />
@@ -43,6 +45,7 @@ class FamilyNav extends Component {
                   as={Link}
                   to="/familytree/3"
                   name="ruth"
+                  desc="Ruth's family"
                   active={activeItem === "ruth"}
                   onClick={this.handleItemClick}
                   link
@@ -51,6 +54,7 @@ class FamilyNav extends Component {
                   as={Link}
                   to="/familytree/4"
                   name="theodore"
+                  desc="Theodore's family"
                   active={activeItem === "theodore"}
                   onClick={this.handleItemClick}
                 />
@@ -58,6 +62,7 @@ class FamilyNav extends Component {
                   as={Link}
                   to="/familytree/5"
                   name="mariam"
+                  desc="Mariam's family"
                   active={activeItem === "mariam"}
                   onClick={this.handleItemClick}
                 />

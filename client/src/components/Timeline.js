@@ -45,7 +45,7 @@ class Timelines extends Component {
 
   render() {
     return (
-      <Container>
+      <Container style={{ minHeight: 1000 }}>
         <Container style={{ minHeight: 90, padding: "1em 0em" }}>
           <Header
             as="h2"

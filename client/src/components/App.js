@@ -1,8 +1,6 @@
 import React from "react";
 import { BrowserRouter, Route } from "react-router-dom";
 
-import { useRoutes } from "hookrouter";
-
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import NewArtifact from "./NewArtifact";
@@ -14,11 +12,11 @@ import Photos from "./Photos";
 import Letters from "./Letters";
 import ArtifactPage from "./ArtifactPage";
 import Timelines from "./Timeline";
-import TimelineNav from "./TimelineNav";
+// import TimelineNav from "./TimelineNav";
 import ArtifactNav from "./ArtifactNav";
 import Homepage from "./Homepage";
 import ThemeTest from "./ThemeTest";
-import FamilyTree from "./FamilyTree";
+// import FamilyTree from "./FamilyTree";
 import FamilyTree2 from "./FamilyTree2";
 import FamilyTree3 from "./FamilyTree3";
 import FamilyTree4 from "./FamilyTree4";
@@ -54,12 +52,8 @@ const App = () => {
           <Route exact path="/familytree/3" component={FamilyTree3} />
           <Route exact path="/familytree/4" component={FamilyTree4} />
           <Route exact path="/familytree/5" component={FamilyTree5} />
-          <Route exact path="/familytree/member/:id" component={Member} />
-          <Route
-            exact
-            path="/familytree/member/:id"
-            component={MemberArtifacts}
-          />
+          <Route exact path="/familymember/:id" component={Member} />
+          <Route exact path="/familymember/:id" component={MemberArtifacts} />
           <Route path="/familytree/new" component={NewFamilyMember} />
           <Route path="/artifacts/new" component={NewArtifact} />
           <Route path="/artifactpage/delete/:id" component={DeleteArtifact} />
