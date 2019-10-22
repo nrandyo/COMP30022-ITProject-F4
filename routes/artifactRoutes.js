@@ -39,8 +39,8 @@ module.exports = app => {
   });
 
   app.get("/api/artifacts/timeline", (req, res) => {
-    db.query(`SELECT * FROM Artifact 
-    INNER JOIN ArtifactImage ON 
+    db.query(`SELECT * FROM Artifact
+    INNER JOIN ArtifactImage ON
       Artifact.ArtifactID = ArtifactImage.Artifact_ArtifactID
   ORDER BY Artifact.DateAcquireYear desc, Artifact.DateAcquireMonth desc, Artifact.DateAcquireDay desc`, (err, rows, fields) => {
       if (!err) {
@@ -114,7 +114,8 @@ module.exports = app => {
   app.get("/artifact/lastAdded", function(req, res) {
     db.query('SELECT max(ArtifactID) as lastAdded from Artifact',
     (err, results, fields) => {
-      if(err) throw err
+      if(err) throw err;
+      console.log("Acquired last added ArtifactID");
       res.send(results[0]);
     })
   })

@@ -35,7 +35,7 @@ module.exports = app => {
       ["", path, caption, artifactID],
       function(err, result) {
         if (!err) {
-          console.log("Added ArtifactImage successfully");
+          console.log("Added to ArtifactImage table successfully");
           res.status(201).end("Success!");
         } else {
           console.log(err);
