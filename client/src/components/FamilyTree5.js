@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Link, Redirect } from "react-router-dom";
-import { Button, Container, Header, Icon, Menu } from "semantic-ui-react";
+import { Button, Container, Header, Icon, Menu, Label } from "semantic-ui-react";
 import mySvg from "../images/family.svg";
 import TreeWrapper from "./TreeWrapper";
 import * as d3 from "d3";
@@ -52,24 +52,24 @@ class FamilyTree extends Component {
             <ul>
               <li>
                 <div>
-                  <span className="male">Max</span>
+                  <Label className="male" as={Link} to={"/familymember/7"}>Max</Label>
                   <span className="spacer" />
-                  <span className="female">Anita</span>
+                  <Label className="female" as={Link} to={"/familymember/8"}>Anita</Label>
                 </div>
                 <ul>
                   <li>
                     <div>
-                      <span className="female">Mariam</span>
+                      <Label className="female" as={Link} to={"/familymember/2"}>Mariam</Label>
                     </div>
                   </li>
                   <li>
                     <div>
-                      <span className="female">Selma</span>
+                      <Label className="female" as={Link} to={"/familymember/30"}>Selma</Label>
                     </div>
                   </li>
                   <li>
                     <div>
-                      <span className="male">David</span>
+                      <Label className="male" as={Link} to={"/familymember/6"}>David</Label>
                     </div>
                   </li>
                 </ul>

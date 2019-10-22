@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Link, Redirect } from "react-router-dom";
-import { Button, Container, Header, Icon, Menu } from "semantic-ui-react";
+import { Button, Container, Header, Icon, Menu, Label } from "semantic-ui-react";
 import mySvg from "../images/family.svg";
 import TreeWrapper from "./TreeWrapper";
 import * as d3 from "d3";
@@ -50,49 +50,49 @@ class FamilyTree extends Component {
               <ul>
                 <li>
                   <div>
-                    <span className="female">Helen</span>
+                    <Label className="female" as={Link} to={"/familymember/17"}>Helen</Label>
                     <span className="spacer" />
-                    <span className="male">Theodore</span>
+                    <Label className="male" as={Link} to={"/familymember/16"}>Theodore</Label>
                   </div>
                   <ul>
                     <li>
                       <li>
                         <div>
-                          <span className="female">Cynthia</span>
+                          <Label className="female" as={Link} to={"/familymember/9"}>Cynthia</Label>
                         </div>
                         <ul>
                           <li>
                             <div>
-                              <span className="male">Barry</span>
+                              <Label className="male" as={Link} to={"/familymember/5"}>Barry</Label>
                             </div>
                             <ul>
                               <li>
                                 <div>
-                                  <span className="male">Aviva</span>
+                                  <Label className="male" as={Link} to={"/familymember/29"}>Aviva</Label>
                                 </div>
                               </li>
                               <li>
                                 <div>
-                                  <span className="male">Tamaria</span>
+                                  <Label className="male" as={Link} to={"/familymember/28"}>Tamam</Label>
                                 </div>
                               </li>
                               <li>
                                 <div>
-                                  <span className="male">Jeremy</span>
+                                  <Label className="male" as={Link} to={"/familymember/27"}>Jeremy</Label>
                                 </div>
                               </li>
                             </ul>
                           </li>
                           <li>
                             <div>
-                              <span className="female">David</span>
+                              <Label className="female" as={Link} to={"/familymember/4"}>David</Label>
                             </div>
                           </li>
                         </ul>
                       </li>
                       <li>
                         <div>
-                          <span className="female">Ruth</span>
+                          <Label className="female" as={Link} to={"/familymember/10"}>Ruth</Label>
                         </div>
                       </li>
                     </li>
