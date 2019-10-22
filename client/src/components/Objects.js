@@ -1,18 +1,7 @@
 import React, { Component, useState, useEffect } from "react";
-import {
-  Input,
-  Menu,
-  Button,
-  Icon,
-  Image,
-  Item,
-  Label,
-  Container,
-  Header,
-  Segment
-} from "semantic-ui-react";
-import { Link } from "react-router-dom";
-import ArtifactNav from "./ArtifactNav";
+import { Container } from "semantic-ui-react";
+// import { Link } from "react-router-dom";
+// import ArtifactNav from "./ArtifactNav";
 import ArtifactItem from "./ArtifactItem";
 import ArtifactPagination from "./ArtifactPagination";
 import axios from "axios";
@@ -85,21 +74,20 @@ const Objects = () => {
   }, []);
 
   const sort_by = (field, reverse, primer) => {
+    const key = primer
+      ? function(x) {
+          return primer(x[field]);
+        }
+      : function(x) {
+          return x[field];
+        };
 
-    const key = primer ?
-      function(x) {
-        return primer(x[field])
-      } :
-      function(x) {
-        return x[field]
-      };
-  
     reverse = !reverse ? 1 : -1;
-  
+
     return function(a, b) {
-      return a = key(a), b = key(b), reverse * ((a > b) - (b > a));
-    }
-  }  
+      return (a = key(a)), (b = key(b)), reverse * ((a > b) - (b > a));
+    };
+  };
 
   // Get current artifacts
   const indexOfLastItem = currentPage * itemsPerPage;
