@@ -26,8 +26,9 @@ class Timelines extends Component {
   }
 
   getArtifacts() {
-    var apiEndpoint = `/api/timeline/` + this.state.start + '/' + this.state.end
-    console.log(apiEndpoint)
+    var apiEndpoint =
+      `/api/timeline/` + this.state.start + "/" + this.state.end;
+    console.log(apiEndpoint);
     axios.get(apiEndpoint).then(res => {
       const artifacts = res.data;
       // .sort(this.handleSort(['DateAcquireYear', 'DateAcquireMonth', 'DateAcquireDay']))
@@ -39,59 +40,59 @@ class Timelines extends Component {
     if (this.state.hasOwnProperty(name)) {
       this.setState({ [name]: value });
     }
-    this.getArtifacts()
+    this.getArtifacts();
   };
 
   render() {
     return (
       <Container>
         <Container style={{ minHeight: 90, padding: "1em 0em" }}>
-        <Header
-          as="h2"
-          textAlign="center"
-          content="Timeline"
-          subheader="A timeline of significant events"
-        />
-        <Menu pointing secondary color="blue">
-          <Menu.Item>
-            <Form>
-              <YearInput
-                popupPosition="bottom center"
-                name="start"
-                maxDate={this.state.end}
-                transparent
-                allowSameEndDate
-                startMode="year"
-                placeholder="From"
-                value={this.state.start}
-                iconPosition="left"
-                onChange={this.handleChange}
-              />
-            </Form>
-          </Menu.Item>
-          <Menu.Item>
-            <Form>
-              <YearInput
-                popupPosition="bottom center"
-                name="end"
-                minDate={this.state.start}
-                transparent
-                allowSameEndDate
-                startMode="year"
-                disableMonth="true"  // disable month selection mode
-                disableMinute="true"
-                placeholder="To"
-                value={this.state.end}
-                iconPosition="left"
-                onChange={this.handleChange}
-              />
-            </Form>
-          </Menu.Item>
-          <Menu.Menu position="right">
-            <Input transparent icon="search" placeholder="Search..." />
-          </Menu.Menu>
-        </Menu>
-      </Container>
+          <Header
+            as="h2"
+            textAlign="center"
+            content="Timeline"
+            subheader="A timeline of significant events"
+          />
+          <Menu pointing secondary color="blue">
+            <Menu.Item>
+              <Form>
+                <YearInput
+                  popupPosition="bottom center"
+                  name="start"
+                  maxDate={this.state.end}
+                  transparent
+                  allowSameEndDate
+                  startMode="year"
+                  placeholder="From"
+                  value={this.state.start}
+                  iconPosition="left"
+                  onChange={this.handleChange}
+                />
+              </Form>
+            </Menu.Item>
+            <Menu.Item>
+              <Form>
+                <YearInput
+                  popupPosition="bottom center"
+                  name="end"
+                  minDate={this.state.start}
+                  transparent
+                  allowSameEndDate
+                  startMode="year"
+                  disableMonth="true" // disable month selection mode
+                  disableMinute="true"
+                  placeholder="To"
+                  value={this.state.end}
+                  iconPosition="left"
+                  onChange={this.handleChange}
+                />
+              </Form>
+            </Menu.Item>
+            <Menu.Menu position="right">
+              <Input transparent icon="search" placeholder="Search..." />
+            </Menu.Menu>
+          </Menu>
+        </Container>
         <VerticalTimeline>
           {this.state.artifacts.map(artifact => (
             <VerticalTimelineElement
