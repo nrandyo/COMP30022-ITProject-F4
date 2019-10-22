@@ -1,18 +1,78 @@
+import _ from 'lodash'
+import PropTypes from 'prop-types'
+import axios from 'axios';
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import {
   Button,
   Container,
   Menu,
   Responsive,
-  Segment
-} from "semantic-ui-react";
+  Segment,
+  Grid,
+  Search,
+  Label } from "semantic-ui-react";
+
+const resultRenderer = ({ Name }) => <Label content={Name} />
+
+resultRenderer.propTypes = {
+  Name: PropTypes.string,
+  description: PropTypes.string,
+}
+
 
 class Navbar extends Component {
-  state = { activeItem: "home" };
+
+  constructor(props) {
+    super(props);
+  }
+
+  state = {
+    activeItem: "home",
+    isLoading: false,
+    results: [],
+    value: '',
+    artifacts: null
+  };
+
+  componentDidMount() {
+   axios.get("/api/artifacts/all").then(res => {
+     this.setState({ artifacts: res.data});
+   });
+  }
+
+  handleResultSelect = (e, {result}) => {
+    this.props.history.push('/artifactpage/' + result.ArtifactID);
+  }
+
+  handleSearchChange = (e, { value }) => {
+    this.setState({ isLoading: true, value })
+
+    setTimeout(() => {
+      if (this.state.value.length < 1)
+        return this.setState({
+          isLoading: false,
+          results: [],
+          value: ''
+      })
+
+      const re = new RegExp(_.escapeRegExp(this.state.value), 'i')
+
+      const isMatch = (result) => {
+        return re.test(result.Name);
+      }
+
+      this.setState({
+        isLoading: false,
+        results: _.filter(this.state.artifacts, isMatch),
+      })
+    }, 300)
+  }
+
   handleItemClick = (e, { name }) => this.setState({ activeItem: name });
+
   render() {
-    const { activeItem } = this.state;
+    const { activeItem, isLoading, value, results, artifacts } = this.state;
     return (
       <Responsive>
         <Segment
@@ -53,14 +113,24 @@ class Navbar extends Component {
                 active={activeItem === "family tree"}
                 onClick={this.handleItemClick}
               />
-              <Menu.Item position="right">
-                <Button animated="fade">
-                  <Button.Content visible>
-                    <i class="google icon"></i>
-                  </Button.Content>
-                  <Button.Content hidden>Login</Button.Content>
-                </Button>
-              </Menu.Item>
+              <Menu.Menu position="right">
+                  <Grid>
+                    <Grid.Column width={6}>
+                      <Search
+                        loading={isLoading}
+                        onResultSelect={this.handleResultSelect}
+                        onSearchChange={_.debounce(this.handleSearchChange, 500, {
+                          leading: true,
+                        })}
+                        results={results}
+                        value={value}
+                        resultRenderer={resultRenderer}
+                        {...this.props}
+
+                      />
+                    </Grid.Column>
+                  </Grid>
+              </Menu.Menu>
             </Container>
           </Menu>
         </Segment>
@@ -69,4 +139,4 @@ class Navbar extends Component {
   }
 }
 
-export default Navbar;
+export default withRouter(Navbar);
