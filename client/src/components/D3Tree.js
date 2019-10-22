@@ -20,23 +20,36 @@ export default class D3Tree {
     //   .attr("fill", "grey");
 
     var svg = d3
-      .select("body")
+      .select("#tree")
       .append("svg")
       .attr("width", 900)
       .attr("height", 600)
+      .attr("align", "center")
       .append("g")
       .attr("transform", "translate(50,50)");
     var data = [
-      { child: "John", parent: "", spouse: "Isabella" },
-      { child: "Aaron", parent: "Kevin" },
-      { child: "Kevin", parent: "John", spouse: "Emma" },
-      { child: "Mark", parent: "Ann" },
-      { child: "Hannah", parent: "Ann", spouse: "Williams" },
-      { child: "Rose", parent: "Sarah" },
-      { child: "Ann", parent: "John", spouse: "George" },
-      { child: "Sarah", parent: "Kevin", spouse: "James" },
-      { child: "Angel", parent: "Sarah" },
-      { child: "Tom", parent: "Hannah" }
+      { child: "Roots", parent: "" },
+      // { child: "Theodore", parent: "Roots", spouse: "Helen" },
+      { child: "Jacob", parent: "Roots", spouse: "Sarah" },
+
+      { child: "Zoe", parent: "Joseph" },
+      { child: "Leon", parent: "Joseph", spouse: "Mariam" },
+      // { child: "Ruth", parent: "Theodore" },
+      { child: "Julie", parent: "Jacob" },
+      { child: "Julian", parent: "Jacob" },
+      { child: "Joseph", parent: "Jacob", spouse: "Ruth" },
+      { child: "Emily", parent: "Leon" },
+      { child: "Sara", parent: "Leon" },
+      { child: "Danya", parent: "Leon" },
+      { child: "Alicia", parent: "Zoe" },
+      { child: "Joana", parent: "Zoe" }
+      // { child: "Mark", parent: "Ann" },
+      // { child: "Hannah", parent: "Ann", spouse: "Williams" },
+      // { child: "Rose", parent: "Sarah" },
+      // { child: "Ann", parent: "John", spouse: "George" },
+      // { child: "Sarah", parent: "Kevin", spouse: "James" },
+      // { child: "Angel", parent: "Sarah" },
+      // { child: "Tom", parent: "Hannah" }
     ];
     var dataStructure = d3
       .stratify()

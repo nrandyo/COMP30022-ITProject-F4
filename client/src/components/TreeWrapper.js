@@ -10,7 +10,7 @@ class TreeWrapper extends Component {
   }
 
   render() {
-    return <div ref="chart"></div>;
+    return <div id="tree" ref="chart"></div>;
   }
 }
 
