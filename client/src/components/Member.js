@@ -36,9 +36,7 @@ class Member extends Component {
       if (g == 'm'){
         return 'Male'
       } else if (g == 'f'){
-        if (g == 'm'){
-          return 'female'
-        }
+          return 'Female'
       }
       return 'undefined'
     }
