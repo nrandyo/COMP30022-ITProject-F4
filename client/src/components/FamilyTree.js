@@ -1,38 +1,36 @@
 import React, { Component } from "react";
-import {Link, Redirect} from "react-router-dom";
-import {Button, Container, Header, Icon, Menu} from "semantic-ui-react";
+import { Link, Redirect } from "react-router-dom";
+import { Button, Container, Header, Icon, Menu } from "semantic-ui-react";
 import mySvg from "../images/family.svg";
 import TreeWrapper from "./TreeWrapper";
 import * as d3 from "d3";
-import {Item} from "semantic-ui-react/dist/commonjs/views/Item/Item";
-
-
-
+import { Item } from "semantic-ui-react/dist/commonjs/views/Item/Item";
 
 class FamilyTree extends Component {
-  state = { activeItem: "All", headerDesc: "List of All Artifacts", redirect: false };
+  state = {
+    activeItem: "All",
+    headerDesc: "List of All Artifacts",
+    redirect: false
+  };
 
-    setRedirect = () => {
-        this.setState({
-            redirect: true
-        })
+  setRedirect = () => {
+    this.setState({
+      redirect: true
+    });
+  };
+  renderRedirect = () => {
+    if (this.state.redirect) {
+      return <Redirect to="familytree/member/1" />;
     }
-    renderRedirect = () => {
-        if (this.state.redirect) {
-            return <Redirect to='familytree/member/1' />
-        }
-    }
+  };
 
   handleItemClick = (e, { name, desc }) =>
     this.setState({ activeItem: name, headerDesc: desc });
   render() {
-
-
-
     const { activeItem, headerDesc } = this.state;
     // const { headerDesc } = this.state
     return (
-      <Container style={{ minHeight: 700, padding: "1em 0em" }}>
+      <Container fluid style={{ minHeight: 700, padding: "1em 0em" }}>
         <Header
           as="h2"
           textAlign="center"
@@ -41,9 +39,11 @@ class FamilyTree extends Component {
         />
         {/* <TreeWrapper /> */}
         <div>
-            {this.renderRedirect()}
+          {this.renderRedirect()}
 
-            <Button as={Link} to={'/familytree/new'} primary floated="right">Add family member</Button>
+          <Button as={Link} to={"/familytree/new"} primary floated="right">
+            Add family member
+          </Button>
 
           <title>Test Family Tree</title>
           {/* I found and adapted this css code from: https://stackoverflow.com/questions/38192074/family-tree-css */}
@@ -62,7 +62,7 @@ class FamilyTree extends Component {
                   <div>
                     <span className="male">Bernard</span>
                     <span className="spacer" />
-                    <span className="male">Sarah Harris</span>
+                    <span className="female">Sarah Harris</span>
                   </div>
                 </li>
                 <li>
@@ -71,19 +71,12 @@ class FamilyTree extends Component {
                     <span className="spacer" />
                     <span className="male">Theodore</span>
                   </div>
-                </li>
-                <li>
-                  <div>
-                    <span className="female">Sarah</span>
-                    <span className="spacer" />
-                    <span className="male">Jacob</span>
-                  </div>
                   <ul>
                     <li>
                       <div>
-                        <span className="spacer" />
                         <span className="female">Cynthia</span>
                       </div>
+
                       <ul>
                         <li>
                           <div>
@@ -93,9 +86,15 @@ class FamilyTree extends Component {
                             <li>
                               <div>
                                 <span className="male">Aviva</span>
-                                <span className="spacer" />
+                              </div>
+                            </li>
+                            <li>
+                              <div>
                                 <span className="male">Tamaria</span>
-                                <span className="spacer" />
+                              </div>
+                            </li>
+                            <li>
+                              <div>
                                 <span className="male">Jeremy</span>
                               </div>
                             </li>
@@ -108,6 +107,15 @@ class FamilyTree extends Component {
                         </li>
                       </ul>
                     </li>
+                  </ul>
+                </li>
+                <li>
+                  <div>
+                    <span className="female">Sarah</span>
+                    <span className="spacer" />
+                    <span className="male">Jacob</span>
+                  </div>
+                  <ul>
                     <li>
                       <div>
                         <span className="male">Joseph</span>
@@ -117,7 +125,9 @@ class FamilyTree extends Component {
                       <ul>
                         <li>
                           <div>
-                            <a className="male" onClick={this.setRedirect}>Leon</a>
+                            <a className="male" onClick={this.setRedirect}>
+                              Leon
+                            </a>
                             <span className="spacer" />
                             <span className="female">Mariam</span>
                           </div>
@@ -126,9 +136,13 @@ class FamilyTree extends Component {
                               <div>
                                 <span className="female">Danya</span>
                               </div>
+                            </li>
+                            <li>
                               <div>
                                 <span className="female">Sara</span>
                               </div>
+                            </li>
+                            <li>
                               <div>
                                 <span className="female">Emily</span>
                               </div>
@@ -143,7 +157,10 @@ class FamilyTree extends Component {
                             <li>
                               <div>
                                 <span className="male">Alicia</span>
-                                <span className="spacer" />
+                              </div>
+                            </li>
+                            <li>
+                              <div>
                                 <span className="male">Joana</span>
                               </div>
                             </li>
@@ -151,9 +168,15 @@ class FamilyTree extends Component {
                         </li>
                       </ul>
                     </li>
+
                     <li>
                       <div>
-                        <span className="male">John Snow 1635 - 1699</span>
+                        <span className="male">Julian</span>
+                      </div>
+                    </li>
+                    <li>
+                      <div>
+                        <span className="female">Julie</span>
                       </div>
                     </li>
                   </ul>
