@@ -210,10 +210,6 @@ class NewArtifact extends Component {
     //Some constants that are used in rendering state
     const { isLoading, successMessage, failureMessage, tags } = this.state;
 
-    if (this.state.redirect) {
-      return <Redirect to='/artifacts/objects'/>;
-    }
-
     return (
       <div>
         <Container textAlign='center'>
