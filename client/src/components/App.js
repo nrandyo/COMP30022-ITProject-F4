@@ -19,6 +19,9 @@ import ArtifactNav from "./ArtifactNav";
 import Homepage from "./Homepage";
 import ThemeTest from "./ThemeTest";
 import FamilyTree from "./FamilyTree";
+import FamilyTree2 from "./FamilyTree2";
+import FamilyTree3 from "./FamilyTree3";
+import FamilyTree4 from "./FamilyTree4";
 import CommentSection from "./CommentSection";
 import NewFamilyMember from "./NewFamilyMember";
 import Member from "./Member";
@@ -44,6 +47,9 @@ const App = () => {
           <Route exact path="/artifactpage/:id" component={ArtifactPage} />
           <Route exact path="/artifactpage/:id" component={CommentSection} />
           <Route exact path="/familytree" component={FamilyTree} />
+          <Route exact path="/familytree2" component={FamilyTree2} />
+          <Route exact path="/familytree3" component={FamilyTree3} />
+          <Route exact path="/familytree4" component={FamilyTree4} />
           <Route exact path="/familytree/member/:id" component={Member} />
           <Route exact path="/familytree/member/:id" component={MemberArtifacts} />
           <Route path="/familytree/new" component={NewFamilyMember} />
