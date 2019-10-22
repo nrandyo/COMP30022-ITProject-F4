@@ -1,27 +1,22 @@
 import React, { Component } from "react";
-import { Link, Redirect } from "react-router-dom";
-import { Container, Label } from "semantic-ui-react";
-// import mySvg from "../images/family.svg";
-// import TreeWrapper from "./TreeWrapper";
-// import * as d3 from "d3";
-// import { Item } from "semantic-ui-react/dist/commonjs/views/Item/Item";
+import { Link } from "react-router-dom";
+import {
+  Button,
+  Container,
+  Header,
+  Icon,
+  Menu,
+  Label
+} from "semantic-ui-react";
+import mySvg from "../images/family.svg";
+import TreeWrapper from "./TreeWrapper";
+import * as d3 from "d3";
+import { Item } from "semantic-ui-react/dist/commonjs/views/Item/Item";
 
 class FamilyTree2 extends Component {
   state = {
     activeItem: "All",
     headerDesc: "List of All Artifacts",
-    redirect: false
-  };
-
-  setRedirect = () => {
-    this.setState({
-      redirect: true
-    });
-  };
-  renderRedirect = () => {
-    if (this.state.redirect) {
-      return <Redirect to="familytree/member/1" />;
-    }
   };
 
   handleItemClick = (e, { name, desc }) =>
@@ -30,10 +25,9 @@ class FamilyTree2 extends Component {
     const { activeItem, headerDesc } = this.state;
     // const { headerDesc } = this.state
     return (
-      <Container style={{ minHeight: 700, padding: "0em 7em" }}>
+      <Container text style={{ minHeight: 700, padding: "0em 1em" }}>
         {/* <TreeWrapper /> */}
         <div>
-          {this.renderRedirect()}
 
           <title>Test Family Tree</title>
           {/* I found and adapted this css code from: https://stackoverflow.com/questions/38192074/family-tree-css */}
@@ -50,135 +44,97 @@ class FamilyTree2 extends Component {
               <ul>
                 <li>
                   <div>
-                    <Label className="male" as={Link} to={"/familymember/14"}>
-                      Jacob
+                    <Label className="female" as={Link} to={"/familymember/17"}>
+                      Helen
                     </Label>
                     <span className="spacer" />
-                    <Label className="female" as={Link} to={"/familymember/15"}>
-                      Sarah
+                    <Label className="male" as={Link} to={"/familymember/16"}>
+                      Theodore
                     </Label>
                   </div>
                   <ul>
                     <li>
-                      <div>
-                        <Label
-                          className="male"
-                          as={Link}
-                          to={"/familymember/11"}
-                        >
-                          Joseph
-                        </Label>
-                        <span className="spacer" />
-                        <Label
-                          className="female"
-                          as={Link}
-                          to={"/familymember/10"}
-                        >
-                          Ruth
-                        </Label>
-                      </div>
-                      <ul>
-                        <li>
-                          <div>
-                            <Label
-                              className="male"
-                              as={Link}
-                              to={"/familymember/1"}
-                            >
-                              Leon
-                            </Label>
-                            <span className="spacer" />
-                            <Label
-                              className="female"
-                              as={Link}
-                              to={"/familymember/2"}
-                            >
-                              Mariam
-                            </Label>
-                          </div>
-                          <ul>
-                            <li>
-                              <div>
-                                <Label
-                                  className="female"
-                                  as={Link}
-                                  to={"/familymember/24"}
-                                >
-                                  Danya
-                                </Label>
-                              </div>
-                            </li>
-                            <li>
-                              <div>
-                                <Label
-                                  className="female"
-                                  as={Link}
-                                  to={"/familymember/25"}
-                                >
-                                  Sara
-                                </Label>
-                              </div>
-                            </li>
-                            <li>
-                              <div>
-                                <Label
-                                  className="female"
-                                  as={Link}
-                                  to={"/familymember/26"}
-                                >
-                                  Emily
-                                </Label>
-                              </div>
-                            </li>
-                          </ul>
-                        </li>
-                        <li>
-                          <div>
-                            <Label
-                              className="female"
-                              as={Link}
-                              to={"/familymember/3"}
-                            >
-                              Zoe
-                            </Label>
-                          </div>
-                          <ul>
-                            <li>
-                              <div>
-                                <Label
-                                  className="female"
-                                  as={Link}
-                                  to={"/familymember/23"}
-                                >
-                                  Alicia
-                                </Label>
-                              </div>
-                            </li>
-                            <li>
-                              <div>
-                                <Label
-                                  className="female"
-                                  as={Link}
-                                  to={"/familymember/22"}
-                                >
-                                  Joana
-                                </Label>
-                              </div>
-                            </li>
-                          </ul>
-                        </li>
-                      </ul>
-                    </li>
-
-                    <li>
-                      <div>
-                        <Label className="male">Julian</Label>
-                      </div>
-                    </li>
-                    <li>
-                      <div>
-                        <Label className="female">Julie</Label>
-                      </div>
+                      <li>
+                        <div>
+                          <Label
+                            className="female"
+                            as={Link}
+                            to={"/familymember/9"}
+                          >
+                            Cynthia
+                          </Label>
+                        </div>
+                        <ul>
+                          <li>
+                            <div>
+                              <Label
+                                className="male"
+                                as={Link}
+                                to={"/familymember/5"}
+                              >
+                                Barry
+                              </Label>
+                            </div>
+                            <ul>
+                              <li>
+                                <div>
+                                  <Label
+                                    className="female"
+                                    as={Link}
+                                    to={"/familymember/29"}
+                                  >
+                                    Aviva
+                                  </Label>
+                                </div>
+                              </li>
+                              <li>
+                                <div>
+                                  <Label
+                                    className="female"
+                                    as={Link}
+                                    to={"/familymember/28"}
+                                  >
+                                    Tamam
+                                  </Label>
+                                </div>
+                              </li>
+                              <li>
+                                <div>
+                                  <Label
+                                    className="male"
+                                    as={Link}
+                                    to={"/familymember/27"}
+                                  >
+                                    Jeremy
+                                  </Label>
+                                </div>
+                              </li>
+                            </ul>
+                          </li>
+                          <li>
+                            <div>
+                              <Label
+                                className="male"
+                                as={Link}
+                                to={"/familymember/4"}
+                              >
+                                David
+                              </Label>
+                            </div>
+                          </li>
+                        </ul>
+                      </li>
+                      <li>
+                        <div>
+                          <Label
+                            className="female"
+                            as={Link}
+                            to={"/familymember/10"}
+                          >
+                            Ruth
+                          </Label>
+                        </div>
+                      </li>
                     </li>
                   </ul>
                 </li>
@@ -186,6 +142,9 @@ class FamilyTree2 extends Component {
             </div>
           </form>
         </div>
+        {/* <div className="header">
+          <img src={mySvg} />
+        </div> */}
       </Container>
     );
   }
