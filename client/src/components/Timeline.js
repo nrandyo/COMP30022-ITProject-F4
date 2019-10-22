@@ -13,12 +13,16 @@ import { YearInput } from "semantic-ui-calendar-react";
 class Timelines extends Component {
   state = {
     artifacts: [],
-    start: 0,
-    end: 9999
+    start: null,
+    end: null
   };
 
   componentDidMount() {
-    this.getArtifacts()
+    axios.get(`/api/artifacts/timeline`).then(res => {
+      const artifacts = res.data;
+      // .sort(this.handleSort(['DateAcquireYear', 'DateAcquireMonth', 'DateAcquireDay']))
+      this.setState({ artifacts });
+    });
   }
 
   getArtifacts() {
