@@ -63,4 +63,18 @@ module.exports = app => {
       }
     );
   });
+
+  app.get("/api/familymember/:memberID", (req, res) => {
+    db.query(
+      `SELECT * FROM FamilyMember WHERE FamilyMemberID= ?`,
+      [req.params.memberID],
+      (err, rows, fields) => {
+        if (!err) {
+          res.json(rows);
+        } else {
+          console.log(err);
+        }
+      }
+    );
+  });
 };

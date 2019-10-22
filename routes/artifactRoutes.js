@@ -4,7 +4,9 @@ var axios = require("axios");
 module.exports = app => {
   app.get("/api/artifacts/all", (req, res) => {
     db.query(
-      "SELECT * FROM Artifact INNER JOIN ArtifactImage ON Artifact.ArtifactID = ArtifactImage.Artifact_ArtifactID",
+      `SELECT * FROM Artifact 
+        INNER JOIN ArtifactImage ON 
+        Artifact.ArtifactID = ArtifactImage.Artifact_ArtifactID`,
       (err, rows, fields) => {
         if (!err) {
           res.json(rows);
@@ -30,7 +32,10 @@ module.exports = app => {
 
   app.get("/api/artifacts/physical", (req, res) => {
     db.query(
-      "SELECT * FROM Artifact INNER JOIN ArtifactImage ON Artifact.ArtifactID = ArtifactImage.Artifact_ArtifactID AND Type='physical'",
+      `SELECT * FROM Artifact
+       INNER JOIN ArtifactImage 
+       ON Artifact.ArtifactID = ArtifactImage.Artifact_ArtifactID 
+        AND Type='physical'`,
       (err, rows, fields) => {
         if (!err) {
           res.json(rows);
@@ -44,9 +49,11 @@ module.exports = app => {
   app.get("/api/artifacts/timeline", (req, res) => {
     db.query(
       `SELECT * FROM Artifact 
-    INNER JOIN ArtifactImage ON 
-      Artifact.ArtifactID = ArtifactImage.Artifact_ArtifactID
-  ORDER BY Artifact.DateAcquireYear desc, Artifact.DateAcquireMonth desc, Artifact.DateAcquireDay desc`,
+        INNER JOIN ArtifactImage 
+        ON Artifact.ArtifactID = ArtifactImage.Artifact_ArtifactID
+        ORDER BY Artifact.DateAcquireYear desc, 
+          Artifact.DateAcquireMonth desc, 
+          Artifact.DateAcquireDay desc`,
       (err, rows, fields) => {
         if (!err) {
           res.json(rows);
@@ -72,8 +79,46 @@ module.exports = app => {
 
   app.get("/api/artifacts/:artifactID", (req, res) => {
     db.query(
-      "SELECT * FROM Artifact INNER JOIN ArtifactImage  ON Artifact.ArtifactId = ArtifactImage.Artifact_ArtifactID AND Artifact.ArtifactID=" +
-        req.params.artifactID,
+      `SELECT * FROM Artifact 
+          INNER JOIN ArtifactImage  
+          ON Artifact.ArtifactId = ArtifactImage.Artifact_ArtifactID 
+          AND Artifact.ArtifactID=` + req.params.artifactID,
+      (err, rows, fields) => {
+        if (!err) {
+          res.json(rows);
+        } else {
+          console.log(err);
+        }
+      }
+    );
+  });
+
+  app.get("/api/timeline/:yearStart/:yearEnd", (req, res) => {
+    db.query(
+      `SELECT * FROM Artifact 
+        INNER JOIN ArtifactImage ON 
+        Artifact.ArtifactID = ArtifactImage.Artifact_ArtifactID
+        WHERE Artifact.DateAcquireYear >= ? AND Artifact.DateAcquireYear <= ?
+        ORDER BY Artifact.DateAcquireYear desc, Artifact.DateAcquireMonth desc, 
+        Artifact.DateAcquireDay desc`,
+      [req.params.yearStart, req.params.yearEnd],
+      (err, rows, fields) => {
+        if (!err) {
+          res.json(rows);
+        } else {
+          console.log(err);
+        }
+      }
+    );
+  });
+
+  app.get("/api/member/:memberid/artifacts", (req, res) => {
+    db.query(
+      `SELECT * FROM Artifact 
+      INNER JOIN ArtifactImage ON 
+      Artifact.ArtifactID = ArtifactImage.Artifact_ArtifactID
+      WHERE Artifact.CurrentOwner = ?`,
+      [req.params.memberid],
       (err, rows, fields) => {
         if (!err) {
           res.json(rows);
