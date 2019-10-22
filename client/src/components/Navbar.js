@@ -107,7 +107,7 @@ class Navbar extends Component {
               />
               <Menu.Item
                 as={Link}
-                to="/familytree"
+                to="/familytree/1"
                 name="family tree"
                 active={activeItem === "family tree"}
                 onClick={this.handleItemClick}
