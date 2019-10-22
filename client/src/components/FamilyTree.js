@@ -1,15 +1,34 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import { Container, Header, Menu } from "semantic-ui-react";
+import {Link, Redirect} from "react-router-dom";
+import {Button, Container, Header, Icon, Menu} from "semantic-ui-react";
 import mySvg from "../images/family.svg";
 import TreeWrapper from "./TreeWrapper";
 import * as d3 from "d3";
+import {Item} from "semantic-ui-react/dist/commonjs/views/Item/Item";
+
+
+
 
 class FamilyTree extends Component {
-  state = { activeItem: "All", headerDesc: "List of All Artifacts" };
+  state = { activeItem: "All", headerDesc: "List of All Artifacts", redirect: false };
+
+    setRedirect = () => {
+        this.setState({
+            redirect: true
+        })
+    }
+    renderRedirect = () => {
+        if (this.state.redirect) {
+            return <Redirect to='familytree/member/1' />
+        }
+    }
+
   handleItemClick = (e, { name, desc }) =>
     this.setState({ activeItem: name, headerDesc: desc });
   render() {
+
+
+
     const { activeItem, headerDesc } = this.state;
     // const { headerDesc } = this.state
     return (
@@ -22,6 +41,10 @@ class FamilyTree extends Component {
         />
         {/* <TreeWrapper /> */}
         <div>
+            {this.renderRedirect()}
+
+            <Button as={Link} to={'/familytree/new'} primary floated="right">Add family member</Button>
+
           <title>Test Family Tree</title>
           {/* I found and adapted this css code from: https://stackoverflow.com/questions/38192074/family-tree-css */}
           {/* There is also an example on codepen.io at: http://codepen.io/Pestov/pen/BLpgm */}
@@ -94,7 +117,7 @@ class FamilyTree extends Component {
                       <ul>
                         <li>
                           <div>
-                            <span className="male">Leon</span>
+                            <a className="male" onClick={this.setRedirect}>Leon</a>
                             <span className="spacer" />
                             <span className="female">Mariam</span>
                           </div>

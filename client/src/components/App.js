@@ -46,10 +46,11 @@ const App = () => {
           <Route exact path="/familytree" component={FamilyTree} />
           <Route exact path="/familytree/member/:id" component={Member} />
           <Route exact path="/familytree/member/:id" component={MemberArtifacts} />
+          <Route path="/familytree/new" component={NewFamilyMember} />
           <Route path="/artifacts/new" component={NewArtifact} />
           <Route path="/artifactpage/delete/:id" component={DeleteArtifact} />
           <Route path="/artifactpage/update/:id" component={UpdateArtifact} />
-          <Route path="/family/new" component={NewFamilyMember} />
+
           <Footer />
         </div>
       </BrowserRouter>
