@@ -174,13 +174,15 @@ module.exports = app => {
 
   // GET Route for last added artifact ID
   app.get("/artifact/lastAdded", function(req, res) {
-    db.query('SELECT max(ArtifactID) as lastAdded from Artifact',
-    (err, results, fields) => {
-      if(err) throw err;
-      console.log("Acquired last added ArtifactID");
-      res.send(results[0]);
-    })
-  })
+    db.query(
+      "SELECT max(ArtifactID) as lastAdded from Artifact",
+      (err, results, fields) => {
+        if (err) throw err;
+        console.log("Acquired last added ArtifactID");
+        res.send(results[0]);
+      }
+    );
+  });
 
   //POST route for registration of new artifacts
   app.post("/artifacts/new", function(req, res) {
@@ -254,7 +256,7 @@ module.exports = app => {
   });
 
   //Update route for artifacts
-  app.post("artifacts/update", function(req, res) {
+  app.post("artifacts/update/:id", function(req, res) {
     const id = req.body.id;
     const name = req.body.Name;
     const geoTag = req.body.Geotag;

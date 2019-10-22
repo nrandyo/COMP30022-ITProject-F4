@@ -30,7 +30,7 @@ class FamilyTree extends Component {
     const { activeItem, headerDesc } = this.state;
     // const { headerDesc } = this.state
     return (
-      <Container text style={{ minHeight: 700, padding: "1em 0em" }}>
+      <Container text style={{ minHeight: 700, padding: "0em 1em" }}>
         {/* <TreeWrapper /> */}
         <div>
           {this.renderRedirect()}
@@ -68,12 +68,12 @@ class FamilyTree extends Component {
                             <ul>
                               <li>
                                 <div>
-                                  <span className="male">Aviva</span>
+                                  <span className="female">Aviva</span>
                                 </div>
                               </li>
                               <li>
                                 <div>
-                                  <span className="male">Tamaria</span>
+                                  <span className="female">Tamaria</span>
                                 </div>
                               </li>
                               <li>
@@ -85,7 +85,7 @@ class FamilyTree extends Component {
                           </li>
                           <li>
                             <div>
-                              <span className="female">David</span>
+                              <span className="male">David</span>
                             </div>
                           </li>
                         </ul>

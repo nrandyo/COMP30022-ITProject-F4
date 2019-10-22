@@ -30,7 +30,7 @@ class FamilyTree2 extends Component {
     const { activeItem, headerDesc } = this.state;
     // const { headerDesc } = this.state
     return (
-      <Container text style={{ minHeight: 700, padding: "1em 0em" }}>
+      <Container style={{ minHeight: 700, padding: "0em 7em" }}>
         {/* <TreeWrapper /> */}
         <div>
           {this.renderRedirect()}

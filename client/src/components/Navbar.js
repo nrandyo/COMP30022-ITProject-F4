@@ -1,6 +1,6 @@
-import _ from 'lodash'
-import PropTypes from 'prop-types'
-import axios from 'axios';
+import _ from "lodash";
+import PropTypes from "prop-types";
+import axios from "axios";
 import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
 import {
@@ -11,18 +11,17 @@ import {
   Segment,
   Grid,
   Search,
-  Label } from "semantic-ui-react";
+  Label
+} from "semantic-ui-react";
 
-const resultRenderer = ({ Name }) => <Label content={Name} />
+const resultRenderer = ({ Name }) => <Label content={Name} />;
 
 resultRenderer.propTypes = {
   Name: PropTypes.string,
-  description: PropTypes.string,
-}
-
+  description: PropTypes.string
+};
 
 class Navbar extends Component {
-
   constructor(props) {
     super(props);
   }
@@ -31,43 +30,43 @@ class Navbar extends Component {
     activeItem: "home",
     isLoading: false,
     results: [],
-    value: '',
+    value: "",
     artifacts: null
   };
 
   componentDidMount() {
-   axios.get("/api/artifacts/all").then(res => {
-     this.setState({ artifacts: res.data});
-   });
+    axios.get("/api/artifacts/all").then(res => {
+      this.setState({ artifacts: res.data });
+    });
   }
 
-  handleResultSelect = (e, {result}) => {
-    this.props.history.push('/artifactpage/' + result.ArtifactID);
-  }
+  handleResultSelect = (e, { result }) => {
+    this.props.history.push("/artifactpage/" + result.ArtifactID);
+  };
 
   handleSearchChange = (e, { value }) => {
-    this.setState({ isLoading: true, value })
+    this.setState({ isLoading: true, value });
 
     setTimeout(() => {
       if (this.state.value.length < 1)
         return this.setState({
           isLoading: false,
           results: [],
-          value: ''
-      })
+          value: ""
+        });
 
-      const re = new RegExp(_.escapeRegExp(this.state.value), 'i')
+      const re = new RegExp(_.escapeRegExp(this.state.value), "i");
 
-      const isMatch = (result) => {
+      const isMatch = result => {
         return re.test(result.Name);
-      }
+      };
 
       this.setState({
         isLoading: false,
-        results: _.filter(this.state.artifacts, isMatch),
-      })
-    }, 300)
-  }
+        results: _.filter(this.state.artifacts, isMatch)
+      });
+    }, 300);
+  };
 
   handleItemClick = (e, { name }) => this.setState({ activeItem: name });
 
@@ -114,22 +113,21 @@ class Navbar extends Component {
                 onClick={this.handleItemClick}
               />
               <Menu.Menu position="right">
-                  <Grid>
-                    <Grid.Column width={6}>
-                      <Search
-                        loading={isLoading}
-                        onResultSelect={this.handleResultSelect}
-                        onSearchChange={_.debounce(this.handleSearchChange, 500, {
-                          leading: true,
-                        })}
-                        results={results}
-                        value={value}
-                        resultRenderer={resultRenderer}
-                        {...this.props}
-
-                      />
-                    </Grid.Column>
-                  </Grid>
+                <Grid>
+                  <Grid.Column width={6}>
+                    <Search
+                      loading={isLoading}
+                      onResultSelect={this.handleResultSelect}
+                      onSearchChange={_.debounce(this.handleSearchChange, 500, {
+                        leading: true
+                      })}
+                      results={results}
+                      value={value}
+                      resultRenderer={resultRenderer}
+                      {...this.props}
+                    />
+                  </Grid.Column>
+                </Grid>
               </Menu.Menu>
             </Container>
           </Menu>
