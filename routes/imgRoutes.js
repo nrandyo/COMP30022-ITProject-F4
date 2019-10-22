@@ -23,6 +23,20 @@ module.exports = app => {
     });
   });
 
+  app.get("/api/images/:artifactID", (req, res) => {
+    db.query(
+      `SELECT * FROM ArtifactImage
+          WHERE Artifact_ArtifactID=` + req.params.artifactID,
+      (err, rows, fields) => {
+        if (!err) {
+          res.json(rows);
+        } else {
+          console.log(err);
+        }
+      }
+    );
+  });
+
   // POST route to add Artifact Image to database
   app.post("/new/artifactImage", function(req, res) {
     const caption = "";

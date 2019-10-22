@@ -32,6 +32,20 @@ class CommentSection extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  formatDate(date) {
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2) 
+        month = '0' + month;
+    if (day.length < 2) 
+        day = '0' + day;
+
+    return [year, month, day].join('-');
+}
+
   // Handles submission for all form fields
   handleSubmit(event) {
     event.preventDefault();
@@ -114,7 +128,7 @@ class CommentSection extends Component {
             <Comment.Content>
               <Comment.Author as="a">{comment.Author}</Comment.Author>
               <Comment.Metadata>
-                <div>Today at {comment.DatePosted}</div>
+                <div>Posted on {this.formatDate(comment.DatePosted)}</div>
               </Comment.Metadata>
               <Comment.Text>{comment.Comment}</Comment.Text>
             </Comment.Content>

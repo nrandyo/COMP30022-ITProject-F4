@@ -68,7 +68,8 @@ class ArtifactPage extends Component {
   // const ArtifactPage = ({ id }) => {
 
   state = {
-    artifact: []
+    artifact: [],
+    images: []
   };
   componentDidMount() {
     const { id } = this.props.match.params;
@@ -76,6 +77,11 @@ class ArtifactPage extends Component {
     axios.get(`/api/artifacts/${id}`).then(res => {
       const artifact = res.data;
       this.setState(() => ({ artifact }));
+    });
+
+    axios.get(`/api/images/${id}`).then(res => {
+      const images = res.data;
+      this.setState(() => ({ images }));
     });
   }
 
@@ -127,29 +133,16 @@ class ArtifactPage extends Component {
               </Menu.Menu>
             </Menu>
             <Slider {...settings}>
+            {this.state.images.map(image => (
               <div>
                 <Image
                   size="large"
                   centered
-                  src={require("../artifactImages/" + artifact.FilePath)}
+                  src={require("../artifactImages/" + image.FilePath)}
                   bordered
                 />
               </div>
-              <div>
-                <Image size="large" centered src={LeonSterling} bordered />
-              </div>
-              <div>
-                <Image size="large" centered src={LeonSterling} bordered />
-              </div>
-              <div>
-                <Image size="large" centered src={LeonSterling} bordered />
-              </div>
-              <div>
-                <Image size="large" centered src={LeonSterling} bordered />
-              </div>
-              <div>
-                <h3>6</h3>
-              </div>
+              ))}
             </Slider>
             <Segment style={{ padding: "3em 0em" }} vertical>
               <Container text>
