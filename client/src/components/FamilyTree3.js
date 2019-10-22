@@ -55,7 +55,7 @@ class FamilyTree3 extends Component {
                         <Label
                           className="female"
                           as={Link}
-                          to={"/familymember/29"}
+                          to={"/familymember/19"}
                         >
                           Sarah
                         </Label>

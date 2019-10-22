@@ -94,7 +94,7 @@ class FamilyTree2 extends Component {
                                     as={Link}
                                     to={"/familymember/28"}
                                   >
-                                    Tamaria
+                                    Tamam
                                   </Label>
                                 </div>
                               </li>

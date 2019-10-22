@@ -161,7 +161,7 @@ class FamilyTree1 extends Component {
                     <li>
                       <div>
                           <Label
-                              className="female"
+                              className="male"
                               as={Link}
                               to={"/familymember/13"}
                           >
