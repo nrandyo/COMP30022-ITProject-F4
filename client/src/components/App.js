@@ -26,6 +26,7 @@ import NewFamilyMember from "./NewFamilyMember";
 import Member from "./Member";
 import MemberArtifacts from "./MemberArtifacts";
 import FamilyNav from "./FamilyNav";
+import EditArtifact from "./EditArtifact";
 
 const App = () => {
   return (
@@ -57,7 +58,7 @@ const App = () => {
           <Route path="/familytree/new" component={NewFamilyMember} />
           <Route path="/artifacts/new" component={NewArtifact} />
           <Route path="/artifactpage/delete/:id" component={DeleteArtifact} />
-          <Route path="/artifactpage/update/:id" component={UpdateArtifact} />
+          <Route path="/artifactpage/update/:id" component={EditArtifact} />
 
           <Footer />
         </div>

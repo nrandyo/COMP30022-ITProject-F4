@@ -1,17 +1,10 @@
 import React, { Component } from "react";
 import { Link, Redirect } from "react-router-dom";
-import {
-  Button,
-  Container,
-  Header,
-  Icon,
-  Menu,
-  Label
-} from "semantic-ui-react";
-import mySvg from "../images/family.svg";
-import TreeWrapper from "./TreeWrapper";
-import * as d3 from "d3";
-import { Item } from "semantic-ui-react/dist/commonjs/views/Item/Item";
+import { Container, Label } from "semantic-ui-react";
+// import mySvg from "../images/family.svg";
+// import TreeWrapper from "./TreeWrapper";
+// import * as d3 from "d3";
+// import { Item } from "semantic-ui-react/dist/commonjs/views/Item/Item";
 
 class FamilyTree extends Component {
   state = {
