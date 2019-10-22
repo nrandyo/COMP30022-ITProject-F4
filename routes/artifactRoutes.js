@@ -4,9 +4,15 @@ var axios = require("axios");
 module.exports = app => {
   app.get("/api/artifacts/all", (req, res) => {
     db.query(
-      `SELECT * FROM Artifact
-        INNER JOIN ArtifactImage ON
-        Artifact.ArtifactID = ArtifactImage.Artifact_ArtifactID`,
+      `SELECT a.*, im.*
+      FROM artifact AS a
+      INNER JOIN artifactimage AS im ON im.ArtifactImageID = (
+          SELECT ArtifactImageID
+          FROM artifactimage AS p2
+          WHERE p2.Artifact_ArtifactID = a.ArtifactID
+          LIMIT 1
+      )
+      `,
       (err, rows, fields) => {
         if (!err) {
           res.json(rows);
@@ -32,10 +38,14 @@ module.exports = app => {
 
   app.get("/api/artifacts/physical", (req, res) => {
     db.query(
-      `SELECT * FROM Artifact
-       INNER JOIN ArtifactImage
-       ON Artifact.ArtifactID = ArtifactImage.Artifact_ArtifactID
-        AND Type='physical'`,
+      `SELECT a.*, im.*
+      FROM artifact AS a
+      INNER JOIN artifactimage AS im ON im.ArtifactImageID = (
+          SELECT ArtifactImageID
+          FROM artifactimage AS p2
+          WHERE p2.Artifact_ArtifactID = a.ArtifactID AND Type='physical'
+          LIMIT 1
+      )`,
       (err, rows, fields) => {
         if (!err) {
           res.json(rows);
