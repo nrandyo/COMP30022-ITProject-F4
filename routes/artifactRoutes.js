@@ -4,8 +4,8 @@ var axios = require("axios");
 module.exports = app => {
   app.get("/api/artifacts/all", (req, res) => {
     db.query(
-      `SELECT * FROM Artifact 
-        INNER JOIN ArtifactImage ON 
+      `SELECT * FROM Artifact
+        INNER JOIN ArtifactImage ON
         Artifact.ArtifactID = ArtifactImage.Artifact_ArtifactID`,
       (err, rows, fields) => {
         if (!err) {
@@ -33,8 +33,8 @@ module.exports = app => {
   app.get("/api/artifacts/physical", (req, res) => {
     db.query(
       `SELECT * FROM Artifact
-       INNER JOIN ArtifactImage 
-       ON Artifact.ArtifactID = ArtifactImage.Artifact_ArtifactID 
+       INNER JOIN ArtifactImage
+       ON Artifact.ArtifactID = ArtifactImage.Artifact_ArtifactID
         AND Type='physical'`,
       (err, rows, fields) => {
         if (!err) {
@@ -48,11 +48,11 @@ module.exports = app => {
 
   app.get("/api/artifacts/timeline", (req, res) => {
     db.query(
-      `SELECT * FROM Artifact 
-        INNER JOIN ArtifactImage 
+      `SELECT * FROM Artifact
+        INNER JOIN ArtifactImage
         ON Artifact.ArtifactID = ArtifactImage.Artifact_ArtifactID
-        ORDER BY Artifact.DateAcquireYear desc, 
-          Artifact.DateAcquireMonth desc, 
+        ORDER BY Artifact.DateAcquireYear desc,
+          Artifact.DateAcquireMonth desc,
           Artifact.DateAcquireDay desc`,
       (err, rows, fields) => {
         if (!err) {
@@ -79,9 +79,9 @@ module.exports = app => {
 
   app.get("/api/artifacts/:artifactID", (req, res) => {
     db.query(
-      `SELECT * FROM Artifact 
-          INNER JOIN ArtifactImage  
-          ON Artifact.ArtifactId = ArtifactImage.Artifact_ArtifactID 
+      `SELECT * FROM Artifact
+          INNER JOIN ArtifactImage
+          ON Artifact.ArtifactId = ArtifactImage.Artifact_ArtifactID
           AND Artifact.ArtifactID=` + req.params.artifactID,
       (err, rows, fields) => {
         if (!err) {
@@ -95,11 +95,11 @@ module.exports = app => {
 
   app.get("/api/timeline/:yearStart/:yearEnd", (req, res) => {
     db.query(
-      `SELECT * FROM Artifact 
-        INNER JOIN ArtifactImage ON 
+      `SELECT * FROM Artifact
+        INNER JOIN ArtifactImage ON
         Artifact.ArtifactID = ArtifactImage.Artifact_ArtifactID
         WHERE Artifact.DateAcquireYear >= ? AND Artifact.DateAcquireYear <= ?
-        ORDER BY Artifact.DateAcquireYear desc, Artifact.DateAcquireMonth desc, 
+        ORDER BY Artifact.DateAcquireYear desc, Artifact.DateAcquireMonth desc,
         Artifact.DateAcquireDay desc`,
       [req.params.yearStart, req.params.yearEnd],
       (err, rows, fields) => {
@@ -114,8 +114,8 @@ module.exports = app => {
 
   app.get("/api/member/:memberid/artifacts", (req, res) => {
     db.query(
-      `SELECT * FROM Artifact 
-      INNER JOIN ArtifactImage ON 
+      `SELECT * FROM Artifact
+      INNER JOIN ArtifactImage ON
       Artifact.ArtifactID = ArtifactImage.Artifact_ArtifactID
       WHERE Artifact.CurrentOwner = ?`,
       [req.params.memberid],
@@ -164,14 +164,13 @@ module.exports = app => {
 
   // GET Route for last added artifact ID
   app.get("/artifact/lastAdded", function(req, res) {
-    db.query(
-      "SELECT max(ArtifactID) as lastAdded from Artifact",
-      (err, results, fields) => {
-        if (err) throw err;
-        res.send(results[0]);
-      }
-    );
-  });
+    db.query('SELECT max(ArtifactID) as lastAdded from Artifact',
+    (err, results, fields) => {
+      if(err) throw err;
+      console.log("Acquired last added ArtifactID");
+      res.send(results[0]);
+    })
+  })
 
   //POST route for registration of new artifacts
   app.post("/artifacts/new", function(req, res) {

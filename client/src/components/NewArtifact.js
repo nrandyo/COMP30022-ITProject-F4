@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { withRouter } from 'react-router';
+import  { Redirect } from 'react-router-dom'
 import axios from 'axios';
 import { Button,
          Form,
@@ -39,7 +39,8 @@ class NewArtifact extends Component {
       lastAdded: '',
       addArtifactStatus: false,
       imagePreview: [],
-      previewOn: false
+      previewOn: false,
+      redirect: false
       };
 
     this.handleImageChange = this.handleImageChange.bind(this);
@@ -47,7 +48,7 @@ class NewArtifact extends Component {
   }
 
   // Request to add artifacts to database
-  requestAddArtifact = data => {
+  requestAddArtifact(data) {
     // POST route via backend for artifacts
     fetch('/artifacts/new',
       { method: 'POST',
@@ -64,43 +65,33 @@ class NewArtifact extends Component {
   }
 
   // Request foreign key for last added artifact
-  requestLastAddedArtifact = () => {
-    fetch('/artifact/lastAdded',
-      { method: 'GET',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
-      .then((res) => {
-        res.json().then((data) => {
-          this.setState({ lastAdded: data.lastAdded });
-        })
-      })
+  requestLastAddedArtifact() {
+    axios.get("/artifact/lastAdded")
+    .then((res) => {
+      console.log("--------test lastadded data retrieval");
+      console.log(res.data.lastAdded);
+      this.setState({ lastAdded: res.data.lastAdded });
+    });
   }
 
   //Upload images to /artifactImages server
-  requestUploadServer = data => {
+  requestUploadServer(data) {
     // POST route for image upload
     axios.post('/upload/artifactimage', data, {
       headers: { 'content-type': 'multipart/form-data' }
     })
     .then((res) => {
-      console.log("------------");
       for(var x = 0; x<this.state.file.length; x++) {
         var name = res.data[x].filename;
         this.setState({
           filename: [...this.state.filename, name],
         })
-        console.log(this.state.filename[x]);
       }
-      // console.log(res.data.filename);
-      // this.setState({ filename: res.data.filename });
-      // console.log(this.state.filename);
     })
   }
 
   // Request to add image to database
-  requestAddImage = data => {
+  requestAddImage(data) {
 
     // POST route for adding image to database
     fetch('/new/artifactImage',
@@ -114,9 +105,7 @@ class NewArtifact extends Component {
         if(res.status === HTTP_RES_POST) {
           this.setState({ isLoading: false });
           this.setState({ successMessage: true });
-          setTimeout(() => {
-            this.props.history.push('/artifacts/objects');
-          }, 2000);
+          this.props.history.push('/artifacts/objects');
         }
       })
   }
@@ -128,10 +117,8 @@ class NewArtifact extends Component {
 
     // Data for artifact image
     const imageData = new FormData();
-    // imageData.append('file', this.state.file);
     for(var x = 0; x<this.state.file.length; x++) {
       imageData.append('file', this.state.file[x]);
-      console.log(this.state.file[x]);
     }
 
     // Data for artifacts
@@ -146,25 +133,25 @@ class NewArtifact extends Component {
         Tags: this.state.tags
       };
 
-    let reqAddArtifact = await this.requestAddArtifact(artifactData);
-    let reqLastAdded = await this.requestLastAddedArtifact();
-    let reqUpload = await this.requestUploadServer(imageData);
+    await this.requestAddArtifact(artifactData);
+    await this.requestLastAddedArtifact();
 
-    if(Promise.all([reqAddArtifact, reqLastAdded, reqUpload])) {
-      setTimeout(() => {
-        for(var x = 0; x<this.state.file.length; x++) {
-          const addImageData =
-          {
-            filename: this.state.filename[x],
-            lastAdded: this.state.lastAdded
-          };
-          this.requestAddImage(addImageData);
-        }
-      }, 2500);
-    } else {
-      this.setState({ isLoading: false });
-      this.setState({ failureMessage: true });
-    }
+    const timer = 2000;
+
+    setTimeout(() => {
+      this.requestUploadServer(imageData);
+    }, (timer-500));
+
+    setTimeout(() => {
+      for(var x = 0; x < this.state.file.length; x++) {
+            const addImageData =
+            {
+              filename: this.state.filename[x],
+              lastAdded: this.state.lastAdded
+            };
+            this.requestAddImage(addImageData);
+          }
+    }, timer);
   }
 
   handleImageChange = (e) => {
@@ -222,6 +209,10 @@ class NewArtifact extends Component {
   render() {
     //Some constants that are used in rendering state
     const { isLoading, successMessage, failureMessage, tags } = this.state;
+
+    if (this.state.redirect) {
+      return <Redirect to='/artifacts/objects'/>;
+    }
 
     return (
       <div>
@@ -370,4 +361,4 @@ class NewArtifact extends Component {
   }
 }
 
-export default withRouter(NewArtifact);
+export default NewArtifact;
