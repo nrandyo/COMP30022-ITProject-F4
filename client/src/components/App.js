@@ -22,10 +22,12 @@ import FamilyTree from "./FamilyTree";
 import FamilyTree2 from "./FamilyTree2";
 import FamilyTree3 from "./FamilyTree3";
 import FamilyTree4 from "./FamilyTree4";
+import FamilyTree5 from "./FamilyTree5";
 import CommentSection from "./CommentSection";
 import NewFamilyMember from "./NewFamilyMember";
 import Member from "./Member";
 import MemberArtifacts from "./MemberArtifacts";
+import FamilyNav from "./FamilyNav";
 
 const App = () => {
   return (
@@ -46,12 +48,18 @@ const App = () => {
           <Route exact path="/artifacts/objects" component={Objects} />
           <Route exact path="/artifactpage/:id" component={ArtifactPage} />
           <Route exact path="/artifactpage/:id" component={CommentSection} />
-          <Route exact path="/familytree" component={FamilyTree} />
-          <Route exact path="/familytree2" component={FamilyTree2} />
-          <Route exact path="/familytree3" component={FamilyTree3} />
-          <Route exact path="/familytree4" component={FamilyTree4} />
+          <Route path="/familytree" component={FamilyNav} />
+          <Route exact path="/familytree" component={FamilyTree2} />
+          {/* <Route exact path="/familytree/2" component={FamilyTree2} /> */}
+          <Route exact path="/familytree/3" component={FamilyTree3} />
+          <Route exact path="/familytree/4" component={FamilyTree4} />
+          <Route exact path="/familytree/5" component={FamilyTree5} />
           <Route exact path="/familytree/member/:id" component={Member} />
-          <Route exact path="/familytree/member/:id" component={MemberArtifacts} />
+          <Route
+            exact
+            path="/familytree/member/:id"
+            component={MemberArtifacts}
+          />
           <Route path="/familytree/new" component={NewFamilyMember} />
           <Route path="/artifacts/new" component={NewArtifact} />
           <Route path="/artifactpage/delete/:id" component={DeleteArtifact} />
