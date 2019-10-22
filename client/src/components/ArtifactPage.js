@@ -132,7 +132,7 @@ class ArtifactPage extends Component {
                   size="large"
                   centered
                   src={require("../artifactImages/" + artifact.FilePath)}
-                  ordered
+                  bordered
                 />
               </div>
               <div>

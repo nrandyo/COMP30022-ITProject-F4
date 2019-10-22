@@ -22,16 +22,22 @@ export default class D3Tree {
     var svg = d3
       .select("#tree")
       .append("svg")
-      .attr("width", 900)
+      .attr("width", 1000)
       .attr("height", 600)
       .attr("align", "center")
       .append("g")
       .attr("transform", "translate(50,50)");
     var data = [
       { child: "Roots", parent: "" },
-      // { child: "Theodore", parent: "Roots", spouse: "Helen" },
+      { child: "Bernard", parent: "Roots" },
+      { child: "Sarah Harris", parent: "Bernard" },
       { child: "Jacob", parent: "Roots", spouse: "Sarah" },
+      { child: "Theodore", parent: "Roots", spouse: "Helen" },
 
+      { child: "Ruth", parent: "Theodore", spouse: "Joseph" },
+      { child: "Cynthia", parent: "Theodore" },
+      { child: "Barry", parent: "Cynthia" },
+      { child: "David", parent: "Cynthia" },
       { child: "Zoe", parent: "Joseph" },
       { child: "Leon", parent: "Joseph", spouse: "Mariam" },
       // { child: "Ruth", parent: "Theodore" },
@@ -59,7 +65,7 @@ export default class D3Tree {
       .parentId(function(d) {
         return d.parent;
       })(data);
-    var treeStructure = d3.tree().size([650, 300]);
+    var treeStructure = d3.tree().size([1000, 300]);
     var information = treeStructure(dataStructure);
     console.log(information.descendants());
 
