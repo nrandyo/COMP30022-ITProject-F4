@@ -120,8 +120,8 @@ class NewFamilyMember extends React.Component {
         return (
             <Container>
                 <Header as="h2" textAlign="center">New family member</Header>
-                <Container style={{paddingLeft: "17vw"}}>
-                    <Form onSubmit={this.handleSubmit} style={{maxWidth: "40vw"}}>
+                <Container >
+                    <Form onSubmit={this.handleSubmit} >
                         <Form.Group widths='equal'>
 
                             {/*Input for name*/}

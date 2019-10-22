@@ -3,13 +3,18 @@ var axios = require("axios");
 
 module.exports = app => {
   app.get("/api/artifacts/all", (req, res) => {
-    db.query("SELECT * FROM Artifact INNER JOIN ArtifactImage ON Artifact.ArtifactID = ArtifactImage.Artifact_ArtifactID", (err, rows, fields) => {
-      if (!err) {
-        res.json(rows);
-      } else {
-        console.log(err);
+    db.query(
+      `SELECT * FROM Artifact
+        INNER JOIN ArtifactImage ON
+        Artifact.ArtifactID = ArtifactImage.Artifact_ArtifactID`,
+      (err, rows, fields) => {
+        if (!err) {
+          res.json(rows);
+        } else {
+          console.log(err);
+        }
       }
-    });
+    );
   });
 
   app.get("/api/artifacts/photos", (req, res) => {
@@ -27,7 +32,10 @@ module.exports = app => {
 
   app.get("/api/artifacts/physical", (req, res) => {
     db.query(
-      "SELECT * FROM Artifact INNER JOIN ArtifactImage ON Artifact.ArtifactID = ArtifactImage.Artifact_ArtifactID AND Type='physical'",
+      `SELECT * FROM Artifact
+       INNER JOIN ArtifactImage
+       ON Artifact.ArtifactID = ArtifactImage.Artifact_ArtifactID
+        AND Type='physical'`,
       (err, rows, fields) => {
         if (!err) {
           res.json(rows);
@@ -39,16 +47,21 @@ module.exports = app => {
   });
 
   app.get("/api/artifacts/timeline", (req, res) => {
-    db.query(`SELECT * FROM Artifact
-    INNER JOIN ArtifactImage ON
-      Artifact.ArtifactID = ArtifactImage.Artifact_ArtifactID
-  ORDER BY Artifact.DateAcquireYear desc, Artifact.DateAcquireMonth desc, Artifact.DateAcquireDay desc`, (err, rows, fields) => {
-      if (!err) {
-        res.json(rows);
-      } else {
-        console.log(err);
+    db.query(
+      `SELECT * FROM Artifact
+        INNER JOIN ArtifactImage
+        ON Artifact.ArtifactID = ArtifactImage.Artifact_ArtifactID
+        ORDER BY Artifact.DateAcquireYear desc,
+          Artifact.DateAcquireMonth desc,
+          Artifact.DateAcquireDay desc`,
+      (err, rows, fields) => {
+        if (!err) {
+          res.json(rows);
+        } else {
+          console.log(err);
+        }
       }
-    });
+    );
   });
 
   app.get("/api/artifacts/letter", (req, res) => {
@@ -66,7 +79,46 @@ module.exports = app => {
 
   app.get("/api/artifacts/:artifactID", (req, res) => {
     db.query(
-      ("SELECT * FROM Artifact INNER JOIN ArtifactImage  ON Artifact.ArtifactId = ArtifactImage.Artifact_ArtifactID AND Artifact.ArtifactID=" + req.params.artifactID),
+      `SELECT * FROM Artifact
+          INNER JOIN ArtifactImage
+          ON Artifact.ArtifactId = ArtifactImage.Artifact_ArtifactID
+          AND Artifact.ArtifactID=` + req.params.artifactID,
+      (err, rows, fields) => {
+        if (!err) {
+          res.json(rows);
+        } else {
+          console.log(err);
+        }
+      }
+    );
+  });
+
+  app.get("/api/timeline/:yearStart/:yearEnd", (req, res) => {
+    db.query(
+      `SELECT * FROM Artifact
+        INNER JOIN ArtifactImage ON
+        Artifact.ArtifactID = ArtifactImage.Artifact_ArtifactID
+        WHERE Artifact.DateAcquireYear >= ? AND Artifact.DateAcquireYear <= ?
+        ORDER BY Artifact.DateAcquireYear desc, Artifact.DateAcquireMonth desc,
+        Artifact.DateAcquireDay desc`,
+      [req.params.yearStart, req.params.yearEnd],
+      (err, rows, fields) => {
+        if (!err) {
+          res.json(rows);
+        } else {
+          console.log(err);
+        }
+      }
+    );
+  });
+
+  app.get("/api/member/:memberid/artifacts", (req, res) => {
+    db.query(
+      `SELECT * FROM Artifact
+      INNER JOIN ArtifactImage ON
+      Artifact.ArtifactID = ArtifactImage.Artifact_ArtifactID
+      WHERE Artifact.CurrentOwner = ?`,
+      [req.params.memberid],
       (err, rows, fields) => {
         if (!err) {
           res.json(rows);
@@ -128,7 +180,7 @@ module.exports = app => {
     const month = req.body.Month;
     const year = Number(req.body.Year);
     const history = req.body.Description;
-    const tags = (req.body.Tags).toString();
+    const tags = req.body.Tags.toString();
     var type = req.body.Type;
 
     if (typeof type === "undefined") {
@@ -148,8 +200,20 @@ module.exports = app => {
           DateAddedYear = ?, DateAddedMonth = ?, DateAddedDay = ?,
           DateAcquireYear = ?, DateAcquireMonth = ?, DateAcquireDay = ?,
           description = ?, CurrentOwner = ?, Type = ?`,
-      [name, geoTag, tags, yearAdded, monthAdded, dayAdded,
-       year, month, day, history, currOwn, type],
+      [
+        name,
+        geoTag,
+        tags,
+        yearAdded,
+        monthAdded,
+        dayAdded,
+        year,
+        month,
+        day,
+        history,
+        currOwn,
+        type
+      ],
       function(err, result) {
         if (!err) {
           console.log("Artifact added successfully");
@@ -165,21 +229,22 @@ module.exports = app => {
   });
 
   //Delete Route for artifacts
-  app.delete("/artifacts/delete", function(req,res) {
+  app.delete("/artifacts/delete", function(req, res) {
     const id = req.body.id;
     let sql = `DELETE FROM artifact WHERE ArtifactID = ?`;
 
-    db.query(sql,[id], function (err, result) {
-      if (err){
+    db.query(sql, [id], function(err, result) {
+      if (err) {
         res.send(err);
-      }else{res.send(200)
-      console.log("Number of records deleted: " + result.affectedRows);
+      } else {
+        res.send(200);
+        console.log("Number of records deleted: " + result.affectedRows);
       }
     });
   });
 
   //Update route for artifacts
-  app.post("artifacts/update", function(req,res) {
+  app.post("artifacts/update", function(req, res) {
     const id = req.body.id;
     const name = req.body.Name;
     const geoTag = req.body.Geotag;
@@ -198,10 +263,10 @@ module.exports = app => {
     let toUpdate = [name, geoTag, day, month, year, history, type, id];
 
     db.query(sql, toUpdate, (error, results, fields) => {
-      if(error) {
+      if (error) {
         return console.error(error.message);
       } else {
-        console.log('Deleted Row(s):', results.affectedRows);
+        console.log("Deleted Row(s):", results.affectedRows);
       }
     });
   });

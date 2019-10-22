@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { Container, Header, Menu, Form, Input, icon } from "semantic-ui-react";
-import { DateInput } from "semantic-ui-calendar-react";
+import { YearInput } from "semantic-ui-calendar-react";
 
 class TimelineNav extends Component {
   constructor(props) {
@@ -30,7 +30,7 @@ class TimelineNav extends Component {
         <Menu pointing secondary color="blue">
           <Menu.Item>
             <Form>
-              <DateInput
+              <YearInput
                 popupPosition="bottom center"
                 name="start"
                 maxDate={this.state.end}
@@ -46,7 +46,7 @@ class TimelineNav extends Component {
           </Menu.Item>
           <Menu.Item>
             <Form>
-              <DateInput
+              <YearInput
                 popupPosition="bottom center"
                 name="end"
                 minDate={this.state.start}
