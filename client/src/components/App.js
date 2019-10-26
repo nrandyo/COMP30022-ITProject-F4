@@ -27,6 +27,7 @@ import Member from "./Member";
 import MemberArtifacts from "./MemberArtifacts";
 import FamilyNav from "./FamilyNav";
 import EditArtifact from "./EditArtifact";
+import ExportArtifact from "./ExportArtifacts";
 
 const App = () => {
   return (
@@ -59,6 +60,7 @@ const App = () => {
           <Route path="/artifacts/new" component={NewArtifact} />
           <Route path="/artifactpage/delete/:id" component={DeleteArtifact} />
           <Route path="/artifactpage/update/:id" component={EditArtifact} />
+          <Route path="/artifacts/export" component={ExportArtifact} />
 
           <Footer />
         </div>

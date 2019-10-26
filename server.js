@@ -15,13 +15,7 @@ require("./routes/artifactRoutes")(app);
 require("./routes/imgRoutes")(app);
 require("./routes/commentRoutes")(app);
 require("./routes/familyRoutes")(app);
-
-app.get("/members", (req, res) => {
-  db.query("SELECT * FROM user", (err, rows, fields) => {
-    if (!err) res.send(rows);
-    else console.log(err);
-  });
-});
+require("./routes/exportArtifactRoutes")(app);
 
 if (process.env.NODE_ENV === "production"){
   app.use(express.static('client/build'));
