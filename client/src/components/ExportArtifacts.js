@@ -1,20 +1,15 @@
 import React, { Component } from "react";
 import axios from 'axios';
 import FileSaver from 'file-saver';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 import {
         Button,
-        Comment,
         Form,
         Header,
         Container,
-        Divider,
-        Icon,
-        Input,
-        Modal,
-        Message,
         Segment,
-        Dropdown,
-        Label } from "semantic-ui-react";
+        Dropdown } from "semantic-ui-react";
 
 const jsonFile = "JSON";
 
@@ -32,18 +27,14 @@ class ExportArtifacts extends Component {
   }
 
   handleDownload () {
-    console.log(this.state.fileType);
 
-    if (this.state.fileType === jsonFile) {
-      axios.get('/api/artifacts/export/json', {
-        //responseType: 'arraybuffer',
-        headers: {
-            Accept: 'application/json',
-        },
-      })
-      .then((res) => {
-        // Create a blob of the data
-
+    axios.get('/api/artifacts/export/json', {
+      headers: {
+          Accept: 'application/json',
+      }
+    })
+    .then((res) => {
+      if (this.state.fileType === jsonFile) {
         const fileName = 'allartifacts.json'
 
         var fileToSave = new Blob([JSON.stringify(res.data, undefined, 2)], {
@@ -53,16 +44,41 @@ class ExportArtifacts extends Component {
 
         // Save the file
         FileSaver.saveAs(fileToSave, fileName);
-      })
-    } else {
-      console.log("PDF format here");
-    }
 
+      } else {
+        const fileName = 'allartifacts.pdf'
+
+        var pdfDoc = new jsPDF();;
+        var artifacts = JSON.parse(JSON.stringify(res.data));
+
+        var contents = [];
+        artifacts.forEach(function(artifact, i) {
+          delete artifact.Tags;
+          delete artifact.DateAddedMonth;
+          delete artifact.DateAddedDay;
+          delete artifact.DateAddedYear;
+          delete artifact.Type;
+          var arrContent = Object.values(artifact);
+          contents.push(arrContent);
+        });
+
+        pdfDoc.text(14, 15, "Leon's Artifacts:");
+        pdfDoc.autoTable({
+          startY: 20,
+          headStyles: {
+           cellWidth:'wrap'
+          },
+          head:[['Name', 'From', 'Description']],
+          body: contents
+        })
+
+        pdfDoc.save(fileName);
+      }
+    })
   }
 
   onChangeFileType (e, result) {
-
-    // Constantly updates changes in user input on selectors
+    //Updates file selection
     this.setState({ fileType: result.value});
   }
 
