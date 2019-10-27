@@ -68,7 +68,8 @@ class ArtifactPage extends Component {
   // const ArtifactPage = ({ id }) => {
 
   state = {
-    artifact: []
+    artifact: [],
+    images: []
   };
   componentDidMount() {
     const { id } = this.props.match.params;
@@ -77,6 +78,19 @@ class ArtifactPage extends Component {
       const artifact = res.data;
       this.setState(() => ({ artifact }));
     });
+
+    axios.get(`/api/images/${id}`).then(res => {
+      const images = res.data;
+      this.setState(() => ({ images }));
+    });
+  }
+
+  cleanPath(path){
+    if(path === ''){
+      return 'placeholder.png';
+    } else{
+      return path;
+    }
   }
 
   handleDelete = artifactID => {
@@ -92,6 +106,37 @@ class ArtifactPage extends Component {
     // });
   };
 
+
+  // Function to handle null geotags
+  handleGeotag(geotag){
+    if (geotag){
+      return (
+        <Table.Row>
+          <Table.Cell>Current Location</Table.Cell>
+          {/* <Table.Cell>Not available</Table.Cell> */}
+          <Table.Cell>{geotag}</Table.Cell>
+        </Table.Row>
+      )
+    }
+  }
+
+  // handleOwner(owner){
+  //   if (owner){
+  //     var ownerData = null;
+  //     axios.get(`/api/familymember/${owner}`).then(res => {
+  //       ownerData = res.data;
+  //     });
+  //     return (
+  //       {ownerData.map(owner => (
+  //       <Table.Row>
+  //         <Table.Cell>Current Owner</Table.Cell>
+  //         <Table.Cell>{owner.Firstname + ' ' + owner.Lastname}</Table.Cell>
+  //       </Table.Row>))}
+  //     )
+  //   }
+  // }
+
+  
   render() {
     return (
       <Responsive>
@@ -127,29 +172,16 @@ class ArtifactPage extends Component {
               </Menu.Menu>
             </Menu>
             <Slider {...settings}>
+            {this.state.images.map(image => (
               <div>
                 <Image
                   size="large"
                   centered
-                  src={require("../artifactImages/" + artifact.FilePath)}
+                  src={require("../artifactImages/" + this.cleanPath(image.FilePath))}
                   bordered
                 />
               </div>
-              <div>
-                <Image size="large" centered src={LeonSterling} bordered />
-              </div>
-              <div>
-                <Image size="large" centered src={LeonSterling} bordered />
-              </div>
-              <div>
-                <Image size="large" centered src={LeonSterling} bordered />
-              </div>
-              <div>
-                <Image size="large" centered src={LeonSterling} bordered />
-              </div>
-              <div>
-                <h3>6</h3>
-              </div>
+              ))}
             </Slider>
             <Segment style={{ padding: "3em 0em" }} vertical>
               <Container text>
@@ -176,15 +208,8 @@ class ArtifactPage extends Component {
                       <Table.Cell>Type</Table.Cell>
                       <Table.Cell>{artifact.Type}</Table.Cell>
                     </Table.Row>
-                    <Table.Row>
-                      <Table.Cell>Current Owner</Table.Cell>
-                      <Table.Cell>Leon Sterling</Table.Cell>
-                    </Table.Row>
-                    <Table.Row>
-                      <Table.Cell>Current Location</Table.Cell>
-                      {/* <Table.Cell>Not available</Table.Cell> */}
-                      <Table.Cell>{artifact.Geotag}</Table.Cell>
-                    </Table.Row>
+                    {/* {this.handleOwner(artifact.CurrentOwner)} */}
+                    {this.handleGeotag(artifact.Geotag)}
                     <Table.Row>
                       <Table.Cell>Date Acquired</Table.Cell>
                       <Table.Cell>{artifact.DateAcquireYear}</Table.Cell>

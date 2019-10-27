@@ -46,7 +46,7 @@ const ArtifactItem = ({ items, loading }) => {
             <Item>
               <Item.Image src={require('../artifactImages/' + cleanPath(path))} />
               <Item.Content>
-                <Item.Header as="a">{item.Name}</Item.Header>
+                <Item.Header as={Link} to={'/artifactpage/' + item.ArtifactID}>{item.Name}</Item.Header>
                 <Item.Meta>
                   <span className="cinema">{item.DateAcquireYear}</span>
                 </Item.Meta>
@@ -56,7 +56,6 @@ const ArtifactItem = ({ items, loading }) => {
                     Additional Info
                     <Icon name="right chevron" />
                   </Button>
-                  <Label>Limited</Label>
                 </Item.Extra>
               </Item.Content>
             </Item>

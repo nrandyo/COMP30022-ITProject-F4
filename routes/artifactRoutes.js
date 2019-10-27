@@ -90,7 +90,8 @@ module.exports = app => {
       `SELECT * FROM Artifact
           INNER JOIN ArtifactImage
           ON Artifact.ArtifactId = ArtifactImage.Artifact_ArtifactID
-          AND Artifact.ArtifactID=` + req.params.artifactID,
+          AND Artifact.ArtifactID= ?
+          LIMIT 1`, [req.params.artifactID],
       (err, rows, fields) => {
         if (!err) {
           res.json(rows);
@@ -166,7 +167,6 @@ module.exports = app => {
     if (typeof type === "undefined") {
       type = "physical";
     }
-
     // Acquire current data
     const currentDate = new Date();
     const yearAdded = currentDate.getFullYear();
