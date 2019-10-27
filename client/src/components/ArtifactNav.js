@@ -101,6 +101,14 @@ class ArtifactNav extends Component {
                 defaultValue={options[0].value}
               />
             </Menu.Item>
+            <Menu.Item
+              as={Link}
+              to="/artifacts/export"
+              name="Export data"
+              desc="Export data"
+              active={activeItem === "Register Artifact"}
+              onClick={this.handleItemClick}
+            />
           </Menu.Menu>
         </Menu>
       </Container>

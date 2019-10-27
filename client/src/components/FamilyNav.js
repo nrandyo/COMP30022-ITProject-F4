@@ -10,7 +10,7 @@ import {
 } from "semantic-ui-react";
 
 class FamilyNav extends Component {
-  state = { activeItem: "main", headerDesc: "List of All Artifacts" };
+  state = { activeItem: "main", headerDesc: "Main Family" };
   handleItemClick = (e, { name, desc }) =>
     this.setState({ activeItem: name, headerDesc: desc });
   render() {
@@ -34,7 +34,7 @@ class FamilyNav extends Component {
               <Container>
                 <Menu.Item
                   as={Link}
-                  to="/familytree"
+                  to="/familytree/1"
                   name="main"
                   desc="Main Family"
                   active={activeItem === "main"}
@@ -43,7 +43,7 @@ class FamilyNav extends Component {
 
                 <Menu.Item
                   as={Link}
-                  to="/familytree/3"
+                  to="/familytree/2"
                   name="ruth"
                   desc="Ruth's family"
                   active={activeItem === "ruth"}
@@ -52,7 +52,7 @@ class FamilyNav extends Component {
                 />
                 <Menu.Item
                   as={Link}
-                  to="/familytree/4"
+                  to="/familytree/3"
                   name="theodore"
                   desc="Theodore's family"
                   active={activeItem === "theodore"}
@@ -60,7 +60,7 @@ class FamilyNav extends Component {
                 />
                 <Menu.Item
                   as={Link}
-                  to="/familytree/5"
+                  to="/familytree/4"
                   name="mariam"
                   desc="Mariam's family"
                   active={activeItem === "mariam"}
