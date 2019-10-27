@@ -4,44 +4,76 @@ import axios from "axios";
 import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
 import {
-  Button,
   Container,
   Menu,
   Responsive,
   Segment,
   Grid,
   Search,
-  Label
-} from "semantic-ui-react";
+  Card,
+  Image,
+  Form } from "semantic-ui-react";
 
-const resultRenderer = ({ Name }) => <Label content={Name} />;
+const resultRenderer = ({ title, description, image }) => {
+  var img = ''
+
+  if (image === '') {
+    img = 'placeholder.png'
+  } else {
+    img = image
+  }
+  return (
+    <Card>
+      <Card.Content>
+        <Image
+          floated='right'
+          size='small'
+          src={require('../artifactImages/' + img)}
+        />
+        <Card.Header> {title} </Card.Header>
+        <Card.Description> {description} </Card.Description>
+      </Card.Content>
+    </Card>
+  )
+}
 
 resultRenderer.propTypes = {
-  Name: PropTypes.string,
+  title: PropTypes.string,
   description: PropTypes.string
 };
 
 class Navbar extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   state = {
     activeItem: "home",
     isLoading: false,
     results: [],
     value: "",
     artifacts: null
+
   };
 
   componentDidMount() {
-    axios.get("/api/artifacts/all").then(res => {
-      this.setState({ artifacts: res.data });
+    axios.get("/api/artifacts/all").then((res) => {
+
+      var arrArtifacts = [];
+      var allArtifacts = JSON.parse(JSON.stringify(res.data));
+
+      allArtifacts.forEach(function(artifact, i) {
+        var newArtifactObj = {
+          id: artifact.ArtifactID,
+          title: artifact.Name,
+          description: artifact.Description,
+          image: artifact.FilePath
+        }
+        arrArtifacts.push(newArtifactObj);
+      })
+
+      this.setState({ artifacts: arrArtifacts });
     });
   }
 
   handleResultSelect = (e, { result }) => {
-    this.props.history.push("/artifactpage/" + result.ArtifactID);
+    this.props.history.push("/artifactpage/" + result.id);
   };
 
   handleSearchChange = (e, { value }) => {
@@ -57,8 +89,8 @@ class Navbar extends Component {
 
       const re = new RegExp(_.escapeRegExp(this.state.value), "i");
 
-      const isMatch = result => {
-        return re.test(result.Name);
+      const isMatch = (result) => {
+        return re.test(result.title);
       };
 
       this.setState({
@@ -71,7 +103,7 @@ class Navbar extends Component {
   handleItemClick = (e, { name }) => this.setState({ activeItem: name });
 
   render() {
-    const { activeItem, isLoading, value, results, artifacts } = this.state;
+    const { activeItem, isLoading, value, results } = this.state;
     return (
       <Responsive>
         <Segment
@@ -113,21 +145,17 @@ class Navbar extends Component {
                 onClick={this.handleItemClick}
               />
               <Menu.Menu position="right">
-                <Grid>
-                  <Grid.Column width={6}>
-                    <Search
-                      loading={isLoading}
-                      onResultSelect={this.handleResultSelect}
-                      onSearchChange={_.debounce(this.handleSearchChange, 500, {
-                        leading: true
-                      })}
-                      results={results}
-                      value={value}
-                      resultRenderer={resultRenderer}
-                      {...this.props}
-                    />
-                  </Grid.Column>
-                </Grid>
+                <Search
+                  loading={isLoading}
+                  onResultSelect={this.handleResultSelect}
+                  onSearchChange={_.debounce(this.handleSearchChange, 500, {
+                    leading: true
+                  })}
+                  results={results}
+                  resultRenderer={resultRenderer}
+                  value={value}
+                  {...this.props}
+                />
               </Menu.Menu>
             </Container>
           </Menu>

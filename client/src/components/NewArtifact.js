@@ -65,7 +65,7 @@ class NewArtifact extends Component {
   componentDidMount() {
     axios.get("/api/familymember/all").then((res) => {
 
-      var allMembers = [];
+      var arrMembers = [];
       var members = JSON.parse(JSON.stringify(res.data));
 
       members.forEach(function(member, i) {
@@ -74,10 +74,10 @@ class NewArtifact extends Component {
           id: member.FamilyMemberID,
           title: fullName
         }
-        allMembers.push(newMemberObj);
+        arrMembers.push(newMemberObj);
       })
 
-      this.setState({ familyMembers: allMembers });
+      this.setState({ familyMembers: arrMembers });
     });
   }
 
