@@ -5,6 +5,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import axios from "axios";
+import ArtifactTable from "./ArtifactTable";
 // import ImageGallery from "react-image-gallery";
 import {
   Container,
@@ -65,7 +66,8 @@ class ArtifactPage extends Component {
 
   state = {
     artifact: [],
-    images: []
+    images: [],
+    owner: []
   };
   componentDidMount() {
     const { id } = this.props.match.params;
@@ -115,25 +117,27 @@ class ArtifactPage extends Component {
     }
   }
 
-  handleOwner(owner) {
-    var ownerData = null;
-    if (owner) {
-      axios.get(`/api/familymember/${owner}`).then(res => {
-        ownerData = res.data;
-        console.log(ownerData);
-      });
-      return (
-        <React.Fragment>
-          {ownerData.map(own => (
-            <Table.Row>
-              <Table.Cell>Current Owner</Table.Cell>
-              <Table.Cell>{own.Firstname + " " + own.Lastname}</Table.Cell>
-            </Table.Row>
-          ))}
-        </React.Fragment>
-      );
-    }
-  }
+  // handleOwner(owner) {
+  //   var ownerData = null;
+  //   if (owner) {
+  //     // axios.get(`/api/familymember/${owner}`).then(res => {
+  //     //   ownerData = res.data;
+  //     //   console.log(ownerData);
+  //     // });
+  //     return (
+  //       <React.Fragment>
+  //         {/* {ownerData.map(own => ( */}
+  //         <Table.Row>
+  //           <Table.Cell>Current Owner</Table.Cell>
+  //           <Table.Cell>
+  //             {this.state.owner.Firstname + " " + this.state.owner.Lastname}
+  //           </Table.Cell>
+  //         </Table.Row>
+  //         {/* ))} */}
+  //       </React.Fragment>
+  //     );
+  //   }
+  // }
 
   render() {
     return (
@@ -208,7 +212,8 @@ class ArtifactPage extends Component {
                       <Table.Cell>{artifact.Type}</Table.Cell>
                     </Table.Row>
                     {/* {this.handleOwner(artifact.CurrentOwner)} */}
-                    {this.handleGeotag(artifact.Geotag)}
+                    <ArtifactTable owner={artifact.CurrentOwner} />
+                    {/* {this.handleGeotag(artifact.Geotag)} */}
                     <Table.Row>
                       <Table.Cell>Date Acquired</Table.Cell>
                       <Table.Cell>{artifact.DateAcquireYear}</Table.Cell>
