@@ -1,20 +1,6 @@
-import React, { Component } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
-import {
-  Input,
-  Menu,
-  Button,
-  Icon,
-  Image,
-  Item,
-  Label,
-  Container,
-  Header,
-  Segment,
-  Loader,
-  Dimmer
-} from "semantic-ui-react";
-
+import { Button, Icon, Item, Container, Loader } from "semantic-ui-react";
 
 const ArtifactItem = ({ items, loading }) => {
   //   formatDate = (date) => {
@@ -28,10 +14,10 @@ const ArtifactItem = ({ items, loading }) => {
       </Container>
     );
   }
-  function cleanPath(path){
-    if(path === ''){
-      return 'placeholder.png';
-    } else{
+  function cleanPath(path) {
+    if (path === "") {
+      return "placeholder.png";
+    } else {
       return path;
     }
   }
@@ -42,26 +28,33 @@ const ArtifactItem = ({ items, loading }) => {
         {items.map(item => {
           var path = item.FilePath;
           return (
-          
             <Item>
-              <Item.Image src={require('../artifactImages/' + cleanPath(path))} />
+              <Item.Image
+                src={require("../artifactImages/" + cleanPath(path))}
+              />
               <Item.Content>
-                <Item.Header as={Link} to={'/artifactpage/' + item.ArtifactID}>{item.Name}</Item.Header>
+                <Item.Header as={Link} to={"/artifactpage/" + item.ArtifactID}>
+                  {item.Name}
+                </Item.Header>
                 <Item.Meta>
                   <span className="cinema">{item.DateAcquireYear}</span>
                 </Item.Meta>
                 <Item.Description>{item.Description}</Item.Description>
                 <Item.Extra>
-                  <Button as={Link} to={'/artifactpage/' + item.ArtifactID} primary floated="right">
+                  <Button
+                    as={Link}
+                    to={"/artifactpage/" + item.ArtifactID}
+                    primary
+                    floated="right"
+                  >
                     Additional Info
                     <Icon name="right chevron" />
                   </Button>
                 </Item.Extra>
               </Item.Content>
             </Item>
-          )
-        }
-          )}
+          );
+        })}
       </Item.Group>
     </Container>
   );

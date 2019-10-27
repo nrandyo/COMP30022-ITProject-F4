@@ -1,5 +1,5 @@
 import React, { Component, useState, useEffect } from "react";
-import LeonSterling from "../images/LeonSterling.jpg";
+// import LeonSterling from "../images/LeonSterling.jpg";
 import { Link } from "react-router-dom";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -10,16 +10,12 @@ import {
   Container,
   Header,
   Menu,
-  Grid,
   Image,
   Divider,
   Responsive,
-  List,
   Segment,
-  Button,
   Icon,
-  Table,
-  Confirm
+  Table
 } from "semantic-ui-react";
 
 function SampleNextArrow(props) {
@@ -85,10 +81,10 @@ class ArtifactPage extends Component {
     });
   }
 
-  cleanPath(path){
-    if(path === ''){
-      return 'placeholder.png';
-    } else{
+  cleanPath(path) {
+    if (path === "") {
+      return "placeholder.png";
+    } else {
       return path;
     }
   }
@@ -106,37 +102,40 @@ class ArtifactPage extends Component {
     // });
   };
 
-
   // Function to handle null geotags
-  handleGeotag(geotag){
-    if (geotag){
+  handleGeotag(geotag) {
+    if (geotag) {
       return (
         <Table.Row>
           <Table.Cell>Current Location</Table.Cell>
           {/* <Table.Cell>Not available</Table.Cell> */}
           <Table.Cell>{geotag}</Table.Cell>
         </Table.Row>
-      )
+      );
     }
   }
 
-  // handleOwner(owner){
-  //   if (owner){
-  //     var ownerData = null;
-  //     axios.get(`/api/familymember/${owner}`).then(res => {
-  //       ownerData = res.data;
-  //     });
-  //     return (
-  //       {ownerData.map(owner => (
-  //       <Table.Row>
-  //         <Table.Cell>Current Owner</Table.Cell>
-  //         <Table.Cell>{owner.Firstname + ' ' + owner.Lastname}</Table.Cell>
-  //       </Table.Row>))}
-  //     )
-  //   }
-  // }
+  handleOwner(owner) {
+    if (owner) {
+      var ownerData = null;
+      axios.get(`/api/familymember/${owner}`).then(res => {
+        ownerData = res.data;
+      });
+      return (
+        <Table.Row>
+          {/* {ownerData.map(owner => ( */}
 
-  
+          <Table.Cell>Current Owner</Table.Cell>
+          <Table.Cell>
+            {ownerData.Firstname + " " + ownerData.Lastname}
+          </Table.Cell>
+          {/* ))} */}
+        </Table.Row>
+      );
+      console.log("owner");
+    }
+  }
+
   render() {
     return (
       <Responsive>
@@ -172,15 +171,16 @@ class ArtifactPage extends Component {
               </Menu.Menu>
             </Menu>
             <Slider {...settings}>
-            {this.state.images.map(image => (
-              <div>
-                <Image
-                  size="large"
-                  centered
-                  src={require("../artifactImages/" + this.cleanPath(image.FilePath))}
-                  bordered
-                />
-              </div>
+              {this.state.images.map(image => (
+                <div>
+                  <Image
+                    size="large"
+                    centered
+                    src={require("../artifactImages/" +
+                      this.cleanPath(image.FilePath))}
+                    bordered
+                  />
+                </div>
               ))}
             </Slider>
             <Segment style={{ padding: "3em 0em" }} vertical>

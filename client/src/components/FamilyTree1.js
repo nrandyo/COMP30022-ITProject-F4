@@ -15,7 +15,7 @@ class FamilyTree1 extends Component {
   handleItemClick = (e, { name, desc }) =>
     this.setState({ activeItem: name, headerDesc: desc });
   render() {
-    const { activeItem, headerDesc } = this.state;
+    // const { activeItem, headerDesc } = this.state;
     // const { headerDesc } = this.state
     return (
       <Container style={{ minHeight: 700, padding: "0em 7em" }}>

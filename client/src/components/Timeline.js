@@ -5,7 +5,7 @@ import {
   VerticalTimelineElement
 } from "react-vertical-timeline-component";
 import "react-vertical-timeline-component/style.min.css";
-import { MdPhoto, MdMail } from "react-icons/md";
+// import { MdPhoto, MdMail } from "react-icons/md";
 import axios from "axios";
 import { Container, Header, Menu, Form, Input, icon } from "semantic-ui-react";
 import { Redirect } from "react-router-dom";
@@ -56,15 +56,15 @@ class Timelines extends Component {
     this.getArtifacts();
   };
 
-  handleGeotag(geotag){
-    if (geotag){
-      return (
-        <h4 className="vertical-timeline-element-subtitle">{geotag}</h4>
-      )
+  handleGeotag(geotag) {
+    if (geotag) {
+      return <h4 className="vertical-timeline-element-subtitle">{geotag}</h4>;
     } else {
       return (
-        <h4 className="vertical-timeline-element-subtitle">Melbourne, Australia</h4>
-      )
+        <h4 className="vertical-timeline-element-subtitle">
+          Melbourne, Australia
+        </h4>
+      );
     }
   }
 

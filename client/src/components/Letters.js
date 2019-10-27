@@ -8,7 +8,7 @@ const Letters = () => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(4);
+  const [itemsPerPage] = useState(4);
 
   useEffect(() => {
     const fetchItems = async () => {

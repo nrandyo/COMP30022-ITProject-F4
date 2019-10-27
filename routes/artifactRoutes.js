@@ -91,7 +91,8 @@ module.exports = app => {
           INNER JOIN ArtifactImage
           ON Artifact.ArtifactId = ArtifactImage.Artifact_ArtifactID
           AND Artifact.ArtifactID= ?
-          LIMIT 1`, [req.params.artifactID],
+          LIMIT 1`,
+      [req.params.artifactID],
       (err, rows, fields) => {
         if (!err) {
           res.json(rows);
@@ -173,10 +174,10 @@ module.exports = app => {
     const monthAdded = currentDate.getMonth() + 1;
     const dayAdded = currentDate.getDate();
 
-    if (day === '') {
+    if (day === "") {
       day = 1;
     }
-    if (month === '') {
+    if (month === "") {
       month = 1;
     }
     if (year === 0) {
@@ -227,7 +228,7 @@ module.exports = app => {
   });
 
   //Update route for artifacts
-  app.post("artifacts/update/:id", function(req, res) {
+  app.post("/artifacts/update/:id", function(req, res) {
     const id = req.body.id;
     const name = req.body.Name;
     const geoTag = req.body.Geotag;

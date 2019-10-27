@@ -13,7 +13,8 @@ import {
   Message,
   Loader,
   Segment,
-  Transition
+  Transition,
+  Divider
 } from "semantic-ui-react";
 
 //Http response status for create
@@ -71,24 +72,24 @@ class EditArtifact extends Component {
 
   getArtifact() {
     const { id } = this.props.match.params;
-    axios.get(`/api/artifacts/${id}`).then((res) => {
+    axios.get(`/api/artifacts/${id}`).then(res => {
       const artifact = res.data[0];
       this.setState(
         {
           Name: artifact.Name,
-          GeoTag: res.data.Geotag,
-          Day: res.data.DayAddedDay,
-          Month: res.data.DayAddedMonth,
-          Year: res.data.DayAddedYear,
-          Description: res.data.Description,
-          // tags: res.data.Tags,
-          file: res.data.file,
-          filename: [],
-          lastAdded: res.data.file,
-          addArtifactStatus: false,
-          imagePreview: [],
-          previewOn: false,
-          redirect: false
+          GeoTag: artifact.Geotag,
+          Day: artifact.DateAddedDay,
+          Month: artifact.DateAddedMonth,
+          Year: artifact.DateAddedYear,
+          Description: artifact.Description
+          // tags: artifact.Tags
+          // file: artifact.file,
+          // filename: [],
+          // lastAdded: res.data.file,
+          // addArtifactStatus: false,
+          // imagePreview: [],
+          // previewOn: false,
+          // redirect: false
         },
         () => {
           console.log(this.state);
@@ -144,6 +145,22 @@ class EditArtifact extends Component {
     });
   }
 
+  editArtifact(newArtifact) {
+    const { id } = this.props.match.params;
+    axios
+      .request({
+        method: "post",
+        url: `/artifacts/update/${id}`,
+        data: newArtifact
+      })
+      .then(res => {
+        if (res.status === HTTP_RES_POST) {
+          this.setState({ isLoading: false });
+          this.setState({ successMessage: true });
+          this.props.history.push("/artifacts/objects");
+        }
+      });
+  }
   // Handles multiple submission for all form fields
   async handleSubmit(event) {
     event.preventDefault();
@@ -166,7 +183,7 @@ class EditArtifact extends Component {
       Tags: this.state.tags
     };
 
-    await this.requestAddArtifact(artifactData);
+    await this.editArtifact(artifactData);
     await this.requestLastAddedArtifact();
 
     const timer = 2000;
@@ -245,6 +262,13 @@ class EditArtifact extends Component {
     return (
       <div>
         <Container textAlign="center">
+          <Header
+            as="h2"
+            textAlign="center"
+            content="Update"
+            subheader={this.state.Name}
+          />
+          <Divider />
           <Form onSubmit={this.handleSubmit}>
             <Form.Group widths="equal">
               {/*Form for name*/}
@@ -256,7 +280,8 @@ class EditArtifact extends Component {
                  <Icon name='info circle' size =''/>}/> : */}
                 </label>
                 <Input
-                  placeholder={this.state.Name}
+                  placeholder="Name"
+                  value={this.state.Name}
                   name="Name"
                   onChange={this.handleChange}
                 />
@@ -273,6 +298,7 @@ class EditArtifact extends Component {
                 <Input
                   placeholder="Current location of artifacts"
                   name="GeoTag"
+                  value={this.state.Geotag}
                   onChange={this.handleChange}
                 />
               </Form.Field>
@@ -285,6 +311,7 @@ class EditArtifact extends Component {
                 label="Day"
                 placeholder="DD"
                 name="Day"
+                value={this.state.Day}
                 onChange={this.handleChange}
               />
               <Form.Input
@@ -292,6 +319,7 @@ class EditArtifact extends Component {
                 label="Month"
                 placeholder="MM"
                 name="Month"
+                value={this.state.Month}
                 onChange={this.handleChange}
               />
               <Form.Input
@@ -299,6 +327,7 @@ class EditArtifact extends Component {
                 label="Year"
                 placeholder="YYYY"
                 name="Year"
+                value={this.state.Year}
                 onChange={this.handleChange}
               />
             </Form.Group>
@@ -316,6 +345,7 @@ class EditArtifact extends Component {
               <Form.TextArea
                 placeholder="A short description"
                 name="Description"
+                value={this.state.Description}
                 onChange={this.handleChange}
               />
             </Form.Field>

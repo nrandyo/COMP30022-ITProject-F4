@@ -1,34 +1,22 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import {
-  Button,
-  Container,
-  Header,
-  Icon,
-  Menu,
-  Label
-} from "semantic-ui-react";
-import mySvg from "../images/family.svg";
-import TreeWrapper from "./TreeWrapper";
-import * as d3 from "d3";
-import { Item } from "semantic-ui-react/dist/commonjs/views/Item/Item";
+import { Container, Label } from "semantic-ui-react";
 
 class FamilyTree2 extends Component {
   state = {
     activeItem: "All",
-    headerDesc: "List of All Artifacts",
+    headerDesc: "List of All Artifacts"
   };
 
   handleItemClick = (e, { name, desc }) =>
     this.setState({ activeItem: name, headerDesc: desc });
   render() {
-    const { activeItem, headerDesc } = this.state;
+    // const { activeItem, headerDesc } = this.state;
     // const { headerDesc } = this.state
     return (
       <Container text style={{ minHeight: 700, padding: "0em 1em" }}>
         {/* <TreeWrapper /> */}
         <div>
-
           <title>Test Family Tree</title>
           {/* I found and adapted this css code from: https://stackoverflow.com/questions/38192074/family-tree-css */}
           {/* There is also an example on codepen.io at: http://codepen.io/Pestov/pen/BLpgm */}

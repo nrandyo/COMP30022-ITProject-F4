@@ -1,7 +1,5 @@
-import React, { Component, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Container } from "semantic-ui-react";
-// import { Link } from "react-router-dom";
-// import ArtifactNav from "./ArtifactNav";
 import ArtifactItem from "./ArtifactItem";
 import ArtifactPagination from "./ArtifactPagination";
 import axios from "axios";

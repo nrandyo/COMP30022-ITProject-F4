@@ -1,10 +1,6 @@
 import React, { Component } from "react";
 import { Link, Redirect } from "react-router-dom";
-import { Button, Container, Header, Icon, Menu } from "semantic-ui-react";
-import mySvg from "../images/family.svg";
-import TreeWrapper from "./TreeWrapper";
-import * as d3 from "d3";
-import { Item } from "semantic-ui-react/dist/commonjs/views/Item/Item";
+import { Button, Container } from "semantic-ui-react";
 
 class FamilyTree extends Component {
   state = {
@@ -27,7 +23,7 @@ class FamilyTree extends Component {
   handleItemClick = (e, { name, desc }) =>
     this.setState({ activeItem: name, headerDesc: desc });
   render() {
-    const { activeItem, headerDesc } = this.state;
+    // const { activeItem, headerDesc } = this.state;
     // const { headerDesc } = this.state
     return (
       <Container fluid style={{ minHeight: 700, padding: "1em 0em" }}>

@@ -1,16 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import {
-  Container,
-  Header,
-  Item,
-  Button,
-  Label,
-  Menu,
-  Input,
-  Icon,
-  Divider
-} from "semantic-ui-react";
+import { Container, Header, Divider } from "semantic-ui-react";
 import axios from "axios";
 import ArtifactItem from "./ArtifactItem";
 import ArtifactPagination from "./ArtifactPagination";
@@ -19,7 +9,7 @@ const MemberArtifacts = () => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(4);
+  const [itemsPerPage] = useState(4);
 
   useEffect(() => {
     const fetchItems = async () => {
@@ -44,12 +34,12 @@ const MemberArtifacts = () => {
 
   return (
     <Container>
-        <Divider horizontal>
-          <Header as="h4">
-            {/* <Icon name="info circle" /> */}
-            Artifacts Owned
-          </Header>
-        </Divider>
+      <Divider horizontal>
+        <Header as="h4">
+          {/* <Icon name="info circle" /> */}
+          Artifacts Owned
+        </Header>
+      </Divider>
       <ArtifactItem items={currentItems} loading={loading} />
       <ArtifactPagination
         itemsPerPage={itemsPerPage}
@@ -63,28 +53,27 @@ const MemberArtifacts = () => {
 
 // class MemberArtifact extends Component {
 
-//   state = { 
+//   state = {
 //     artifacts: [] };
 
 //     componentDidMount() {
 //       const { id } = this.props.match.params;
-  
+
 //       axios.get(`/api/member/${id}/artifacts`).then(res => {
 //         const artifacts = res.data;
 //         this.setState(() => ({ artifacts }));
 //       });
 //     }
 
-
 //   render() {
 //     return (
-      // <Container>
-      //   <Divider horizontal>
-      //     <Header as="h4">
-      //       {/* <Icon name="info circle" /> */}
-      //       Artifacts Owned
-      //     </Header>
-      //   </Divider>
+// <Container>
+//   <Divider horizontal>
+//     <Header as="h4">
+//       {/* <Icon name="info circle" /> */}
+//       Artifacts Owned
+//     </Header>
+//   </Divider>
 //         <Item.Group divided>
 //           <Item>
 //             <Item.Image src="https://react.semantic-ui.com/images/wireframe/image.png" />
