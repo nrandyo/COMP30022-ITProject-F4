@@ -13,14 +13,26 @@ module.exports = app => {
 
   app.post("/upload/artifactimage", function(req, res) {
     upload(req, res, function(err) {
-      console.log("Request --", req.files);
       if (!err) {
-        console.log("Image uploaded to SERVER successfully");
         return res.status(200).send(req.files);
       } else {
         res.status(500).end();
       }
     });
+  });
+
+  app.get("/api/images/:artifactID", (req, res) => {
+    db.query(
+      `SELECT * FROM ArtifactImage
+          WHERE Artifact_ArtifactID=` + req.params.artifactID,
+      (err, rows, fields) => {
+        if (!err) {
+          res.json(rows);
+        } else {
+          console.log(err);
+        }
+      }
+    );
   });
 
   // POST route to add Artifact Image to database
@@ -35,10 +47,8 @@ module.exports = app => {
       ["", path, caption, artifactID],
       function(err, result) {
         if (!err) {
-          console.log("Added to ArtifactImage table successfully");
           res.status(201).end("Success!");
         } else {
-          console.log(err);
           res.sendStatus(500);
         }
       }

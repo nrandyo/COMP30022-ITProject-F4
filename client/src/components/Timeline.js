@@ -56,6 +56,18 @@ class Timelines extends Component {
     this.getArtifacts();
   };
 
+  handleGeotag(geotag){
+    if (geotag){
+      return (
+        <h4 className="vertical-timeline-element-subtitle">{geotag}</h4>
+      )
+    } else {
+      return (
+        <h4 className="vertical-timeline-element-subtitle">Melbourne, Australia</h4>
+      )
+    }
+  }
+
   render() {
     return (
       <Container style={{ minHeight: 1000 }}>
@@ -122,7 +134,7 @@ class Timelines extends Component {
               >
                 {artifact.Name}
               </h3>
-              <h4 className="vertical-timeline-element-subtitle">Location 1</h4>
+              {this.handleGeotag(artifact.Geotag)}
               <p>{artifact.Description}</p>
             </VerticalTimelineElement>
           ))}
