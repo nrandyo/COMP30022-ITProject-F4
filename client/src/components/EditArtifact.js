@@ -71,8 +71,8 @@ class EditArtifact extends Component {
 
   getArtifact() {
     const { id } = this.props.match.params;
-    axios.get(`/api/artifacts/${id}`).then(res => {
-      const artifact = res.data;
+    axios.get(`/api/artifacts/${id}`).then((res) => {
+      const artifact = res.data[0];
       this.setState(
         {
           Name: artifact.Name,

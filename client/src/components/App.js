@@ -5,7 +5,6 @@ import Navbar from "./Navbar";
 import Footer from "./Footer";
 import NewArtifact from "./NewArtifact";
 import DeleteArtifact from "./DeleteArtifact";
-import UpdateArtifact from "./UpdateArtifact";
 import Artifact from "./Artifact";
 import Objects from "./Objects";
 import Photos from "./Photos";
