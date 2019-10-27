@@ -1,8 +1,7 @@
 # COMP30022 ITProject: Fantastic 4
 
-## Functionality:
-- **CRUD** operation for artifacts:
----
+## Our Functionalities:
+#### 1. **CRUD** operation for artifacts:
   - **Create:**
   - Implemented by: [Yusuke](https://github.com/n-yuusuke)
     - [x] Form submission
@@ -34,14 +33,14 @@
     - [x] Backend routes/HTTP request
     - [x] Delete from database
 ---
-- **Timelime:**
+2. **Timelime:**
 - Implemented by: Garvin & Sean
   - [x] Design/Frontend
   - [x] Backend routes/HTTP request
   - [x] Display sorted artifact by date
   - [x] Filter by date function
 ---
-- **Family-Tree:**
+3. **Family-Tree:**
 - Implemented by: Sean
   - [x] Design/Frontend
   - [x] Backend routes/HTTP request
@@ -50,7 +49,7 @@
   - [x] Display several family tree
   - [x] Display respective family member artifacts
 ---
-- **Export Artifact:**
+4. **Export Artifact:**
 - Implemented by: [Yusuke](https://github.com/n-yuusuke)
   - [x] Get artifacts table from MySQL DB
   - [x] Export data to JSON
@@ -59,7 +58,7 @@
   - [x] Backend route/HTTP request
   - [x] Allow users to download file
 ---
-- **Search function:**
+5. **Search function:**
 - Implemented by: [Yusuke](https://github.com/n-yuusuke)
   - [x] Get all artifacts from MySQL DB
   - [x] Match artifacts query
@@ -68,6 +67,12 @@
   - [x] Design/Frontend
   - [x] Backend routes/HTTP request
 ---
+6. **Comments section:**
+- Implemented by: Sean & Garvin & [Yusuke](https://github.com/n-yuusuke)
+  - [x] Design/Frontend
+  - [x] Backend routes/HTTP request
+  - [x] Display comments from database
+  - [x] Post comments
 
 ## Getting started:
 1. Install dependencies in root & client folder
