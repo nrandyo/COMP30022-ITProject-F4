@@ -9,7 +9,7 @@ module.exports = app => {
         if (!err) {
           res.json(rows);
         } else {
-          console.log(err);
+          res.sendStatus(err);
         }
     });
   });

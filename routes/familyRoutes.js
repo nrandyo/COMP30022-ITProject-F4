@@ -1,21 +1,38 @@
 var db = require("../db/db");
 
 module.exports = app => {
-  app.get("/api/familymember/all", (req, res) => {
-    const data = [
-      { child: "John", parent: "", spouse: "Isabella" },
-      { child: "Aaron", parent: "Kevin" },
-      { child: "Kevin", parent: "John", spouse: "Emma" },
-      { child: "Mark", parent: "Ann" },
-      { child: "Hannah", parent: "Ann", spouse: "Williams" },
-      { child: "Rose", parent: "Sarah" },
-      { child: "Ann", parent: "John", spouse: "George" },
-      { child: "Sarah", parent: "Kevin", spouse: "James" },
-      { child: "Angel", parent: "Sarah" },
-      { child: "Tom", parent: "Hannah" }
-    ];
-    res.send(data);
+
+  // GET Route for last added artifact ID
+  app.get("/api/familymember/all", function(req, res) {
+    db.query(
+      "SELECT FamilyMemberID, FirstName, LastName from FamilyMember",
+      (err, results, fields) => {
+        if (!err) {
+          console.log(results);
+          res.send(results);
+        } else {
+          res.sendStatus(err);
+        }
+      }
+    );
   });
+
+  // Done by Tommy
+  // app.get("/api/familymember/all", (req, res) => {
+  //   const data = [
+  //     { child: "John", parent: "", spouse: "Isabella" },
+  //     { child: "Aaron", parent: "Kevin" },
+  //     { child: "Kevin", parent: "John", spouse: "Emma" },
+  //     { child: "Mark", parent: "Ann" },
+  //     { child: "Hannah", parent: "Ann", spouse: "Williams" },
+  //     { child: "Rose", parent: "Sarah" },
+  //     { child: "Ann", parent: "John", spouse: "George" },
+  //     { child: "Sarah", parent: "Kevin", spouse: "James" },
+  //     { child: "Angel", parent: "Sarah" },
+  //     { child: "Tom", parent: "Hannah" }
+  //   ];
+  //   res.send(data);
+  // });
 
   app.post("/familymember/new", function(req, res) {
     const firstName = req.body.FirstName;

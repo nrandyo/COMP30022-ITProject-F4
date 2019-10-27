@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import axios from 'axios';
+import _ from "lodash";
+import PropTypes from "prop-types";
 import { Button,
          Form,
          Container,
@@ -12,10 +14,19 @@ import { Button,
          Message,
          Loader,
          Segment,
-         Transition } from 'semantic-ui-react';
+         Transition,
+         Search,
+         Grid } from 'semantic-ui-react';
 
 //Http response status for create
 const HTTP_RES_POST = 201;
+
+const resultRenderer = ({ title }) => <Label content={title} />;
+
+resultRenderer.propTypes = {
+  name: PropTypes.string
+};
+
 
 class NewArtifact extends Component {
 
@@ -39,12 +50,66 @@ class NewArtifact extends Component {
       addArtifactStatus: false,
       imagePreview: [],
       previewOn: false,
-      redirect: false
+      redirect: false,
+      familyMembers: null,
+      searchIsLoading: false,
+      results: [],
+      value: "",
+      currOwner: 1
       };
 
     this.handleImageChange = this.handleImageChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
+
+  componentDidMount() {
+    axios.get("/api/familymember/all").then((res) => {
+
+      var allMembers = [];
+      var members = JSON.parse(JSON.stringify(res.data));
+
+      members.forEach(function(member, i) {
+        var fullName = member.FirstName + ' ' + member.LastName;
+        var newMemberObj = {
+          id: member.FamilyMemberID,
+          title: fullName
+        }
+        allMembers.push(newMemberObj);
+      })
+
+      this.setState({ familyMembers: allMembers });
+    });
+  }
+
+  handleResultSelect = (e, { result }) => {
+    this.setState({ value: result.title });
+    this.setState({ currOwner: result.id });
+    console.log(this.state.currOwner);
+  };
+
+  handleSearchChange = (e, { value }) => {
+    this.setState({ searchIsLoading: true, value });
+
+    setTimeout(() => {
+      if (this.state.value.length < 1)
+        return this.setState({
+          searchIsLoading: false,
+          results: [],
+          value: ""
+        });
+
+      const re = new RegExp(_.escapeRegExp(this.state.value), "i");
+
+      const isMatch = result => {
+        return re.test(result.title);
+      };
+
+      this.setState({
+        searchIsLoading: false,
+        results: _.filter(this.state.familyMembers, isMatch)
+      });
+    }, 300);
+  };
 
   // Request to add artifacts to database
   requestAddArtifact(data) {
@@ -67,8 +132,6 @@ class NewArtifact extends Component {
   requestLastAddedArtifact() {
     axios.get("/artifact/lastAdded")
     .then((res) => {
-      console.log("--------test lastadded data retrieval");
-      console.log(res.data.lastAdded);
       this.setState({ lastAdded: res.data.lastAdded });
     });
   }
@@ -119,7 +182,7 @@ class NewArtifact extends Component {
     for(var x = 0; x<this.state.file.length; x++) {
       imageData.append('file', this.state.file[x]);
     }
-
+    console.log(this.state.currOwner);
     // Data for artifacts
     const artifactData =
       {
@@ -129,7 +192,8 @@ class NewArtifact extends Component {
         Month: this.state.Month,
         Year: this.state.Year,
         Description: this.state.Description,
-        Tags: this.state.tags
+        Tags: this.state.tags,
+        currOwn: this.state.currOwner
       };
 
     await this.requestAddArtifact(artifactData);
@@ -207,7 +271,10 @@ class NewArtifact extends Component {
 
   render() {
     //Some constants that are used in rendering state
-    const { isLoading, successMessage, failureMessage, tags } = this.state;
+    const {
+            isLoading, successMessage, failureMessage, tags,
+            searchIsLoading, value, results, familyMembers
+          } = this.state;
 
     return (
       <div>
@@ -249,15 +316,30 @@ class NewArtifact extends Component {
 
             {/*Form for History input*/}
             <Form.Field>
-              <label> History
-                {/* <Popup content=
-                'This field is optional. If possible, please specify a brief history of the artifacts'trigger={
-                <Icon name='info circle' size ='large'/>}/> : */}
-              </label>
+              <label> History</label>
 
               <Form.TextArea placeholder='A short description'
                name='Description' onChange={this.handleChange}/>
             </Form.Field>
+
+              {/*Form for searching family member*/}
+            <Container textAlign='center'>
+              <Form.Field>
+                <label>Search owner of artifact:</label>
+
+                <Search
+                  loading={searchIsLoading}
+                  onResultSelect={this.handleResultSelect}
+                  onSearchChange={_.debounce(this.handleSearchChange, 500, {
+                    leading: true
+                  })}
+                  results={results}
+                  value={value}
+                  resultRenderer={resultRenderer}
+                  {...this.props}
+                />
+              </Form.Field>
+            </Container>
 
             {/*Modal and form for adding multiple tags*/}
             <Form.Field>

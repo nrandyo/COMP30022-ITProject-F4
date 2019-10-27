@@ -13,9 +13,7 @@ module.exports = app => {
 
   app.post("/upload/artifactimage", function(req, res) {
     upload(req, res, function(err) {
-      console.log("Request --", req.files);
       if (!err) {
-        console.log("Image uploaded to SERVER successfully");
         return res.status(200).send(req.files);
       } else {
         res.status(500).end();
@@ -49,10 +47,8 @@ module.exports = app => {
       ["", path, caption, artifactID],
       function(err, result) {
         if (!err) {
-          console.log("Added to ArtifactImage table successfully");
           res.status(201).end("Success!");
         } else {
-          console.log(err);
           res.sendStatus(500);
         }
       }
