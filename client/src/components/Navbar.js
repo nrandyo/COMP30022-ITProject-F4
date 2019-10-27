@@ -13,27 +13,27 @@ import {
   Image } from "semantic-ui-react";
 
 const resultRenderer = ({ title, description, image }) => {
-  var img = ''
+  var img = "";
 
-  if (image === '') {
-    img = 'placeholder.png'
+  if (image === "") {
+    img = "placeholder.png";
   } else {
-    img = image
+    img = image;
   }
   return (
     <Card>
       <Card.Content>
         <Image
-          floated='right'
-          size='small'
-          src={require('../artifactImages/' + img)}
+          floated="right"
+          size="small"
+          src={require("../artifactImages/" + img)}
         />
         <Card.Header> {title} </Card.Header>
         <Card.Description> {description} </Card.Description>
       </Card.Content>
     </Card>
-  )
-}
+  );
+};
 
 resultRenderer.propTypes = {
   title: PropTypes.string,
@@ -47,12 +47,10 @@ class Navbar extends Component {
     results: [],
     value: "",
     artifacts: null
-
   };
 
   componentDidMount() {
-    axios.get("/api/artifacts/all").then((res) => {
-
+    axios.get("/api/artifacts/all").then(res => {
       var arrArtifacts = [];
       var allArtifacts = JSON.parse(JSON.stringify(res.data));
 
@@ -62,9 +60,9 @@ class Navbar extends Component {
           title: artifact.Name,
           description: artifact.Description,
           image: artifact.FilePath
-        }
+        };
         arrArtifacts.push(newArtifactObj);
-      })
+      });
 
       this.setState({ artifacts: arrArtifacts });
     });
@@ -87,7 +85,7 @@ class Navbar extends Component {
 
       const re = new RegExp(_.escapeRegExp(this.state.value), "i");
 
-      const isMatch = (result) => {
+      const isMatch = result => {
         return re.test(result.title);
       };
 

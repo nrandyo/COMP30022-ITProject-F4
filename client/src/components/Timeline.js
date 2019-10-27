@@ -7,7 +7,7 @@ import {
 import "react-vertical-timeline-component/style.min.css";
 // import { MdPhoto, MdMail } from "react-icons/md";
 import axios from "axios";
-import { Container, Header, Menu, Form, Input, icon } from "semantic-ui-react";
+import { Container, Header, Menu, Form, Input } from "semantic-ui-react";
 import { Redirect } from "react-router-dom";
 import { YearInput } from "semantic-ui-calendar-react";
 import { FaBox } from "react-icons/fa";

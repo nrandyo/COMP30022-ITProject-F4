@@ -3,13 +3,12 @@ import { Container } from "semantic-ui-react";
 import ArtifactItem from "./ArtifactItem";
 import ArtifactPagination from "./ArtifactPagination";
 import axios from "axios";
-import ArtifactNav from "./ArtifactNav";
 
 const Artifact = () => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(4);
+  const [itemsPerPage] = useState(4);
 
   useEffect(() => {
     const fetchItems = async () => {

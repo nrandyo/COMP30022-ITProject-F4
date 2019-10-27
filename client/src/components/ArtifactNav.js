@@ -1,28 +1,17 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import {
-  Container,
-  Header,
-  Menu,
-  Input,
-  Icon,
-  Dropdown,
-  Search,
-  Segment,
-  Label,
-  Grid } from "semantic-ui-react";
+import { Container, Header, Menu, Icon, Dropdown } from "semantic-ui-react";
 
 class ArtifactNav extends Component {
   state = {
     activeItem: "All",
     headerDesc: "List of All Artifacts"
-   };
+  };
 
   handleItemClick = (e, { name, desc }) =>
     this.setState({ activeItem: name, headerDesc: desc });
 
   render() {
-
     const { activeItem, headerDesc } = this.state;
     const options = [
       {

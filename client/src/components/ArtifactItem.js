@@ -1,6 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Button, Icon, Item, Container, Loader } from "semantic-ui-react";
+import {
+  Button,
+  Icon,
+  Item,
+  Container,
+  Loader,
+  Label
+} from "semantic-ui-react";
 
 const ArtifactItem = ({ items, loading }) => {
   //   formatDate = (date) => {
@@ -19,6 +26,18 @@ const ArtifactItem = ({ items, loading }) => {
       return "placeholder.png";
     } else {
       return path;
+    }
+  }
+  function handleTags(tags) {
+    if (tags) {
+      var tagArr = tags.split(",");
+      return (
+        <div>
+          {tagArr.map(tag => {
+            return <Label>{tag}</Label>;
+          })}
+        </div>
+      );
     }
   }
 
@@ -50,6 +69,8 @@ const ArtifactItem = ({ items, loading }) => {
                     Additional Info
                     <Icon name="right chevron" />
                   </Button>
+                  {/* <Label>{item.Tags}</Label> */}
+                  {handleTags(item.Tags)}
                 </Item.Extra>
               </Item.Content>
             </Item>
