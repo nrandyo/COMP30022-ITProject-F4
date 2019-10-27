@@ -12,6 +12,57 @@ module.exports = app => {
           WHERE p2.Artifact_ArtifactID = a.ArtifactID
           LIMIT 1
       )
+      ORDER BY a.Name asc
+      `,
+      (err, rows, fields) => {
+        if (!err) {
+          res.json(rows);
+        } else {
+          console.log(err);
+        }
+      }
+    );
+  });
+
+  app.get("/api/artifacts/all/sortedByDateAcquired", (req, res) => {
+    db.query(
+      `SELECT a.*, im.*
+      FROM artifact AS a
+      INNER JOIN artifactimage AS im ON im.ArtifactImageID = (
+          SELECT ArtifactImageID
+          FROM artifactimage AS p2
+          WHERE p2.Artifact_ArtifactID = a.ArtifactID
+          LIMIT 1
+          
+      )
+      ORDER BY a.DateAcquireYear desc,
+          a.DateAcquireMonth desc,
+          a.DateAcquireDay desc
+      `,
+      (err, rows, fields) => {
+        if (!err) {
+          res.json(rows);
+        } else {
+          console.log(err);
+        }
+      }
+    );
+  });
+
+  app.get("/api/artifacts/all/sortedByDateAdded", (req, res) => {
+    db.query(
+      `SELECT a.*, im.*
+      FROM artifact AS a
+      INNER JOIN artifactimage AS im ON im.ArtifactImageID = (
+          SELECT ArtifactImageID
+          FROM artifactimage AS p2
+          WHERE p2.Artifact_ArtifactID = a.ArtifactID
+          LIMIT 1
+          
+      )
+      ORDER BY a.DateAddedYear desc,
+          a.DateAddedMonth desc,
+          a.DateAddedDay desc
       `,
       (err, rows, fields) => {
         if (!err) {
@@ -92,7 +143,8 @@ module.exports = app => {
       `SELECT * FROM Artifact
           INNER JOIN ArtifactImage
           ON Artifact.ArtifactId = ArtifactImage.Artifact_ArtifactID
-          AND Artifact.ArtifactID=` + req.params.artifactID,
+          AND Artifact.ArtifactID= ?
+          LIMIT 1`, [req.params.artifactID],
       (err, rows, fields) => {
         if (!err) {
           res.json(rows);
@@ -199,7 +251,7 @@ module.exports = app => {
       type = "physical";
     }
 
-    const currOwn = 1;
+    const currOwn = req.body.currOwn || 1;
 
     // Acquire current data
     const currentDate = new Date();
