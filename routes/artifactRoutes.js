@@ -1,5 +1,4 @@
 var db = require("../db/db");
-var axios = require("axios");
 
 module.exports = app => {
   app.get("/api/artifacts/all", (req, res) => {
@@ -11,13 +10,12 @@ module.exports = app => {
           FROM artifactimage AS p2
           WHERE p2.Artifact_ArtifactID = a.ArtifactID
           LIMIT 1
-      )
-      `,
+      )`,
       (err, rows, fields) => {
         if (!err) {
           res.json(rows);
         } else {
-          console.log(err);
+          res.sendStatus(err);
         }
       }
     );
@@ -30,7 +28,7 @@ module.exports = app => {
         if (!err) {
           res.json(rows);
         } else {
-          console.log(err);
+          res.sendStatus(err);
         }
       }
     );
@@ -50,7 +48,7 @@ module.exports = app => {
         if (!err) {
           res.json(rows);
         } else {
-          console.log(err);
+          res.sendStatus(err);
         }
       }
     );
@@ -68,7 +66,7 @@ module.exports = app => {
         if (!err) {
           res.json(rows);
         } else {
-          console.log(err);
+          res.sendStatus(err);
         }
       }
     );
@@ -81,7 +79,7 @@ module.exports = app => {
         if (!err) {
           res.json(rows);
         } else {
-          console.log(err);
+          res.sendStatus(err);
         }
       }
     );
@@ -97,7 +95,7 @@ module.exports = app => {
         if (!err) {
           res.json(rows);
         } else {
-          console.log(err);
+          res.sendStatus(err);
         }
       }
     );
@@ -116,7 +114,7 @@ module.exports = app => {
         if (!err) {
           res.json(rows);
         } else {
-          console.log(err);
+          res.sendStatus(err);
         }
       }
     );
@@ -133,53 +131,22 @@ module.exports = app => {
         if (!err) {
           res.json(rows);
         } else {
-          console.log(err);
+          res.sendStatus(err);
         }
       }
     );
   });
-
-  app.get("/api/newartifactid", (req, res) => {
-    db.query(
-      "select max(ArtifactID) as maximum from Artifact",
-      (err, rows, fields) => {
-        if (!err) {
-          res.send(rows);
-        } else {
-          console.log(err);
-        }
-      }
-    );
-  });
-
-  function newArtifactID(callback) {
-    axios.get("/api/newartifact").then(function(response) {
-      return response.maximum + 1;
-    });
-  }
-
-  function doubleBackticks(inputstr) {
-    try {
-      return inputstr
-        .split("")
-        .map(function(c, i) {
-          if (c === "'") return "''";
-          else return c;
-        })
-        .join("");
-    } catch (e) {
-      console.log(e);
-    }
-  }
 
   // GET Route for last added artifact ID
   app.get("/artifact/lastAdded", function(req, res) {
     db.query(
       "SELECT max(ArtifactID) as lastAdded from Artifact",
       (err, results, fields) => {
-        if (err) throw err;
-        console.log("Acquired last added ArtifactID");
-        res.send(results[0]);
+        if (!err) {
+          res.send(results[0]);
+        } else {
+          res.sendStatus(err);
+        }
       }
     );
   });
@@ -188,24 +155,33 @@ module.exports = app => {
   app.post("/artifacts/new", function(req, res) {
     const name = req.body.Name;
     const geoTag = req.body.GeoTag;
-    const day = req.body.Day;
-    const month = req.body.Month;
-    const year = Number(req.body.Year);
     const history = req.body.Description;
     const tags = req.body.Tags.toString();
     var type = req.body.Type;
+    var day = req.body.Day;
+    var month = req.body.Month;
+    var year = Number(req.body.Year);
+    const currOwn = 1;
 
     if (typeof type === "undefined") {
       type = "physical";
     }
-
-    const currOwn = 1;
 
     // Acquire current data
     const currentDate = new Date();
     const yearAdded = currentDate.getFullYear();
     const monthAdded = currentDate.getMonth() + 1;
     const dayAdded = currentDate.getDate();
+
+    if (day === '') {
+      day = 1;
+    }
+    if (month === '') {
+      month = 1;
+    }
+    if (year === 0) {
+      year = yearAdded;
+    }
 
     db.query(
       `INSERT INTO Artifact SET Name = ?, Geotag = ?, Tags = ?,
@@ -228,13 +204,9 @@ module.exports = app => {
       ],
       function(err, result) {
         if (!err) {
-          console.log("Artifact added successfully");
-          res.status(201).end("Success!");
-          return res.status(201);
+          res.status(201);
         } else {
-          console.log(err);
-          res.sendStatus(404);
-          return err;
+          res.sendStatus(err);
         }
       }
     );
@@ -247,10 +219,9 @@ module.exports = app => {
 
     db.query(sql, [id], function(err, result) {
       if (err) {
-        res.send(err);
+        res.sendStatus(err);
       } else {
-        res.send(200);
-        console.log("Number of records deleted: " + result.affectedRows);
+        res.sendStatus(200);
       }
     });
   });

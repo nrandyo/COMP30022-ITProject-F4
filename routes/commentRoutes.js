@@ -1,7 +1,8 @@
 var db = require("../db/db");
-var axios = require("axios");
 
 module.exports = app => {
+
+  //GET route to request user comments
   app.get("/api/comments/:artifactID", (req, res) => {
     db.query(
       ("SELECT * FROM Artifact INNER JOIN `Comment` ON Artifact.ArtifactID = `Comment`.ArtifactID AND Artifact.ArtifactID =" + req.params.artifactID),
@@ -15,27 +16,7 @@ module.exports = app => {
     );
   });
 
-
-    app.get("/api/newcommentid", (req, res) => {
-        db.query(
-          "select max(CommentID) as maximum from Comment",
-          (err, rows, fields) => {
-            if (!err) {
-              res.send(rows);
-            } else {
-              console.log(err);
-            }
-          }
-        );
-      });
-
-    function newCommentID(callback) {
-        axios.get("/api/newcommentid").then(function(response) {
-          return response.maximum + 1;
-        });
-      }
-
-  //POST route for registration of new artifacts
+  //POST for user to add comment
   app.post("/new/comment", function(req, res) {
     const comment = req.body.Comment;
     const author = req.body.Author;
@@ -48,16 +29,11 @@ module.exports = app => {
       [comment, author, datePosted, artifactID],
       function(err, result) {
         if (!err) {
-          console.log("Added successfully");
-          res.status(201).end("Success!");
-          return res;
+          res.sendStatus(201);
         } else {
-          console.log(err);
-          res.sendStatus(404);
-          return err;
+          res.sendStatus(err);
         }
       }
     );
   });
-
 };
