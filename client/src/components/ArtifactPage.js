@@ -1,5 +1,5 @@
-import React, { Component, useState, useEffect } from "react";
-// import LeonSterling from "../images/LeonSterling.jpg";
+import React, { Component } from "react";
+
 import { Link } from "react-router-dom";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -116,23 +116,22 @@ class ArtifactPage extends Component {
   }
 
   handleOwner(owner) {
+    var ownerData = null;
     if (owner) {
-      var ownerData = null;
       axios.get(`/api/familymember/${owner}`).then(res => {
         ownerData = res.data;
+        console.log(ownerData);
       });
       return (
-        <Table.Row>
-          {/* {ownerData.map(owner => ( */}
-
-          <Table.Cell>Current Owner</Table.Cell>
-          <Table.Cell>
-            {ownerData.Firstname + " " + ownerData.Lastname}
-          </Table.Cell>
-          {/* ))} */}
-        </Table.Row>
+        <React.Fragment>
+          {ownerData.map(own => (
+            <Table.Row>
+              <Table.Cell>Current Owner</Table.Cell>
+              <Table.Cell>{own.Firstname + " " + own.Lastname}</Table.Cell>
+            </Table.Row>
+          ))}
+        </React.Fragment>
       );
-      console.log("owner");
     }
   }
 
@@ -208,7 +207,7 @@ class ArtifactPage extends Component {
                       <Table.Cell>Type</Table.Cell>
                       <Table.Cell>{artifact.Type}</Table.Cell>
                     </Table.Row>
-                    {/* {this.handleOwner(artifact.CurrentOwner)} */}
+                    {this.handleOwner(artifact.CurrentOwner)}
                     {this.handleGeotag(artifact.Geotag)}
                     <Table.Row>
                       <Table.Cell>Date Acquired</Table.Cell>

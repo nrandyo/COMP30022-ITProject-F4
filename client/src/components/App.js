@@ -14,7 +14,7 @@ import Timelines from "./Timeline";
 // import TimelineNav from "./TimelineNav";
 import ArtifactNav from "./ArtifactNav";
 import Homepage from "./Homepage";
-import ThemeTest from "./ThemeTest";
+// import ThemeTest from "./ThemeTest";
 // import FamilyTree from "./FamilyTree";
 import FamilyTree1 from "./FamilyTree1";
 import FamilyTree2 from "./FamilyTree2";
@@ -37,7 +37,7 @@ const App = () => {
           {/* Use exact keyword to provide strict path*/}
           <Navbar />
 
-          <Route exact path="/theme" component={ThemeTest} />
+          {/* <Route exact path="/theme" component={ThemeTest} /> */}
           <Route exact path="/" component={Homepage} />
           <Route exact path="/timeline" component={Timelines} />
           <Route path="/artifacts" component={ArtifactNav} />
