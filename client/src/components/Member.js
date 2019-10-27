@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import MemberArtifact from "./MemberArtifacts";
 import {
   Table,
   Image,
@@ -75,6 +76,7 @@ class Member extends Component {
   }
 
   render() {
+    const { id } = this.props.match.params;
     return (
       <Responsive>
         {this.state.member.map(member => (
@@ -151,6 +153,7 @@ class Member extends Component {
             </Grid>
           </Container>
         ))}
+        <MemberArtifact param={id} />
       </Responsive>
     );
   }

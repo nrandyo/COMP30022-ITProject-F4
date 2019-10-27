@@ -207,7 +207,7 @@ class ArtifactPage extends Component {
                       <Table.Cell>Type</Table.Cell>
                       <Table.Cell>{artifact.Type}</Table.Cell>
                     </Table.Row>
-                    {this.handleOwner(artifact.CurrentOwner)}
+                    {/* {this.handleOwner(artifact.CurrentOwner)} */}
                     {this.handleGeotag(artifact.Geotag)}
                     <Table.Row>
                       <Table.Cell>Date Acquired</Table.Cell>

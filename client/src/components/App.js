@@ -54,7 +54,7 @@ const App = () => {
           <Route exact path="/familytree/3" component={FamilyTree3} />
           <Route exact path="/familytree/4" component={FamilyTree4} />
           <Route exact path="/familymember/:id" component={Member} />
-          <Route exact path="/familymember/:id" component={MemberArtifacts} />
+          {/* <Route exact path="/familymember/:id" component={MemberArtifacts} /> */}
           <Route path="/familytree/new" component={NewFamilyMember} />
           <Route path="/artifacts/new" component={NewArtifact} />
           <Route path="/artifactpage/delete/:id" component={DeleteArtifact} />

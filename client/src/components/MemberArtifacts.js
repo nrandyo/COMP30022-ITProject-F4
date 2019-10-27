@@ -4,7 +4,7 @@ import axios from "axios";
 import ArtifactItem from "./ArtifactItem";
 import ArtifactPagination from "./ArtifactPagination";
 
-const MemberArtifacts = () => {
+const MemberArtifacts = ({ param }) => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -13,7 +13,8 @@ const MemberArtifacts = () => {
   useEffect(() => {
     const fetchItems = async () => {
       setLoading(true);
-      const res = await axios.get(`/api/member/1/artifacts`);
+      // const { id } = this.props.match.params;
+      const res = await axios.get(`/api/member/${param}/artifacts`);
       setItems(res.data);
       setLoading(false);
     };
