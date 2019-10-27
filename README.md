@@ -1,5 +1,43 @@
 # COMP30022 ITProject: Fantastic 4
 
+## Dependencies
+- NPM ver. 6.12 or later
+- Node.js ver. 10.x.x
+- MySQL 5.7
+
+## Getting started:
+
+### Setting up your MySQL Database
+1. Install MySQL 5.7
+2. Run [these](https://gist.github.com/garviin/c40ab4ffe6a7e08566b52a82301b037b) create scripts on your MySQL server.
+
+### Installation
+1. Install dependencies listed above
+2. Run this command in root directory:
+```
+npm install && cd client && npm install
+```
+3. Create .env file containing your MySQL admin info as such:
+
+```
+# local database
+DB_HOST=<host address>
+DB_USER=<username>
+DB_PASS=<password>
+DB_DATABASE=<name of database>
+```
+
+## Running the app:
+- Run this command at root directory:
+```
+npm run dev
+```
+## Authors
+   - [Yusuke Noishiki](https://github.com/n-yuusuke)
+   - Sean Wong
+   - Trung Lai (Tommy)
+   - [Garvin Bulkin](https://github.com/garviin/)
+
 ## Our Functionalities:
 #### 1. **CRUD** operation for artifacts:
   - **Create:**
@@ -73,36 +111,3 @@
   - [x] Backend routes/HTTP request
   - [x] Display comments from database
   - [x] Post comments
-
-## Getting started:
-1. Install dependencies in root & client folder
-2. Run this command in both folders:
-```
-npm install --save
-```
-3. Create .env file containing
-   - Comment out either one of them with #
-```
-# local database
-#DB_HOST=localhost
-#DB_USER=root
-#DB_PASS="YOUR password"
-#DB_DATABASE="Name of DB"
-
-# Heroku Database
-DB_HOST="us-cdbr-iron-east-02.cleardb.net"
-DB_USER="be8270e80fd0f0"
-DB_PASS="d000fef0"
-DB_DATABASE="heroku_5623ab8462cff68"
-```
-
-## Running the app:
-- Run this command at root folder:
-```
-npm run dev
-```
-## Authors
-   - [Yusuke Noishiki](https://github.com/n-yuusuke)
-   - Sean Wong
-   - Trung Lai (Tommy)
-   - Garvin
