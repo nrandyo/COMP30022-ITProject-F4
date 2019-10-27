@@ -157,11 +157,11 @@ module.exports = app => {
     const geoTag = req.body.GeoTag;
     const history = req.body.Description;
     const tags = req.body.Tags.toString();
+    const currOwn = req.body.currOwn;
     var type = req.body.Type;
     var day = req.body.Day;
     var month = req.body.Month;
     var year = Number(req.body.Year);
-    const currOwn = 1;
 
     if (typeof type === "undefined") {
       type = "physical";
