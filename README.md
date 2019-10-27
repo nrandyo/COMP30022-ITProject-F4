@@ -1,8 +1,9 @@
 # COMP30022 ITProject: Fantastic 4
 
 ## Functionality:
-- CRUD operation for artifacts:
-  - Create:
+- **CRUD** operation for artifacts:
+---
+  - **Create:**
   - Implemented by: [Yusuke](https://github.com/n-yuusuke)
     - [x] Form submission
     - [x] Upload multiple images
@@ -10,37 +11,37 @@
     - [x] Design/Frontend
     - [x] Backend routes/HTTP request
     - [x] Insert to database
-    
-  - Read:
+---
+  - **Read:**
   - Implemented by: Garvin & Sean
     - [x] Query artifact Data
     - [x] Query multiple image
     - [x] Design/Frontend
     - [x] Backend routes/HTTP request
     - [x] Query from database
-    
-  - Update:
+---
+  - **Update:**
   - Implemented by: [Yusuke](https://github.com/n-yuusuke) & Sean
     - [x] Edit form submission
     - [x] Design/Frontend
     - [x] Backend routes/HTTP request
     - [x] Update artifact data to database
     - [ ] Edit/Update Image
-    
-  - Delete:
+---
+  - **Delete:**
   - Implemented by: Garvin
     - [x] Design/Frontend
     - [x] Backend routes/HTTP request
     - [x] Delete from database
 ---
-- Timelime:
+- **Timelime:**
 - Implemented by: Garvin & Sean
   - [x] Design/Frontend
   - [x] Backend routes/HTTP request
   - [x] Display sorted artifact by date
   - [x] Filter by date function
 ---
-- Family-Tree:
+- **Family-Tree:**
 - Implemented by: Sean
   - [x] Design/Frontend
   - [x] Backend routes/HTTP request
@@ -49,7 +50,7 @@
   - [x] Display several family tree
   - [x] Display respective family member artifacts
 ---
-- Export Artifact:
+- **Export Artifact:**
 - Implemented by: [Yusuke](https://github.com/n-yuusuke)
   - [x] Get artifacts table from MySQL DB
   - [x] Export data to JSON
@@ -58,7 +59,7 @@
   - [x] Backend route/HTTP request
   - [x] Allow users to download file
 ---
-- Search function:
+- **Search function:**
 - Implemented by: [Yusuke](https://github.com/n-yuusuke)
   - [x] Get all artifacts from MySQL DB
   - [x] Match artifacts query
