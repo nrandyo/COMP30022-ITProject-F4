@@ -15,8 +15,7 @@ import { Button,
          Loader,
          Segment,
          Transition,
-         Search,
-         Grid } from 'semantic-ui-react';
+         Search } from 'semantic-ui-react';
 
 //Http response status for create
 const HTTP_RES_POST = 201;
@@ -273,7 +272,7 @@ class NewArtifact extends Component {
     //Some constants that are used in rendering state
     const {
             isLoading, successMessage, failureMessage, tags,
-            searchIsLoading, value, results, familyMembers
+            searchIsLoading, value, results
           } = this.state;
 
     return (

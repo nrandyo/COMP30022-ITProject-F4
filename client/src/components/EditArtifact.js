@@ -25,6 +25,7 @@ class EditArtifact extends Component {
     super(props);
 
     this.state = {
+      Id: null,
       Name: "",
       GeoTag: "",
       Day: "",
@@ -41,139 +42,74 @@ class EditArtifact extends Component {
       addArtifactStatus: false,
       imagePreview: [],
       previewOn: false,
-      redirect: false
+      filePath: []
     };
 
-    this.handleImageChange = this.handleImageChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    // this.getArtifact();
-    // this.getArtifact();
-  }
-
-  // Request to add artifacts to database
-  requestAddArtifact(data) {
-    // POST route via backend for artifacts
-    fetch("/artifacts/new", {
-      method: "POST",
-      body: JSON.stringify(data),
-      headers: {
-        "Content-Type": "application/json"
-      }
-    }).then(res => {
-      if (res.status === HTTP_RES_POST) {
-        this.setState({ addArtifactStatus: true });
-      }
-    });
   }
 
   componentDidMount() {
-    this.getArtifact();
-  }
-
-  getArtifact() {
     const { id } = this.props.match.params;
-    axios.get(`/api/artifacts/${id}`).then(res => {
+
+    axios.get(`/api/artifacts/${id}`).then((res) => {
       const artifact = res.data[0];
       this.setState(
         {
+          Id: artifact.ArtifactID,
           Name: artifact.Name,
           GeoTag: artifact.Geotag,
           Day: artifact.DateAddedDay,
           Month: artifact.DateAddedMonth,
           Year: artifact.DateAddedYear,
-          Description: artifact.Description
-          // tags: artifact.Tags
-          // file: artifact.file,
-          // filename: [],
-          // lastAdded: res.data.file,
-          // addArtifactStatus: false,
-          // imagePreview: [],
-          // previewOn: false,
-          // redirect: false
-        },
-        () => {
-          console.log(this.state);
-          console.log(artifact.name);
-          console.log(id);
-          console.log("sdads");
-        }
-      );
+          Description: artifact.Description,
+          tags: artifact.Tags.split(','),
+        });
     });
-  }
 
-  // Request foreign key for last added artifact
-  requestLastAddedArtifact() {
-    axios.get("/artifact/lastAdded").then(res => {
-      console.log("--------test lastadded data retrieval");
-      console.log(res.data.lastAdded);
-      this.setState({ lastAdded: res.data.lastAdded });
-    });
-  }
-
-  //Upload images to /artifactImages server
-  requestUploadServer(data) {
-    // POST route for image upload
-    axios
-      .post("/upload/artifactimage", data, {
-        headers: { "content-type": "multipart/form-data" }
-      })
-      .then(res => {
-        for (var x = 0; x < this.state.file.length; x++) {
-          var name = res.data[x].filename;
+    setTimeout(() => {
+      axios.get(`/api/images/${this.state.Id}`).then((res) => {
+        var images = []
+        if (res.data.length !== 0) {
+          res.data.forEach(function(data, i) {
+            images.push(data.FilePath);
+          })
           this.setState({
-            filename: [...this.state.filename, name]
+            imagePreview: images,
+            previewOn: true
           });
         }
-      });
-  }
-
-  // Request to add image to database
-  requestAddImage(data) {
-    // POST route for adding image to database
-    fetch("/new/artifactImage", {
-      method: "POST",
-      body: JSON.stringify(data),
-      headers: {
-        "Content-Type": "application/json"
-      }
-    }).then(res => {
-      if (res.status === HTTP_RES_POST) {
-        this.setState({ isLoading: false });
-        this.setState({ successMessage: true });
-        this.props.history.push("/artifacts/objects");
-      }
-    });
+      })
+    }, 300);
   }
 
   editArtifact(newArtifact) {
     const { id } = this.props.match.params;
-    axios
-      .request({
-        method: "post",
-        url: `/artifacts/update/${id}`,
-        data: newArtifact
-      })
-      .then(res => {
-        if (res.status === HTTP_RES_POST) {
-          this.setState({ isLoading: false });
-          this.setState({ successMessage: true });
-          this.props.history.push("/artifacts/objects");
-        }
-      });
+    axios.post(`/artifactpage/update/${id}`, newArtifact)
+    .then((res) => {
+      if (res.status === HTTP_RES_POST) {
+        this.setState({ isLoading: false, successMessage: true });
+        setTimeout(() => {
+          this.setState({ successMessage: false });
+          this.props.history.push('/artifacts/objects');
+        }, 1000)
+      } else {
+        this.setState({ isLoading: false, failureMessage: true });
+        setTimeout(() => {
+          this.setState({ failureMessage: false });
+        }, 1000)
+      }
+    })
   }
+
+
   // Handles multiple submission for all form fields
   async handleSubmit(event) {
     event.preventDefault();
     this.setState({ isLoading: true });
 
-    // Data for artifact image
-    const imageData = new FormData();
-    for (var x = 0; x < this.state.file.length; x++) {
-      imageData.append("file", this.state.file[x]);
-    }
-
     // Data for artifacts
     const artifactData = {
+      Id: this.state.Id,
       Name: this.state.Name,
       GeoTag: this.state.GeoTag,
       Day: this.state.Day,
@@ -184,46 +120,7 @@ class EditArtifact extends Component {
     };
 
     await this.editArtifact(artifactData);
-    await this.requestLastAddedArtifact();
-
-    const timer = 2000;
-
-    setTimeout(() => {
-      this.requestUploadServer(imageData);
-    }, timer - 500);
-
-    setTimeout(() => {
-      for (var x = 0; x < this.state.file.length; x++) {
-        const addImageData = {
-          filename: this.state.filename[x],
-          lastAdded: this.state.lastAdded
-        };
-        this.requestAddImage(addImageData);
-      }
-    }, timer);
   }
-
-  handleImageChange = e => {
-    e.preventDefault();
-
-    let listFiles = Array.from(e.target.files);
-
-    listFiles.forEach(img => {
-      let reader = new FileReader();
-      reader.onloadend = () => {
-        this.setState({
-          file: [...this.state.file, img],
-          imagePreview: [...this.state.imagePreview, reader.result]
-        });
-      };
-      reader.readAsDataURL(img);
-    });
-    this.setState({ previewOn: true });
-    // this.setState({
-    //   file: e.target.files,
-    //   imagePreview: URL.createObjectURL(e.target.files)
-    // })
-  };
 
   handleChange = e => {
     // Constantly updates changes in user input
@@ -298,7 +195,7 @@ class EditArtifact extends Component {
                 <Input
                   placeholder="Current location of artifacts"
                   name="GeoTag"
-                  value={this.state.Geotag}
+                  value={this.state.GeoTag}
                   onChange={this.handleChange}
                 />
               </Form.Field>
@@ -392,7 +289,7 @@ class EditArtifact extends Component {
             </Form.Field>
 
             <Label as="a" tag color="teal" size="large">
-              Added tags:{" "}
+              Previous tags:{" "}
             </Label>
             {tags.map((tag, i) => (
               <Label style={{ marginBottom: 5 }} key={tag} size="large">
@@ -408,7 +305,7 @@ class EditArtifact extends Component {
 
             {/* Field to select multiple images */}
             <Segment>
-              <Form.Field>
+              <Form.Field disabled>
                 <Input
                   type="file"
                   name="file"
@@ -429,7 +326,7 @@ class EditArtifact extends Component {
                 <Image.Group size="small">
                   {this.state.imagePreview.map(preview => {
                     return (
-                      <Image key={preview} alt="previewImg" src={preview} />
+                      <Image key={preview} alt="previewImg" src={require("../artifactImages/" + preview)} />
                     );
                   })}
                 </Image.Group>
@@ -450,7 +347,7 @@ class EditArtifact extends Component {
                   <Icon name="checkmark" />
                   <Message.Content>
                     <Message.Header>Success!</Message.Header>
-                    Artifact has been successfully registered into our database.
+                    Artifact has been updated successfully into our database.
                     <p>Redirecting you to physical artifacts page ...... </p>
                   </Message.Content>
                 </Message>
@@ -467,7 +364,7 @@ class EditArtifact extends Component {
                       An unexpected error has occured!
                     </Message.Header>
                     A problem has been encountered. This artifact could not be
-                    registered.
+                    updated.
                     <p>Please try again later ...... </p>
                   </Message.Content>
                 </Message>

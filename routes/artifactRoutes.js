@@ -228,29 +228,26 @@ module.exports = app => {
   });
 
   //Update route for artifacts
-  app.post("/artifacts/update/:id", function(req, res) {
-    const id = req.body.id;
+  app.post("/artifactpage/update/:id", function(req, res) {
+    const id = req.body.Id;
     const name = req.body.Name;
-    const geoTag = req.body.Geotag;
+    const geoTag = req.body.GeoTag;
     const day = req.body.Day;
     const month = req.body.Month;
     const year = Number(req.body.Year);
-    const history = req.body.Description;
-    const type = req.body.Type;
+    const desc = req.body.Description;
+    const tags = req.body.Tags.toString();
 
-    let sql = `UPDATE todos
-               SET Name = ?, Geotag = ?,
-                   DateAcquireYear = ?, DateAcquireMonth = ?,
-                   DateAcquireDay = ?, description = ?,
-                   CurrentOwner = ?, Type = ? WHERE id = ?`;
+    let sql = `UPDATE Artifact SET Name = ?, Geotag = ?, DateAcquireYear = ?, DateAcquireMonth = ?, DateAcquireDay = ?, Description = ?, Tags = ? WHERE ArtifactID = ?`;
 
-    let toUpdate = [name, geoTag, day, month, year, history, type, id];
+    let toUpdate = [name, geoTag, year, month, day, desc, tags, id];
 
     db.query(sql, toUpdate, (error, results, fields) => {
       if (error) {
         return console.error(error.message);
       } else {
         console.log("Deleted Row(s):", results.affectedRows);
+        res.sendStatus(201);
       }
     });
   });

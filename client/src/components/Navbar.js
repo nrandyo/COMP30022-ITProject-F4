@@ -8,11 +8,9 @@ import {
   Menu,
   Responsive,
   Segment,
-  Grid,
   Search,
   Card,
-  Image,
-  Form } from "semantic-ui-react";
+  Image } from "semantic-ui-react";
 
 const resultRenderer = ({ title, description, image }) => {
   var img = ''
