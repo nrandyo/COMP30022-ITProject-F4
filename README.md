@@ -28,7 +28,7 @@
     - [ ] Edit/Update Image
     
   - Delete:
-  - Implemented by: Garvin & Sean
+  - Implemented by: Garvin
     - [x] Design/Frontend
     - [x] Backend routes/HTTP request
     - [x] Delete from database
@@ -50,7 +50,7 @@
   - [x] Display respective family member artifacts
 ---
 - Export Artifact:
-- Done by: [Yusuke](https://github.com/n-yuusuke)
+- Implemented by: [Yusuke](https://github.com/n-yuusuke)
   - [x] Get artifacts table from MySQL DB
   - [x] Export data to JSON
   - [x] Export data to PDF
@@ -59,7 +59,7 @@
   - [x] Allow users to download file
 ---
 - Search function:
-- Done by: [Yusuke](https://github.com/n-yuusuke)
+- Implemented by: [Yusuke](https://github.com/n-yuusuke)
   - [x] Get all artifacts from MySQL DB
   - [x] Match artifacts query
   - [x] Dynamically display results
