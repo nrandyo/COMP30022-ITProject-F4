@@ -85,6 +85,14 @@ class ArtifactPage extends Component {
     });
   }
 
+  cleanPath(path){
+    if(path === ''){
+      return 'placeholder.png';
+    } else{
+      return path;
+    }
+  }
+
   handleDelete = artifactID => {
     console.log(artifactID);
     console.log("Jimmy!");
@@ -98,6 +106,37 @@ class ArtifactPage extends Component {
     // });
   };
 
+
+  // Function to handle null geotags
+  handleGeotag(geotag){
+    if (geotag){
+      return (
+        <Table.Row>
+          <Table.Cell>Current Location</Table.Cell>
+          {/* <Table.Cell>Not available</Table.Cell> */}
+          <Table.Cell>{geotag}</Table.Cell>
+        </Table.Row>
+      )
+    }
+  }
+
+  // handleOwner(owner){
+  //   if (owner){
+  //     var ownerData = null;
+  //     axios.get(`/api/familymember/${owner}`).then(res => {
+  //       ownerData = res.data;
+  //     });
+  //     return (
+  //       {ownerData.map(owner => (
+  //       <Table.Row>
+  //         <Table.Cell>Current Owner</Table.Cell>
+  //         <Table.Cell>{owner.Firstname + ' ' + owner.Lastname}</Table.Cell>
+  //       </Table.Row>))}
+  //     )
+  //   }
+  // }
+
+  
   render() {
     return (
       <Responsive>
@@ -138,7 +177,7 @@ class ArtifactPage extends Component {
                 <Image
                   size="large"
                   centered
-                  src={require("../artifactImages/" + image.FilePath)}
+                  src={require("../artifactImages/" + this.cleanPath(image.FilePath))}
                   bordered
                 />
               </div>
@@ -169,15 +208,8 @@ class ArtifactPage extends Component {
                       <Table.Cell>Type</Table.Cell>
                       <Table.Cell>{artifact.Type}</Table.Cell>
                     </Table.Row>
-                    <Table.Row>
-                      <Table.Cell>Current Owner</Table.Cell>
-                      <Table.Cell>Leon Sterling</Table.Cell>
-                    </Table.Row>
-                    <Table.Row>
-                      <Table.Cell>Current Location</Table.Cell>
-                      {/* <Table.Cell>Not available</Table.Cell> */}
-                      <Table.Cell>{artifact.Geotag}</Table.Cell>
-                    </Table.Row>
+                    {/* {this.handleOwner(artifact.CurrentOwner)} */}
+                    {this.handleGeotag(artifact.Geotag)}
                     <Table.Row>
                       <Table.Cell>Date Acquired</Table.Cell>
                       <Table.Cell>{artifact.DateAcquireYear}</Table.Cell>
