@@ -8,13 +8,26 @@ import "react-vertical-timeline-component/style.min.css";
 import { MdPhoto, MdMail } from "react-icons/md";
 import axios from "axios";
 import { Container, Header, Menu, Form, Input, icon } from "semantic-ui-react";
+import { Redirect } from "react-router-dom";
 import { YearInput } from "semantic-ui-calendar-react";
+import { FaBox } from "react-icons/fa";
 
 class Timelines extends Component {
   state = {
     artifacts: [],
     start: null,
-    end: null
+    end: null,
+    redirect: false
+  };
+  setRedirect = () => {
+    this.setState({
+      redirect: true
+    });
+  };
+  renderRedirect = () => {
+    if (this.state.redirect) {
+      return <Redirect to="familytree/member/1" />;
+    }
   };
 
   componentDidMount() {
@@ -99,9 +112,14 @@ class Timelines extends Component {
               className="vertical-timeline-element--work"
               date={artifact.DateAcquireYear}
               iconStyle={{ background: "#00617F", color: "#fff" }}
-              icon={<MdMail />}
+              icon={<FaBox />}
+              iconOnClick={this.setRedirect}
             >
-              <h3 className="vertical-timeline-element-title">
+              <h3
+                className="vertical-timeline-element-title"
+                as={Link}
+                to={`/artifactpage/${artifact.id}`}
+              >
                 {artifact.Name}
               </h3>
               <h4 className="vertical-timeline-element-subtitle">Location 1</h4>

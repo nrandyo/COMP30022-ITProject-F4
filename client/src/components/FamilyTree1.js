@@ -9,9 +9,8 @@ import { Container, Label } from "semantic-ui-react";
 class FamilyTree1 extends Component {
   state = {
     activeItem: "All",
-    headerDesc: "List of All Artifacts",
+    headerDesc: "List of All Artifacts"
   };
-
 
   handleItemClick = (e, { name, desc }) =>
     this.setState({ activeItem: name, headerDesc: desc });
@@ -22,7 +21,6 @@ class FamilyTree1 extends Component {
       <Container style={{ minHeight: 700, padding: "0em 7em" }}>
         {/* <TreeWrapper /> */}
         <div>
-
           <title>Test Family Tree</title>
           {/* I found and adapted this css code from: https://stackoverflow.com/questions/38192074/family-tree-css */}
           {/* There is also an example on codepen.io at: http://codepen.io/Pestov/pen/BLpgm */}
@@ -160,24 +158,24 @@ class FamilyTree1 extends Component {
 
                     <li>
                       <div>
-                          <Label
-                              className="male"
-                              as={Link}
-                              to={"/familymember/13"}
-                          >
-                              Julian
-                          </Label>
+                        <Label
+                          className="male"
+                          as={Link}
+                          to={"/familymember/13"}
+                        >
+                          Julian
+                        </Label>
                       </div>
                     </li>
                     <li>
                       <div>
-                          <Label
-                              className="female"
-                              as={Link}
-                              to={"/familymember/12"}
-                          >
-                              Julie
-                          </Label>
+                        <Label
+                          className="female"
+                          as={Link}
+                          to={"/familymember/12"}
+                        >
+                          Julie
+                        </Label>
                       </div>
                     </li>
                   </ul>
