@@ -16,6 +16,7 @@ const MemberArtifacts = ({ param }) => {
       // const { id } = this.props.match.params;
       const res = await axios.get(`/api/member/${param}/artifacts`);
       setItems(res.data);
+      console.log(res.data);
       setLoading(false);
     };
 

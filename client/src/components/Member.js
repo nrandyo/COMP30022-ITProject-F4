@@ -10,7 +10,9 @@ import {
   Grid,
   Responsive
 } from "semantic-ui-react";
-import LeonSterling from "../images/LeonSterling.jpg";
+// import Placeholder from "../images/placeholder.png;
+import matthew from "../images/matthew.png";
+import molly from "../images/molly.png";
 import axios from "axios";
 // import { isNull } from "util";
 
@@ -31,12 +33,21 @@ class Member extends Component {
   }
 
   handleGender(g) {
-    if (g == "m") {
+    if (g === "m") {
       return "Male";
-    } else if (g == "f") {
+    } else if (g === "f") {
       return "Female";
     }
     return "undefined";
+  }
+
+  handleSex(g) {
+    if (g === "m") {
+      return <Image src={matthew} size="medium" bordered />;
+    } else if (g === "f") {
+      return <Image src={molly} size="medium" bordered />;
+    }
+    return <Image src={matthew} size="medium" bordered />;
   }
 
   handleDOB(y, m, d) {
@@ -111,7 +122,8 @@ class Member extends Component {
             <Grid verticalAlign="middle">
               <Grid.Row>
                 <Grid.Column width={4}>
-                  <Image src={LeonSterling} size="medium" bordered />
+                  {this.handleSex(member.Gender)}
+                  {/* <Image src={LeonSterling} size="medium" bordered /> */}
                 </Grid.Column>
                 {/* <Divider vertical>Or</Divider> */}
                 <Grid.Column width={12}>

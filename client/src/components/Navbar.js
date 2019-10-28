@@ -10,12 +10,13 @@ import {
   Segment,
   Search,
   Card,
-  Image } from "semantic-ui-react";
+  Image
+} from "semantic-ui-react";
 
 const resultRenderer = ({ title, description, image }) => {
   var img = "";
-
-  if (image === "") {
+  console.log(image);
+  if (image === "" || image === null) {
     img = "placeholder.png";
   } else {
     img = image;

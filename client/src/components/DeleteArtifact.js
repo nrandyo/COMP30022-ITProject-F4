@@ -3,7 +3,7 @@ import { withRouter } from "react-router";
 import { Container } from "semantic-ui-react";
 
 //Http response status for delete
-const RES_DELETE = 200;
+// const RES_DELETE = 200;
 
 class DeleteArtifact extends Component {
   constructor() {

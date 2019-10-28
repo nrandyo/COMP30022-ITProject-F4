@@ -18,7 +18,7 @@ class FamilyTree1 extends Component {
     // const { activeItem, headerDesc } = this.state;
     // const { headerDesc } = this.state
     return (
-      <Container style={{ minHeight: 700, padding: "0em 7em" }}>
+      <Container style={{ padding: "0em 7em" }}>
         {/* <TreeWrapper /> */}
         <div>
           <title>Test Family Tree</title>

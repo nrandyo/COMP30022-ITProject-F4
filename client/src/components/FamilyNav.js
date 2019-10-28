@@ -67,7 +67,7 @@ class FamilyNav extends Component {
                 />
                 <Menu.Item
                   as={Link}
-                  to="/familytree/new"
+                  to="/member/new"
                   name="Add member"
                   active={activeItem === "Add member"}
                   onClick={this.handleItemClick}

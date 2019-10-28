@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Table, Container, Header, Divider } from "semantic-ui-react";
+import { Table } from "semantic-ui-react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 const ArtifactTable = ({ owner }) => {
   const [member, setMember] = useState([]);
   useEffect(() => {
     const fetchItems = async () => {
-      // const { id } = this.props.match.params;
       const res = await axios.get(`/api/familymember/${owner}`);
       setMember(res.data);
       console.log(res.data);

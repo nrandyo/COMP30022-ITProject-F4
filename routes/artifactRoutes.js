@@ -125,9 +125,10 @@ module.exports = app => {
   app.get("/api/member/:memberid/artifacts", (req, res) => {
     db.query(
       `SELECT * FROM Artifact
-      INNER JOIN ArtifactImage ON
-      Artifact.ArtifactID = ArtifactImage.Artifact_ArtifactID
-      WHERE Artifact.CurrentOwner = ?`,
+       JOIN ArtifactImage ON
+       Artifact.ArtifactID = ArtifactImage.Artifact_ArtifactID
+       WHERE Artifact.CurrentOwner = ?
+       GROUP BY Artifact.ArtifactID`,
       [req.params.memberid],
       (err, rows, fields) => {
         if (!err) {

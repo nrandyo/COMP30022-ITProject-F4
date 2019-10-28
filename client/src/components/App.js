@@ -23,10 +23,11 @@ import FamilyTree4 from "./FamilyTree4";
 import CommentSection from "./CommentSection";
 import NewFamilyMember from "./NewFamilyMember";
 import Member from "./Member";
-import MemberArtifacts from "./MemberArtifacts";
+// import MemberArtifacts from "./MemberArtifacts";
 import FamilyNav from "./FamilyNav";
 import EditArtifact from "./EditArtifact";
 import ExportArtifact from "./ExportArtifacts";
+import MemberView from "./MembersView";
 
 const App = () => {
   return (
@@ -53,9 +54,10 @@ const App = () => {
           <Route exact path="/familytree/2" component={FamilyTree2} />
           <Route exact path="/familytree/3" component={FamilyTree3} />
           <Route exact path="/familytree/4" component={FamilyTree4} />
+          <Route path="/familytree" component={MemberView} />
           <Route exact path="/familymember/:id" component={Member} />
           {/* <Route exact path="/familymember/:id" component={MemberArtifacts} /> */}
-          <Route path="/familytree/new" component={NewFamilyMember} />
+          <Route path="/member/new" component={NewFamilyMember} />
           <Route path="/artifacts/new" component={NewArtifact} />
           <Route path="/artifactpage/delete/:id" component={DeleteArtifact} />
           <Route path="/artifactpage/update/:id" component={EditArtifact} />
