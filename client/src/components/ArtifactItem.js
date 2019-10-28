@@ -22,7 +22,7 @@ const ArtifactItem = ({ items, loading }) => {
     );
   }
   function cleanPath(path) {
-    if (path === "") {
+    if (path === "" || path === null) {
       return "placeholder.png";
     } else {
       return path;

@@ -5,7 +5,7 @@ module.exports = app => {
     db.query(
       `SELECT a.*, im.*
       FROM artifact AS a
-      INNER JOIN artifactimage AS im ON im.ArtifactImageID = (
+      LEFT JOIN artifactimage AS im ON im.ArtifactImageID = (
           SELECT ArtifactImageID
           FROM artifactimage AS p2
           WHERE p2.Artifact_ArtifactID = a.ArtifactID
