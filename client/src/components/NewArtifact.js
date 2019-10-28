@@ -52,7 +52,7 @@ class NewArtifact extends Component {
       searchIsLoading: false,
       results: [],
       value: "",
-      currOwner: 1
+      currOwner: 0
     };
 
     this.handleImageChange = this.handleImageChange.bind(this);
@@ -170,42 +170,62 @@ class NewArtifact extends Component {
     event.preventDefault();
     this.setState({ isLoading: true });
 
-    // Data for artifact image
-    const imageData = new FormData();
-    for (var x = 0; x < this.state.file.length; x++) {
-      imageData.append("file", this.state.file[x]);
-    }
-    console.log(this.state.currOwner);
-    // Data for artifacts
-    const artifactData = {
-      Name: this.state.Name,
-      GeoTag: this.state.GeoTag,
-      Day: this.state.Day,
-      Month: this.state.Month,
-      Year: this.state.Year,
-      Description: this.state.Description,
-      Tags: this.state.tags,
-      currOwn: this.state.currOwner
-    };
+    if (this.state.Name === '' || this.state.currOwn === 0) {
+      this.setState({ isLoading: false })
+      this.setState({ failureMessage: true });
+      setTimeout(() => {
+        this.setState({failureMessage: false });
+      }, 2000)
 
-    await this.requestAddArtifact(artifactData);
-    await this.requestLastAddedArtifact();
+    } else {
 
-    const timer = 2000;
+      // Data for artifacts
+      const artifactData = {
+        Name: this.state.Name,
+        GeoTag: this.state.GeoTag,
+        Day: this.state.Day,
+        Month: this.state.Month,
+        Year: this.state.Year,
+        Description: this.state.Description,
+        Tags: this.state.tags,
+        currOwn: this.state.currOwner
+      };
 
-    setTimeout(() => {
-      this.requestUploadServer(imageData);
-    }, timer - 500);
+      await this.requestAddArtifact(artifactData);
 
-    setTimeout(() => {
-      for (var x = 0; x < this.state.file.length; x++) {
-        const addImageData = {
-          filename: this.state.filename[x],
-          lastAdded: this.state.lastAdded
-        };
-        this.requestAddImage(addImageData);
+      if(this.state.file.length !== 0 ) {
+        // Data for artifact image
+        const imageData = new FormData();
+        for (var x = 0; x < this.state.file.length; x++) {
+          imageData.append("file", this.state.file[x]);
+        }
+        await this.requestLastAddedArtifact();
+
+        const timer = 2000;
+
+        setTimeout(() => {
+          this.requestUploadServer(imageData);
+        }, timer - 300);
+
+        setTimeout(() => {
+          for (var x = 0; x < this.state.file.length; x++) {
+            const addImageData = {
+              filename: this.state.filename[x],
+              lastAdded: this.state.lastAdded
+            };
+            this.requestAddImage(addImageData);
+          }
+        }, timer);
+      } else {
+        console.log("no image")
+        this.setState({ isLoading: false });
+        this.setState({ successMessage: true });
+        setTimeout(() => {
+          this.setState({ successMessage: false });
+          this.props.history.push("/artifacts/objects");
+        }, 1500)
       }
-    }, timer);
+    }
   }
 
   handleImageChange = e => {
@@ -341,7 +361,7 @@ class NewArtifact extends Component {
 
             {/*Form for searching family member*/}
             <Container textAlign="center">
-              <Form.Field>
+              <Form.Field required>
                 <label>Search owner of artifact:</label>
 
                 <Search
@@ -474,9 +494,8 @@ class NewArtifact extends Component {
                     <Message.Header>
                       An unexpected error has occured!
                     </Message.Header>
-                    A problem has been encountered. This artifact could not be
-                    registered.
-                    <p>Please try again later ...... </p>
+                      Please ensure that all required fields are field in properly!
+                      Specifically Name & Owner of artifact field!
                   </Message.Content>
                 </Message>
               </Container>
