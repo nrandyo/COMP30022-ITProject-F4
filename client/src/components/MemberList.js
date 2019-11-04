@@ -1,15 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import NumberArtifacts from "./NumberArtifacts";
-import {
-  Button,
-  Icon,
-  Item,
-  Container,
-  Loader,
-  Table,
-  Label
-} from "semantic-ui-react";
+import { Container, Loader, Table } from "semantic-ui-react";
 
 const MemberList = ({ members, loading }) => {
   //   formatDate = (date) => {

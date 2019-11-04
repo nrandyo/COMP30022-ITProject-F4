@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Container, Header, Menu, Form, Input, icon } from "semantic-ui-react";
+import { Container, Header, Menu, Form, Input } from "semantic-ui-react";
 import { YearInput } from "semantic-ui-calendar-react";
 
 class TimelineNav extends Component {
