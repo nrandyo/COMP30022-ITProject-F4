@@ -29,6 +29,6 @@
     "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
-    "mocha": "^6.2.1"
+    "mocha": "^10.2.0"
   }
 }
